@@ -1,0 +1,8 @@
+<div class="panel panel-default" *ngIf="currencyDataReady">
+  <div class="panel-heading">
+    <h3 class="panel-title">{{currencyData.name}}<span class="pull-right">{{currencyData.symbol}}</span> </h3>
+  </div>
+  <div class="panel-body">
+    <h2 class="text-center">{{currencyData.price_usd}} $</h2>
+  </div>
+</div>

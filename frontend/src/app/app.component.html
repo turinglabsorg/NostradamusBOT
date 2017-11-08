@@ -1,7 +1,17 @@
 <app-navbar></app-navbar>
 <div class="container">
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-3">
+      <app-currency-status [currencyCode]="'bitcoin'"></app-currency-status>
+    </div>
+    <div class="col-md-3">
+      <app-currency-status [currencyCode]="'ethereum'"></app-currency-status>
+    </div>
+    <div class="col-md-3">
+      <app-currency-status [currencyCode]="'bitcoin-cash'"></app-currency-status>
+    </div>
+    <div class="col-md-3">
+      <app-currency-status [currencyCode]="'litecoin'"></app-currency-status>
     </div>
   </div>
 </div>
