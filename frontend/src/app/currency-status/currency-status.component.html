@@ -1,8 +1,8 @@
-<div class="panel panel-default" *ngIf="currencyDataReady">
-  <div class="panel-heading">
-    <h3 class="panel-title">{{currencyData.name}}<span class="pull-right">{{currencyData.symbol}}</span> </h3>
+<div class="card" *ngIf="currencyDataReady">
+  <div class="card-header">
+    <h4 class="">{{currencyData.name}}</h4>
   </div>
-  <div class="panel-body">
-    <h2 class="text-center">{{currencyData.price_usd}} $</h2>
+  <div class="card-body text-center">
+    <h2>{{currencyData.price_usd}} $</h2>
   </div>
 </div>

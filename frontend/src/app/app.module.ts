@@ -6,16 +6,20 @@ import {AppComponent} from './app.component';
 import {NavbarComponent} from './navbar/navbar.component';
 import {CurrencyStatusComponent} from './currency-status/currency-status.component';
 import {CurrencyService} from './currency.service';
+import { AuthComponent } from './auth/auth.component';
+import {AppRoutingModule} from './app-routing.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    CurrencyStatusComponent
+    CurrencyStatusComponent,
+    AuthComponent
   ],
   imports: [
     BrowserModule,
-    HttpModule
+    HttpModule,
+    AppRoutingModule
   ],
   providers: [CurrencyService],
   bootstrap: [AppComponent]
