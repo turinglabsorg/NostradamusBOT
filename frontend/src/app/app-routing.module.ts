@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import {AuthComponent} from './auth/auth.component';
 
 const appRoutes: Routes = [
-  { path: 'authcallback', component: AuthComponent },
+  { path: 'callback', component: AuthComponent },
 
 ];
 
