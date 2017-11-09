@@ -1,6 +1,7 @@
 export class AuthService {
   ALLOWED_TO_UNSIGNED = [
-    '/signin'
+    '/signin',
+    '/callback'
   ];
 
   // COINBASE VALUES

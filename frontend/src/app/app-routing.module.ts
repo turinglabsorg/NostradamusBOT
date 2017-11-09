@@ -7,7 +7,7 @@ import {MainContentComponent} from './main-content/main-content.component';
 
 const appRoutes: Routes = [
   {path: '', component: MainContentComponent, canActivate: [AuthGuard]},
-  {path: 'callback', component: AuthComponent},
+  {path: 'callback', component: AuthComponent, canActivate: [AuthGuard]},
   {path: 'signin', component: SigninComponent, canActivate: [AuthGuard]}
 
 ];
