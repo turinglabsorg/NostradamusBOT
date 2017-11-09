@@ -24,12 +24,12 @@ export class AuthService {
   }
 
   getCoinbaseAuthCodeRequestURL() {
-    console.log(encodeURI(this.COINBASE_AUTH_BASE_URL + '?'
+    return encodeURI(this.COINBASE_AUTH_BASE_URL + '?'
       + '&' + 'client_id=' + this.COINBASE_CLIENT_ID
       + '&' + 'redirect_uri=' + this.COINBASE_REDIRECT_URI
       + '&' + 'response_type=' + this.COINBASE_RESPONSE_TYPE
       + '&' + 'scope=' + this.COINBASE_SCOPE
-    ));
+    );
   }
 }
 

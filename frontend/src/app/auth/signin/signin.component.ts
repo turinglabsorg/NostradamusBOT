@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../auth.service';
 
 @Component({
@@ -8,10 +8,9 @@ import {AuthService} from '../auth.service';
 })
 export class SigninComponent implements OnInit {
 
-  constructor(private authService: AuthService) { }
-
-  ngOnInit() {
-    this.authService.getCoinbaseAuthCodeRequestURL();
+  constructor(private authService: AuthService) {
   }
 
+  ngOnInit() {
+  }
 }
