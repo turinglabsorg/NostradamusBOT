@@ -1,4 +1,4 @@
-import {Http} from '@angular/http';
+import {Http, RequestOptions, Headers} from '@angular/http';
 import {Injectable} from '@angular/core';
 
 @Injectable()
@@ -23,10 +23,12 @@ export class AuthService {
 
   private coinbaseAccessToken = '';
   private coinbaseRefreshToken = '';
+  private coinbaseUser = {};
 
   private loggedIn = false;
 
   isAuthenticated(): boolean {
+    console.log(this.loggedIn ? 'logged!!!' : 'no logged');
     return this.loggedIn;
   }
 
@@ -58,20 +60,35 @@ export class AuthService {
 
   }
 
+  requestCoinbaseUser() {
+    const headers = new Headers({'Authorization': 'Bearer ' + this.coinbaseAccessToken});
+    const options = new RequestOptions({headers: headers});
+    return this.http.get('https://api.coinbase.com/v2/user', options);
+
+  }
+
   getCoinbaseAccessToken(): string {
     return this.coinbaseAccessToken;
   }
 
-  setCoinbaseAccessToken(value: string) {
-    this.coinbaseAccessToken = value;
+  setCoinbaseAccessToken(token: string) {
+    this.coinbaseAccessToken = token;
   }
 
   getCoinbaseRefreshToken(): string {
     return this.coinbaseRefreshToken;
   }
 
-  setCoinbaseRefreshToken(value: string) {
-    this.coinbaseRefreshToken = value;
+  setCoinbaseRefreshToken(token: string) {
+    this.coinbaseRefreshToken = token;
+  }
+
+  getCoinbaseUser(): {} {
+    return this.coinbaseUser;
+  }
+
+  setCoinbaseUser(user: {}) {
+    this.coinbaseUser = user;
   }
 }
 

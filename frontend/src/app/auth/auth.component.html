@@ -1,1 +1,15 @@
-
+<div class="row align-items-center" *ngIf="processCompleted">
+  <div class="col"></div>
+  <div class="col">
+    <div class="card">
+      <div class="card-header text-center">
+        <h4 class="">Thanks!</h4>
+      </div>
+      <div class="card-body text-center">
+        Now you are registered on <b>NostradamusBot</b>!! <br/>
+        You will receive a mail on <b>{{coinbaseUser.email}}</b> with your password.
+      </div>
+    </div>
+  </div>
+  <div class="col"></div>
+</div>

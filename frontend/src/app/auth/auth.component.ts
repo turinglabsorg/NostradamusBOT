@@ -8,6 +8,8 @@ import {AuthService} from './auth.service';
   styleUrls: ['./auth.component.css']
 })
 export class AuthComponent implements OnInit {
+  coinbaseUser = {};
+  processCompleted = false;
 
   constructor(private route: ActivatedRoute, private authService: AuthService) {
   }
@@ -17,11 +19,20 @@ export class AuthComponent implements OnInit {
       .subscribe(
         (queryParams: Params) => {
           this.authService.requestCoinbaseAccessToken(queryParams['code']).subscribe(
-            (response) => {
-              console.log(response);
+            (tokenResponse) => {
+              console.log(tokenResponse);
               this.authService.login();
-              this.authService.setCoinbaseAccessToken(response.json()['access_token']);
-              this.authService.setCoinbaseRefreshToken(response.json()['refresh_token']);
+              this.authService.setCoinbaseAccessToken(tokenResponse.json()['access_token']);
+              this.authService.setCoinbaseRefreshToken(tokenResponse.json()['refresh_token']);
+
+              this.authService.requestCoinbaseUser().subscribe(
+                (userResponse) => {
+                  console.log(userResponse.json()['data']);
+                  this.authService.setCoinbaseUser(userResponse.json()['data']);
+                  this.coinbaseUser = this.authService.getCoinbaseUser();
+                  this.processCompleted = true;
+                });
+
             },
             (error) => console.log(error)
           );
