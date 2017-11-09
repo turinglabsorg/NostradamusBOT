@@ -1,4 +1,12 @@
+import {Http} from '@angular/http';
+import {Injectable} from '@angular/core';
+
+@Injectable()
 export class AuthService {
+
+  constructor(private http: Http) {
+  }
+
   ALLOWED_TO_UNSIGNED = [
     '/signin',
     '/callback'
@@ -13,9 +21,12 @@ export class AuthService {
   COINBASE_GRANT_TYPE = 'authorization_code';
   COINBASE_SCOPE = 'wallet:user:read,wallet:user:email';
 
-  loggedIn = false;
+  private coinbaseAccessToken = '';
+  private coinbaseRefreshToken = '';
 
-  isAuthenticated() {
+  private loggedIn = false;
+
+  isAuthenticated(): boolean {
     return this.loggedIn;
   }
 
@@ -34,6 +45,33 @@ export class AuthService {
       + '&' + 'response_type=' + this.COINBASE_RESPONSE_TYPE
       + '&' + 'scope=' + this.COINBASE_SCOPE
     );
+  }
+
+  requestCoinbaseAccessToken(authCode: string) {
+    const formData = new FormData();
+    formData.append('grant_type', this.COINBASE_GRANT_TYPE);
+    formData.append('code', authCode);
+    formData.append('client_id', this.COINBASE_CLIENT_ID);
+    formData.append('client_secret', this.COINBASE_CLIENT_SECRET);
+    formData.append('redirect_uri', this.COINBASE_REDIRECT_URI);
+    return this.http.post('https://api.coinbase.com/oauth/token', formData);
+
+  }
+
+  getCoinbaseAccessToken(): string {
+    return this.coinbaseAccessToken;
+  }
+
+  setCoinbaseAccessToken(value: string) {
+    this.coinbaseAccessToken = value;
+  }
+
+  getCoinbaseRefreshToken(): string {
+    return this.coinbaseRefreshToken;
+  }
+
+  setCoinbaseRefreshToken(value: string) {
+    this.coinbaseRefreshToken = value;
   }
 }
 
