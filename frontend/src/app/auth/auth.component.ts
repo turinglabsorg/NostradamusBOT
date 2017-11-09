@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
 import {Http} from '@angular/http';
+import {AuthService} from './auth.service';
 
 @Component({
   selector: 'app-auth',
@@ -11,7 +12,7 @@ export class AuthComponent implements OnInit {
   authCode: string;
   authToken: string;
 
-  constructor(private route: ActivatedRoute, private http: Http) {
+  constructor(private route: ActivatedRoute, private http: Http, private authService: AuthService) {
   }
 
   ngOnInit() {
@@ -26,11 +27,11 @@ export class AuthComponent implements OnInit {
 
   getCoinbaseToken() {
     const formData = new FormData();
-    formData.append('grant_type', 'authorization_code');
+    formData.append('grant_type', this.authService.COINBASE_GRANT_TYPE);
     formData.append('code', this.authCode);
-    formData.append('client_id', '8a7cbffab1d011558b80731428985953b5758308fa1db27a3548420b4e6abbfa');
-    formData.append('client_secret', 'b01858df10ae0806196c9e96ce7df280ddc15f6a5b65e82f23c8332acc64baea');
-    formData.append('redirect_uri', 'https://nostradamusbot.com/callback');
+    formData.append('client_id', this.authService.COINBASE_CLIENT_ID);
+    formData.append('client_secret', this.authService.COINBASE_CLIENT_SECRET);
+    formData.append('redirect_uri', this.authService.COINBASE_REDIRECT_URI);
     this.http.post('https://api.coinbase.com/oauth/token', formData).subscribe(
       (response) => {
         console.log(response);
