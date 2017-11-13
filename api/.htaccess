@@ -4,3 +4,24 @@ Options -Indexes
 
 RewriteCond %{HTTPS} !=on
 RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R,QSA]
+
+#USERS#
+RewriteRule (\W|^)users/register(\W|$)  index.php?area=users&request=register [L]
+RewriteRule (\W|^)users/login(\W|$)  index.php?area=users&request=login [L]
+RewriteRule (\W|^)users/edit(\W|$)  index.php?area=users&request=edit [L]
+RewriteRule (\W|^)users/delete(\W|$)  index.php?area=users&request=delete [L]
+
+
+#WALLETS#
+RewriteRule (\W|^)wallets/create(\W|$)  index.php?area=wallets&request=create [L]
+RewriteRule (\W|^)wallets/balance(\W|$)  index.php?area=wallets&request=edit [L]
+
+#PRICES#
+RewriteRule (\W|^)prices/ETH(\W|$)  index.php?area=prices&request=ETH [L]
+RewriteRule (\W|^)prices/BTC(\W|$)  index.php?area=prices&request=BTC [L]
+RewriteRule (\W|^)prices/LTC(\W|$)  index.php?area=prices&request=LTC [L]
+
+#RULES#
+RewriteRule (\W|^)rules/create(\W|$)  index.php?area=rules&request=create [L]
+RewriteRule (\W|^)rules/edit(\W|$)  index.php?area=rules&request=edit [L]
+RewriteRule (\W|^)rules/delete(\W|$)  index.php?area=rules&request=delete [L]
