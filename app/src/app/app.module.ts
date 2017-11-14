@@ -11,7 +11,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {SigninComponent} from './auth/signin/signin.component';
 import {AuthService} from './auth/auth.service';
 import {AuthGuard} from './auth/auth-guard.service';
-import {MainContentComponent} from './main-content/main-content.component';
+import {DashboardComponent} from './dashboard/dashboard.component';
 import {ApiService} from './api/api.service';
 
 @NgModule({
@@ -21,7 +21,7 @@ import {ApiService} from './api/api.service';
     CurrencyStatusComponent,
     AuthComponent,
     SigninComponent,
-    MainContentComponent
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
