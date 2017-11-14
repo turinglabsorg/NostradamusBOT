@@ -13,8 +13,9 @@ import {AuthService} from './auth/auth.service';
 import {AuthGuard} from './auth/auth-guard.service';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {ApiService} from './api/api.service';
-import { SettingsComponent } from './settings/settings/settings.component';
-import { RulesComponent } from './rules/rules/rules.component';
+import {SettingsComponent} from './settings/settings/settings.component';
+import {RulesComponent} from './rules/rules/rules.component';
+import {ActionsComponent} from './actions/actions/actions.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { RulesComponent } from './rules/rules/rules.component';
     SigninComponent,
     DashboardComponent,
     SettingsComponent,
-    RulesComponent
+    RulesComponent,
+    ActionsComponent
   ],
   imports: [
     BrowserModule,

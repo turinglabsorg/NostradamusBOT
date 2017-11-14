@@ -6,6 +6,7 @@ import {AuthGuard} from './auth/auth-guard.service';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {SettingsComponent} from './settings/settings/settings.component';
 import {RulesComponent} from './rules/rules/rules.component';
+import {ActionsComponent} from './actions/actions/actions.component';
 
 const appRoutes: Routes = [
   {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
@@ -13,7 +14,8 @@ const appRoutes: Routes = [
   {path: 'callback', component: AuthComponent},
   {path: 'signin', component: SigninComponent, canActivate: [AuthGuard]},
   {path: 'settings', component: SettingsComponent, canActivate: [AuthGuard]},
-  {path: 'rules', component: RulesComponent, canActivate: [AuthGuard]}
+  {path: 'rules', component: RulesComponent, canActivate: [AuthGuard]},
+  {path: 'actions', component: ActionsComponent, canActivate: [AuthGuard]}
 
 ];
 

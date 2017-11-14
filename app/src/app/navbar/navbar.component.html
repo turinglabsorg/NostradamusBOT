@@ -22,6 +22,14 @@
           <i class="fa fa-bars"></i> Rules
         </a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" role="presentation"
+           routerLinkActive="active"
+           [routerLinkActiveOptions]="{exact: true}"
+           routerLink="/actions">
+          <i class="fa fa-exchange"></i> Actions
+        </a>
+      </li>
 
     </ul>
     <ul class="navbar-nav" *ngIf="authService.isAuthenticated()">
