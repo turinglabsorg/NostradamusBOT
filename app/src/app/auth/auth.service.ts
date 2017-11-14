@@ -19,7 +19,7 @@ export class AuthService {
   COINBASE_REDIRECT_URI = 'https://app.nostradamusbot.com/callback';
   COINBASE_RESPONSE_TYPE = 'code';
   COINBASE_GRANT_TYPE = 'authorization_code';
-  COINBASE_SCOPE = 'wallet:user:read,wallet:user:email';
+  COINBASE_SCOPE = 'wallet:user:read,wallet:user:email,wallet:accounts:create';
 
   /* API Key */
   API_KEY = '00xzcvY59zL2MvZ4NnZzd3cl5SaqQ';
