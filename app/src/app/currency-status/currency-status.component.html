@@ -1,8 +1,8 @@
 <div class="card" *ngIf="currencyDataReady">
   <div class="card-header">
-    <h4 class="">{{currencyData.name}}</h4>
+    <h4 class="">{{currencyInfo.coinName}}<span class="pull-right">{{currencyInfo.symbol}}</span></h4>
   </div>
   <div class="card-body text-center">
-    <h2>{{currencyData.price_usd}} $</h2>
+    <h2>{{currencyPrice}} €</h2>
   </div>
 </div>
