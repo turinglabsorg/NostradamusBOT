@@ -14,6 +14,7 @@ import {AuthGuard} from './auth/auth-guard.service';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {ApiService} from './api/api.service';
 import { SettingsComponent } from './settings/settings/settings.component';
+import { RulesComponent } from './rules/rules/rules.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { SettingsComponent } from './settings/settings/settings.component';
     AuthComponent,
     SigninComponent,
     DashboardComponent,
-    SettingsComponent
+    SettingsComponent,
+    RulesComponent
   ],
   imports: [
     BrowserModule,

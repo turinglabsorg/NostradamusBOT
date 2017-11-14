@@ -5,13 +5,15 @@ import {SigninComponent} from './auth/signin/signin.component';
 import {AuthGuard} from './auth/auth-guard.service';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {SettingsComponent} from './settings/settings/settings.component';
+import {RulesComponent} from './rules/rules/rules.component';
 
 const appRoutes: Routes = [
   {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
   {path: '', redirectTo: '/dashboard', pathMatch: 'full'},
   {path: 'callback', component: AuthComponent},
   {path: 'signin', component: SigninComponent, canActivate: [AuthGuard]},
-  {path: 'settings', component: SettingsComponent, canActivate: [AuthGuard]}
+  {path: 'settings', component: SettingsComponent, canActivate: [AuthGuard]},
+  {path: 'rules', component: RulesComponent, canActivate: [AuthGuard]}
 
 ];
 
