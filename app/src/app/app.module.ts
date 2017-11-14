@@ -13,6 +13,7 @@ import {AuthService} from './auth/auth.service';
 import {AuthGuard} from './auth/auth-guard.service';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {ApiService} from './api/api.service';
+import { SettingsComponent } from './settings/settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import {ApiService} from './api/api.service';
     CurrencyStatusComponent,
     AuthComponent,
     SigninComponent,
-    DashboardComponent
+    DashboardComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,
