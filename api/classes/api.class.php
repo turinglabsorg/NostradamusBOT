@@ -34,7 +34,7 @@
          * Constructor: __construct
          * Allow for CORS, assemble and pre-process the data
          */
-        public function __construct($request) {
+        public function __construct($request,$isAngular) {
             header("Access-Control-Allow-Origin: *");
             header("Access-Control-Allow-Methods: *");
             header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
@@ -58,7 +58,25 @@
                     throw new Exception("Unexpected Header");
                 }
             }
-            $this->request=$request;
+            if($isAngular=='Y'){
+                $this->request=$request;
+            }else{
+                switch($this->method) {
+                    case 'POST':
+                        $this->request = $this->_cleanInputs($_POST);
+                        break;
+                    case 'GET':
+                        $this->request = $this->_cleanInputs($_GET);
+                        break;
+                    case 'PUT':
+                        $this->request = $this->_cleanInputs($_GET);
+                        $this->file = file_get_contents("php://input");
+                        break;
+                    default:
+                        throw new Exception('Invalid Method');
+                    break;
+                }
+            }
         }
         public function processAPI() {
             if (!array_key_exists('apiKey', $this->request)) {

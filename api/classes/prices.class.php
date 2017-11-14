@@ -3,27 +3,32 @@
 
 	    public function __construct($request, $origin) {
 	        parent::__construct($request);
-	        
-	        if (!array_key_exists('apiKey', $this->request)) {
-	            throw new Exception('No API Key provided');
-	        } else if ($this->request['apiKey']!='00xzcvY59zL2MvZ4NnZzd3cl5SaqQ') {
-	            throw new Exception('Invalid API Key');
-	        } 
-	        
 	    }
 
 	    protected function ETH() {
-	        $response='ETH PRICE!';
+	        $price=returnDBObject("prices","SELECT * FROM eth_prices ORDER BY id DESC LIMIT 1",array());
+	        $response=array(
+	        	"price"=>$price['price'],
+	        	"updated"=>$price['price_update']
+	        );
 	        return $this->data=array('response'=>$response,'status'=>'200');
 	    }
 
 	    protected function BTC() {
-	        $response='BTC PRICE!';
+	        $price=returnDBObject("prices","SELECT * FROM btc_prices ORDER BY id DESC LIMIT 1",array());
+	        $response=array(
+	        	"price"=>$price['price'],
+	        	"updated"=>$price['price_update']
+	        );
 	        return $this->data=array('response'=>$response,'status'=>'200');
 	    }
 
 	    protected function LTC() {
-	        $response='LTC PRICE!';
+	        $price=returnDBObject("prices","SELECT * FROM ltc_prices ORDER BY id DESC LIMIT 1",array());
+	        $response=array(
+	        	"price"=>$price['price'],
+	        	"updated"=>$price['price_update']
+	        );
 	        return $this->data=array('response'=>$response,'status'=>'200');
 	    }
 	}

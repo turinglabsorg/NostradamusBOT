@@ -690,7 +690,7 @@ $mailHTML='<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http:
 							<table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="border: 1px solid #cccccc; border-collapse: collapse;">
 								<tr>
 									<td align="center" style="">
-										<img src="http:///headerMail.jpg" width="100%" style="display: block;" />
+										<img src="https://api.nostradamusbot.com/assets/headerMail.jpg" width="100%" style="display: block;" />
 									</td>
 								</tr>
 								<tr>
@@ -718,7 +718,7 @@ $mailHTML='<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http:
 										<table border="0" cellpadding="0" cellspacing="0" width="100%">
 											<tr>
 												<td style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;" width="75%">
-													monitor.commerfidi.it<br/>
+													Nostradamus<br/>
 												</td>
 												<td align="right" width="25%">
 													
@@ -749,9 +749,15 @@ function sendMail($from, $to,  $object, $text){
 /*MAIL FUNCTIONS*/
 
 /*DB FUNCTIONS*/
-function returnDBObject($queryString,$params,$forceArray=0){
-	
-	$pdo = new PDO("mysql:host=".hostname_connect.";dbname=".database_connect, username_connect, password_connect);
+function returnDBObject($db,$queryString,$params,$forceArray=0){
+	switch($db){
+		case "app":
+			$pdo = new PDO("mysql:host=".hostname_app.";dbname=".database_app, username_app, password_app);
+		break;
+		case "prices":
+			$pdo = new PDO("mysql:host=".hostname_prices.";dbname=".database_prices, username_prices, password_prices);
+		break;
+	}
 	$pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
 	$query=$pdo->prepare($queryString);
 	$resArray=array();
@@ -777,8 +783,15 @@ function returnDBObject($queryString,$params,$forceArray=0){
 		print_r($errors);
 	}
 }
-function runDBQuery($queryString,$params){
-	$pdo = new PDO("mysql:host=".hostname_connect.";dbname=".database_connect, username_connect, password_connect);
+function runDBQuery($db,$queryString,$params){
+	switch($db){
+		case "app":
+			$pdo = new PDO("mysql:host=".hostname_app.";dbname=".database_app, username_app, password_app);
+		break;
+		case "prices":
+			$pdo = new PDO("mysql:host=".hostname_prices.";dbname=".database_prices, username_prices, password_prices);
+		break;
+	}
 	$pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
 	$query=$pdo->prepare($queryString);
 	$resArray=array();
@@ -820,8 +833,8 @@ function GetSQLValueString($theValue, $theType) {
   return $theValue;
 }
 function backupDB($tables=false, $backup_name=false){
-	$mysqli = new mysqli(hostname_connect,username_connect,password_connect,database_connect); 
-	$mysqli->select_db(database_connect); $mysqli->query("SET NAMES 'utf8'");
+	$mysqli = new mysqli(hostname_app,username_app,password_app,database_app); 
+	$mysqli->select_db(database_app); $mysqli->query("SET NAMES 'utf8'");
 	$queryTables = $mysqli->query('SHOW TABLES'); 
 	while($row = $queryTables->fetch_row()) { 
 		$target_tables[] = $row[0]; 
@@ -864,8 +877,8 @@ function importDB($sql_file){
 	$return='';
 	if (!file_exists($sql_file)) {return;} 
 	$allLines = file($sql_file);
-	$mysqli = new mysqli(hostname_connect,username_connect,password_connect,database_connect);
-	if (mysqli_connect_errno()){echo "Failed to connect to MySQL: " . mysqli_connect_error();} 
+	$mysqli = new mysqli(hostname_app,username_app,password_app,database_app);
+	if (mysqli_app_errno()){echo "Failed to connect to MySQL: " . mysqli_app_error();} 
 		$zzzzzz = $mysqli->query('SET foreign_key_checks = 0');
 		preg_match_all("/\nCREATE TABLE(.*?)\`(.*?)\`/si", "\n".file_get_contents($sql_file), $target_tables); 
 		foreach ($target_tables[2] as $table){
@@ -1026,7 +1039,7 @@ function returnCorrectInputField($field_type, $field_name, $required, $specs, $v
 						}
 					}else{
 						$specsDetails=explode('->',$specs);
-						mysql_select_db(database_connect, connect);
+						mysql_select_db(database_app, connect);
 						$query_rs_db = "SELECT * FROM ".str_replace('"','',$specsDetails[0]);
 						$rs_db = mysql_query($query_rs_db, connect);
 						$row_rs_db = mysql_fetch_assoc($rs_db);
@@ -1113,7 +1126,7 @@ function returnCorrectDatatypePrintField($field_type, $value, $specs, $multiple)
 										$returnField.='<br>';
 									}
 									$returnField.='- ';
-									mysql_select_db(database_connect, connect);
+									mysql_select_db(database_app, connect);
 									$query_rs_db = "SELECT * FROM ".str_replace('"','',$specsDetails[0]);
 									
 									if(strpos($specsDetails[0], 'WHERE')!==false){
@@ -1133,7 +1146,7 @@ function returnCorrectDatatypePrintField($field_type, $value, $specs, $multiple)
 									$i++;
 								}
 							}else{
-								mysql_select_db(database_connect, connect);
+								mysql_select_db(database_app, connect);
 								$query_rs_db = "SELECT * FROM ".str_replace('"','',$specsDetails[0]);
 								
 								if(strpos($specsDetails[0], 'WHERE')!==false){
@@ -1213,7 +1226,7 @@ function sendNotification($id_datatype, $datatype, $notifica, $sender, $id_sende
                        GetSQLValueString($id_sender, "text"),
                        GetSQLValueString($tipo_azione, "text"));
 					   
-					   mysql_select_db(database_connect, connect);
+					   mysql_select_db(database_app, connect);
 					   mysql_query($insertSQL, connect);
 			
 			if($sender=='system'){
@@ -1232,19 +1245,19 @@ function sendNotification($id_datatype, $datatype, $notifica, $sender, $id_sende
 			
 }
 function returnNotificationObject($id_notifica){
-		mysql_select_db(database_connect, connect);
+		mysql_select_db(database_app, connect);
 		$query_rs_db = "SELECT * FROM datatype_notifiche WHERE id='".$id_notifica."'";
 		$rs_db = mysql_query($query_rs_db, connect) or die(mysql_error());
 		$notifica = mysql_fetch_assoc($rs_db);
 		
-		mysql_select_db(database_connect, connect);
+		mysql_select_db(database_app, connect);
 		$query_rs_db = "SELECT * FROM datatype_pratiche_".$notifica['tipo_pratica']." WHERE id='".$notifica['id_pratica']."'";
 		$rs_db = mysql_query($query_rs_db, connect) or die(mysql_error());
 		$pratica = mysql_fetch_assoc($rs_db);
 				
 		if($notifica['id_cliente']!=''){
 						
-			mysql_select_db(database_connect, connect);
+			mysql_select_db(database_app, connect);
 			$query_rs_db = "SELECT * FROM datatype_account WHERE id='".$notifica['id_cliente']."'";
 			$rs_db = mysql_query($query_rs_db, connect) or die(mysql_error());
 			$cliente = mysql_fetch_assoc($rs_db);
@@ -1256,12 +1269,12 @@ function returnNotificationObject($id_notifica){
 			
 			$cliente=$pratica['id_cliente'];
 			
-			mysql_select_db(database_connect, connect);
+			mysql_select_db(database_app, connect);
 			$query_rs_db = "SELECT * FROM datatype_account WHERE id='".$notifica['id_gestione']."'";
 			$rs_db = mysql_query($query_rs_db, connect) or die(mysql_error());
 			$gestione = mysql_fetch_assoc($rs_db);
 				
-			mysql_select_db(database_connect, connect);
+			mysql_select_db(database_app, connect);
 			$query_rs_db = "SELECT * FROM datatype_account WHERE id='".$cliente."'";
 			$rs_db = mysql_query($query_rs_db, connect) or die(mysql_error());
 			$cliente = mysql_fetch_assoc($rs_db);
@@ -1271,12 +1284,12 @@ function returnNotificationObject($id_notifica){
 		}
 		
 		if($notifica['id_gestione']=='' && $notifica['id_cliente']==''){
-			mysql_select_db(database_connect, connect);
+			mysql_select_db(database_app, connect);
 			$query_rs_db = "SELECT * FROM datatype_account WHERE livello='gestione'";
 			$rs_db = mysql_query($query_rs_db, connect) or die(mysql_error());
 			$gestione = mysql_fetch_assoc($rs_db);
 				
-			mysql_select_db(database_connect, connect);
+			mysql_select_db(database_app, connect);
 			$query_rs_db = "SELECT * FROM datatype_account WHERE id='".$id_cliente."'";
 			$rs_db = mysql_query($query_rs_db, connect) or die(mysql_error());
 			$cliente = mysql_fetch_assoc($rs_db);
@@ -1318,7 +1331,7 @@ function returnCorrectNotificationIcon($tipo_azione, $daLeggere){
 }
 function returnNotificationReadStatus($id_notifica, $id_utente, $livello_utente){
 	
-	mysql_select_db(database_connect, connect);
+	mysql_select_db(database_app, connect);
 	$query_rs_db = "SELECT * FROM datatype_notifiche WHERE id='".$id_notifica."'";
 	$rs_db = mysql_query($query_rs_db, connect) or die(mysql_error());
 	$notifica = mysql_fetch_assoc($rs_db);

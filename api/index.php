@@ -8,6 +8,8 @@
     //declarations
 	require_once('connect.php');
 	include('core.php');
+	include('classes/class.phpmailer.php');
+	include('classes/class.smtp.php');
 	include('classes/api.class.php');
 	include('classes/users.class.php');
 	include('classes/prices.class.php');
@@ -16,23 +18,30 @@
 
 	try {
 		if(isset($_GET['area'])){
-			$requestAngular=json_decode(file_get_contents('php://input'),1);
+			$check_angular=json_decode(file_get_contents('php://input'),1);
+			if(is_array($check_angular)){
+				$isAngular='Y';
+				$server_request=json_decode(file_get_contents('php://input'),1);
+			}else{
+				$isAngular='N';
+				$server_request=$_REQUEST['request'];
+			}
 			switch ($_GET['area']) {
 				case 'users':
-					$API = new UsersAPI($requestAngular, $_SERVER['REQUEST_URI']);
+					$API = new UsersAPI($server_request, $_SERVER['REQUEST_URI'], $isAngular);
 				break;
 				case 'prices':
-					$API = new PricesAPI($requestAngular, $_SERVER['REQUEST_URI']);
+					$API = new PricesAPI($server_request, $_SERVER['REQUEST_URI'], $isAngular);
 				break;
 				case 'rules':
-					$API = new RulesAPI($requestAngular, $_SERVER['REQUEST_URI']);
+					$API = new RulesAPI($server_request, $_SERVER['REQUEST_URI'], $isAngular);
 				break;
 				case 'wallets':
-					$API = new WalletsAPI($requestAngular, $_SERVER['REQUEST_URI']);
+					$API = new WalletsAPI($server_request, $_SERVER['REQUEST_URI'], $isAngular);
 				break;
 			}
 		}else{
-	    	$API = new DefaultAPI($requestAngular, $_SERVER['REQUEST_URI']);
+	    	$API = new DefaultAPI($server_request, $_SERVER['REQUEST_URI']);
 		}
 	    echo $API->processAPI();
 	} catch (Exception $e) {
