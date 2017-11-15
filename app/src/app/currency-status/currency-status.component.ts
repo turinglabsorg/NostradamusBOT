@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {CurrencyService} from '../currency.service';
+import {ApiService} from '../api/api.service';
+import {Constants} from '../app-constants';
 
 @Component({
   selector: 'app-currency-status',
@@ -8,20 +9,26 @@ import {CurrencyService} from '../currency.service';
 })
 export class CurrencyStatusComponent implements OnInit {
   @Input() currencyCode: string;
-  currencyData = {};
+  currencyInfo = {};
+  currencyPrice = 0;
   currencyDataReady = false;
 
-  constructor(private currencyService: CurrencyService) {
+  constructor(private apiService: ApiService) {
   }
 
   ngOnInit() {
-    this.currencyService.getCurrencyData(this.currencyCode)
+    this.apiService.getCurrencyPrice(this.currencyCode)
       .subscribe(
-        (currencyData: {}) => {
-          this.currencyData = currencyData;
-          this.currencyDataReady = true;
-        },
-        (error) => console.log(error)
+        (rawResponse) => {
+          if (this.apiService.isSuccessfull(rawResponse)) {
+            const response = this.apiService.parseAPIResponse(rawResponse);
+            this.currencyPrice = response.price;
+            this.currencyInfo = Constants.CURRENCIES[this.currencyCode];
+            this.currencyDataReady = true;
+          } else {
+            console.log('errore');
+          }
+        }
       );
   }
 

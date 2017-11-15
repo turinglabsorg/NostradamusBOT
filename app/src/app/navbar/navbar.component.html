@@ -1,13 +1,50 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-  <a class="navbar-brand" href="#" (click)="goToHome()">NostradamusBot</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4" *ngIf="authService.isAuthenticated()">
+  <img class="navbar-brand" src="assets/logo_top.png" alt="NostradamusBot" (click)="goToHome()" style="width: 170px">
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+          aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarCollapse">
-    <ul class="navbar-nav mr-auto">
-      <!--<li class="nav-item">-->
-        <!--<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>-->
-      <!--</li>-->
+    <ul class="navbar-nav mr-auto" *ngIf="authService.isAuthenticated()">
+      <li class="nav-item">
+        <a class="nav-link" role="presentation"
+           routerLinkActive="active"
+           [routerLinkActiveOptions]="{exact: true}"
+           routerLink="/dashboard">
+          <i class="fa fa-tachometer"></i> Dashboard
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" role="presentation"
+           routerLinkActive="active"
+           [routerLinkActiveOptions]="{exact: true}"
+           routerLink="/rules">
+          <i class="fa fa-bars"></i> Rules
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" role="presentation"
+           routerLinkActive="active"
+           [routerLinkActiveOptions]="{exact: true}"
+           routerLink="/actions">
+          <i class="fa fa-exchange"></i> Actions
+        </a>
+      </li>
+
+    </ul>
+    <ul class="navbar-nav" *ngIf="authService.isAuthenticated()">
+      <li class="nav-item">
+        <a class="nav-link" role="presentation"
+           routerLinkActive="active"
+           [routerLinkActiveOptions]="{exact: true}"
+           routerLink="/settings">
+          <i class="fa fa-cog"></i> Settings
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link pointer" (click)="signOut()"><i class="fa fa-sign-out"></i> SignOut</a>
+      </li>
     </ul>
   </div>
 </nav>
