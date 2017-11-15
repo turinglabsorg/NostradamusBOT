@@ -14,6 +14,7 @@ export class SigninComponent implements OnInit {
     email: '',
     password: ''
   };
+  scope = 'wallet:user:read,wallet:user:email,wallet:accounts:create';
 
   constructor(private authService: AuthService, private apiService: ApiService, private router: Router) {
   }

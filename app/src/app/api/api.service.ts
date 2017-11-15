@@ -1,4 +1,4 @@
-import {Http} from '@angular/http';
+import {Http, RequestOptions} from '@angular/http';
 import {Injectable} from '@angular/core';
 import {AuthService} from '../auth/auth.service';
 
@@ -19,5 +19,12 @@ export class ApiService {
   getCurrencyPrice(currencyCode: string) {
     const data = this.authService.addAPIKeyToData({});
     return this.http.post('https://api.nostradamusbot.com/prices/' + currencyCode, data);
+  }
+
+  /** COINBASE API **/
+
+  getCoinbaseAccountsList() {
+    const options = new RequestOptions({headers: this.authService.getCoinbaseAuthHeader()});
+    return this.http.get('https://api.coinbase.com/v2/accounts', options);
   }
 }

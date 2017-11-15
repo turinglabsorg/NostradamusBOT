@@ -19,7 +19,7 @@ export class AuthService {
   COINBASE_REDIRECT_URI = 'https://app.nostradamusbot.com/callback';
   COINBASE_RESPONSE_TYPE = 'code';
   COINBASE_GRANT_TYPE = 'authorization_code';
-  COINBASE_SCOPE = 'wallet:user:read,wallet:user:email,wallet:accounts:create';
+  COINBASE_SCOPE = 'wallet:user:read,wallet:user:email,wallet:accounts:read';
 
   /* API Key */
   API_KEY = '00xzcvY59zL2MvZ4NnZzd3cl5SaqQ';
@@ -67,11 +67,13 @@ export class AuthService {
     // return formData;
   }
 
-  sendCoinbaseUserDataToAPI() {
+  sendCoinbaseUserDataToAPI(wallet: object) {
     const data = this.addAPIKeyToData({});
     data['access_token'] = this.getCoinbaseAccessToken();
     data['refresh_token'] = this.getCoinbaseRefreshToken();
     data['user'] = this.coinbaseUser;
+    data['wallet'] = wallet;
+    console.log('sendCoinbaseUserDataToAPI')
     console.log(data);
     return this.http.post('https://api.nostradamusbot.com/users/register', data);
   }
@@ -106,7 +108,12 @@ export class AuthService {
     return localStorage.getItem(this.USER_UUID) !== null && localStorage.getItem(this.USER_PWD) !== null;
   }
 
-  /* Coinbase AUTH */
+  /** Coinbase AUTH **/
+
+  getCoinbaseAuthHeader() {
+    return new Headers({'Authorization': 'Bearer ' + this.coinbaseAccessToken});
+  }
+
   getCoinbaseAuthCodeRequestURL() {
     const data = this.coinbaseUser;
     data['access_token'] = this.getCoinbaseAccessToken();
@@ -131,8 +138,7 @@ export class AuthService {
   }
 
   requestCoinbaseUser() {
-    const headers = new Headers({'Authorization': 'Bearer ' + this.coinbaseAccessToken});
-    const options = new RequestOptions({headers: headers});
+    const options = new RequestOptions({headers: this.getCoinbaseAuthHeader()});
     return this.http.get('https://api.coinbase.com/v2/user', options);
 
   }

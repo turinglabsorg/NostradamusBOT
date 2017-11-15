@@ -10,6 +10,12 @@ import {ApiService} from '../api/api.service';
 })
 export class AuthComponent implements OnInit {
   coinbaseUser = {};
+  userWallet= {
+    id: '',
+    name: '',
+    currency: '',
+    balance: ''
+  };
   processCompleted = false;
 
   constructor(private route: ActivatedRoute, private authService: AuthService, private apiService: ApiService) {
@@ -39,16 +45,33 @@ export class AuthComponent implements OnInit {
         console.log(userResponse.json()['data']);
         this.authService.setCoinbaseUser(userResponse.json()['data']);
         this.coinbaseUser = this.authService.getCoinbaseUser();
-        this.processCompleted = true;
-        this.sendUserToAPI();
+        this.requestCoinbaseAccountsList();
       });
   }
 
-  sendUserToAPI() {
-    this.authService.sendCoinbaseUserDataToAPI().subscribe(
+  requestCoinbaseAccountsList() {
+    this.apiService.getCoinbaseAccountsList().subscribe(
+      (response) => {
+        console.log(response.json()['data']);
+        const accounts: any[] = response.json()['data'];
+        accounts.forEach((account) => {
+          if (account['type'] === 'wallet') {
+            this.userWallet['id'] = account['id'];
+            this.userWallet['name'] = account['name'];
+            this.userWallet['currency'] = account['balance']['currency'];
+            this.userWallet['balance'] = account['balance']['amount'];
+          }
+        });
+        this.sendUserAndAccountToAPI();
+      });
+  }
+
+  sendUserAndAccountToAPI() {
+    this.authService.sendCoinbaseUserDataToAPI(this.userWallet).subscribe(
       (rawResponse) => {
         const response = this.apiService.parseAPIResponse(rawResponse);
         this.authService.saveUserDataToLocalStorage(response.uuid, response.password);
+        this.processCompleted = true;
       });
   }
 
