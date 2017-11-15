@@ -1,8 +1,8 @@
 <?php
 	class RulesAPI extends API {
 
-	    public function __construct($request, $origin) {
-	        parent::__construct($request);
+	    public function __construct($request, $origin, $isAngular) {
+	        parent::__construct($request, $isAngular);
 	    }
 
 	    protected function create() {

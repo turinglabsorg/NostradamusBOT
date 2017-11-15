@@ -10,6 +10,8 @@ RewriteRule (\W|^)users/register(\W|$)  index.php?area=users&request=register [L
 RewriteRule (\W|^)users/login(\W|$)  index.php?area=users&request=login [L]
 RewriteRule (\W|^)users/edit(\W|$)  index.php?area=users&request=edit [L]
 RewriteRule (\W|^)users/delete(\W|$)  index.php?area=users&request=delete [L]
+RewriteRule (\W|^)users/check(\W|$)  index.php?area=users&request=check [L]
+RewriteRule (\W|^)users/login(\W|$)  index.php?area=users&request=login [L]
 
 
 #WALLETS#
