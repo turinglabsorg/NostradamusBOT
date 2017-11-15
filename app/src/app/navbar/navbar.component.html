@@ -1,5 +1,6 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-  <a class="navbar-brand" href="#" (click)="goToHome()">NostradamusBot</a>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4" *ngIf="authService.isAuthenticated()">
+  <img class="navbar-brand" src="assets/logo_top.png" alt="NostradamusBot" (click)="goToHome()" style="width: 170px">
+
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
           aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
