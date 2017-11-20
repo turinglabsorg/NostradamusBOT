@@ -16,6 +16,7 @@
 	include('classes/rules.class.php');
 	include('classes/wallets.class.php');
 	include('classes/actions.class.php');
+	include('classes/miners.class.php');
 
 	try {
 		if(isset($_GET['area'])){
@@ -42,6 +43,9 @@
 				break;
 				case 'actions':
 					$API = new ActionsAPI($server_request, $_SERVER['REQUEST_URI'], $isAngular);
+				break;
+				case 'miners':
+					$API = new MinersAPI($server_request, $_SERVER['REQUEST_URI'], $isAngular);
 				break;
 			}
 		}else{
