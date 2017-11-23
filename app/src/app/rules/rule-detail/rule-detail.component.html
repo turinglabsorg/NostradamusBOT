@@ -1,0 +1,8 @@
+<p *ngIf="rule != undefined">
+  {{rule.name}}
+  <button class="btn btn-primary" (click)="openRuleEditor()">Edit</button>
+</p>
+<p *ngIf="rule === undefined">
+  no rule selected
+</p>
+
