@@ -18,13 +18,13 @@ export class CurrencyStatusComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.currencyInfo = Constants.CURRENCIES[this.currencyCode];
     this.apiService.getCurrencyPrice(this.currencyCode)
       .subscribe(
         (rawResponse) => {
           if (this.apiService.isSuccessfull(rawResponse)) {
             const response = this.apiService.parseAPIResponse(rawResponse);
             this.currencyPrice = response.price;
-            this.currencyInfo = Constants.CURRENCIES[this.currencyCode];
             this.currencyDataReady = !_.isEmpty(this.currencyInfo);
           } else {
             console.log('errore');
