@@ -1,4 +1,4 @@
-import {Http, RequestOptions, Headers} from '@angular/http';
+import {Headers, Http, RequestOptions} from '@angular/http';
 import {Injectable} from '@angular/core';
 
 @Injectable()
@@ -18,8 +18,8 @@ export class AuthService {
   COINBASE_CLIENT_SECRET = 'b01858df10ae0806196c9e96ce7df280ddc15f6a5b65e82f23c8332acc64baea';
   COINBASE_REDIRECT_URI = 'https://app.nostradamusbot.com/callback';
   COINBASE_RESPONSE_TYPE = 'code';
-  COINBASE_GRANT_TYPE = 'authorization_code';
   COINBASE_SCOPE = 'wallet:user:read,wallet:user:email,wallet:accounts:read';
+  COINBASE_GRANT_TYPE_AUTH_CODE = 'authorization_code';
 
   /* API Key */
   API_KEY = '00xzcvY59zL2MvZ4NnZzd3cl5SaqQ';
@@ -28,9 +28,16 @@ export class AuthService {
   USER_UUID = 'nostradamusUUID';
   USER_PWD = 'nostradamusPWD';
 
-  private coinbaseAccessToken = '';
-  private coinbaseRefreshToken = '';
   private coinbaseUser = {};
+
+  private coinbaseTokens = {
+    accessBTH: '',
+    refreshBTH: '',
+    accessETH: '',
+    refreshETH: '',
+    accessLTC: '',
+    refreshLTC: '',
+  };
 
   private loggedIn = false;
 
@@ -38,7 +45,7 @@ export class AuthService {
 
   /* API AUTH */
   isAuthenticated(): boolean {
-    console.log(this.loggedIn ? 'logged!!!' : 'no logged');
+    // console.log(this.loggedIn ? 'logged!!!' : 'no logged');
     return this.loggedIn;
   }
 
@@ -52,28 +59,26 @@ export class AuthService {
     localStorage.clear();
   }
 
-  getCommonHeaders() {
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json ');
-    return headers;
-  }
-
   addAPIKeyToData(data: {}) {
     data['apiKey'] = this.API_KEY;
     return data;
+  }
 
-    // const formData: FormData = new FormData();
-    // formData.append('apiKey', this.API_KEY);
-    // return formData;
+  addUserIdPasswordAPIKeyToData(data: {}) {
+    data = this.addAPIKeyToData(data);
+    const userData = this.getUserDataFromLocalStorage();
+    data['uuid'] = userData['uuid'];
+    data['password'] = userData['password'];
+    return data;
   }
 
   sendCoinbaseUserDataToAPI(wallet: object) {
     const data = this.addAPIKeyToData({});
-    data['access_token'] = this.getCoinbaseAccessToken();
-    data['refresh_token'] = this.getCoinbaseRefreshToken();
+    data['access_token'] = this.getCoinbaseToken('access', wallet['currency']);
+    data['refresh_token'] = this.getCoinbaseToken('refresh', wallet['currency']);
     data['user'] = this.coinbaseUser;
     data['wallet'] = wallet;
-    console.log('sendCoinbaseUserDataToAPI')
+    console.log('sendCoinbaseUserDataToAPI');
     console.log(data);
     return this.http.post('https://api.nostradamusbot.com/users/register', data);
   }
@@ -110,14 +115,7 @@ export class AuthService {
 
   /** Coinbase AUTH **/
 
-  getCoinbaseAuthHeader() {
-    return new Headers({'Authorization': 'Bearer ' + this.coinbaseAccessToken});
-  }
-
   getCoinbaseAuthCodeRequestURL() {
-    const data = this.coinbaseUser;
-    data['access_token'] = this.getCoinbaseAccessToken();
-    data['refresh_token'] = this.getCoinbaseRefreshToken();
     return encodeURI(this.COINBASE_AUTH_BASE_URL + '?'
       + '&' + 'client_id=' + this.COINBASE_CLIENT_ID
       + '&' + 'redirect_uri=' + this.COINBASE_REDIRECT_URI
@@ -128,7 +126,7 @@ export class AuthService {
 
   requestCoinbaseAccessToken(authCode: string) {
     const formData = new FormData();
-    formData.append('grant_type', this.COINBASE_GRANT_TYPE);
+    formData.append('grant_type', this.COINBASE_GRANT_TYPE_AUTH_CODE);
     formData.append('code', authCode);
     formData.append('client_id', this.COINBASE_CLIENT_ID);
     formData.append('client_secret', this.COINBASE_CLIENT_SECRET);
@@ -137,29 +135,73 @@ export class AuthService {
 
   }
 
-  requestCoinbaseUser() {
-    const options = new RequestOptions({headers: this.getCoinbaseAuthHeader()});
+  getCoinbaseToken(type: string, currencyCode: string) {
+    console.log('GET ' + type + ' token ' + ' for ' + currencyCode);
+    if (type === 'refresh') {
+      switch (currencyCode) {
+        case 'BTC':
+          return this.coinbaseTokens.refreshBTH;
+        case 'ETH':
+          return this.coinbaseTokens.refreshETH;
+        case 'LTC':
+          return this.coinbaseTokens.refreshLTC;
+      }
+    }
+
+    if (type === 'access') {
+      switch (currencyCode) {
+        case 'BTC':
+          return this.coinbaseTokens.accessBTH;
+        case 'ETH':
+          return this.coinbaseTokens.accessETH;
+        case 'LTC':
+          return this.coinbaseTokens.accessLTC;
+        default:
+          return this.coinbaseTokens.accessBTH;
+      }
+    }
+  }
+
+  setCoinbaseToken(type: string, currencyCode: string, token: string) {
+    console.log('SET ' + type + ' token ' + ' for ' + currencyCode + ' = ' + token);
+    if (type === 'refresh') {
+      switch (currencyCode) {
+        case 'BTC':
+          this.coinbaseTokens.refreshBTH = token;
+          break;
+        case 'ETH':
+          this.coinbaseTokens.refreshETH = token;
+          break;
+        case 'LTC':
+          this.coinbaseTokens.refreshLTC = token;
+          break;
+      }
+    }
+
+    if (type === 'access') {
+      switch (currencyCode) {
+        case 'BTC':
+          this.coinbaseTokens.accessBTH = token;
+          break;
+        case 'ETH':
+          this.coinbaseTokens.accessETH = token;
+          break;
+        case 'LTC':
+          this.coinbaseTokens.accessLTC = token;
+          break;
+      }
+    }
+  }
+
+  requestCoinbaseUser(accessToken: string) {
+    const headers = new Headers();
+    headers.append('Authorization', 'Bearer ' + accessToken);
+    const options = new RequestOptions({headers: headers});
+
     return this.http.get('https://api.coinbase.com/v2/user', options);
-
   }
 
-  getCoinbaseAccessToken(): string {
-    return this.coinbaseAccessToken;
-  }
-
-  setCoinbaseAccessToken(token: string) {
-    this.coinbaseAccessToken = token;
-  }
-
-  getCoinbaseRefreshToken(): string {
-    return this.coinbaseRefreshToken;
-  }
-
-  setCoinbaseRefreshToken(token: string) {
-    this.coinbaseRefreshToken = token;
-  }
-
-  getCoinbaseUser(): {} {
+  getCoinbaseUser() {
     return this.coinbaseUser;
   }
 
@@ -172,7 +214,28 @@ export class AuthService {
   }
 
   setCurrentUser(user: {}) {
+    console.log('set current user : ' + user);
     this.currentUser = user;
+  }
+
+  setCoinbaseTokens(user: Object) {
+    this.setCoinbaseToken('access', 'BTC', user['last_token_btc']);
+    this.setCoinbaseToken('access', 'ETH', user['last_token_eth']);
+    this.setCoinbaseToken('access', 'LTC', user['last_token_ltc']);
+    this.setCoinbaseToken('refresh', 'BTC', user['refresh_token_btc']);
+    this.setCoinbaseToken('refresh', 'ETH', user['refresh_token_eth']);
+    this.setCoinbaseToken('refresh', 'LTC', user['refresh_token_ltc']);
+  }
+
+  resetCoinbaseTokens() {
+    this.coinbaseTokens = {
+      accessBTH: '',
+      refreshBTH: '',
+      accessETH: '',
+      refreshETH: '',
+      accessLTC: '',
+      refreshLTC: '',
+    };
   }
 }
 

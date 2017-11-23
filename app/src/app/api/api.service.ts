@@ -1,4 +1,4 @@
-import {Http, RequestOptions} from '@angular/http';
+import {Http, RequestOptions, Headers} from '@angular/http';
 import {Injectable} from '@angular/core';
 import {AuthService} from '../auth/auth.service';
 
@@ -23,8 +23,10 @@ export class ApiService {
 
   /** COINBASE API **/
 
-  getCoinbaseAccountsList() {
-    const options = new RequestOptions({headers: this.authService.getCoinbaseAuthHeader()});
+  getCoinbaseAccountsList(accessToken: string) {
+    const headers = new Headers();
+    headers.append('Authorization', 'Bearer ' + accessToken)
+    const options = new RequestOptions({headers: headers});
     return this.http.get('https://api.coinbase.com/v2/accounts', options);
   }
 }

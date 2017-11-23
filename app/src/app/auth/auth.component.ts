@@ -18,6 +18,9 @@ export class AuthComponent implements OnInit {
   };
   processCompleted = false;
 
+  tempAccessToken = '';
+  tempRefreshToken = '';
+
   constructor(private route: ActivatedRoute, private authService: AuthService, private apiService: ApiService) {
   }
 
@@ -28,9 +31,8 @@ export class AuthComponent implements OnInit {
           this.authService.requestCoinbaseAccessToken(queryParams['code']).subscribe(
             (tokenResponse) => {
               console.log(tokenResponse);
-              this.authService.signIn();
-              this.authService.setCoinbaseAccessToken(tokenResponse.json()['access_token']);
-              this.authService.setCoinbaseRefreshToken(tokenResponse.json()['refresh_token']);
+              this.tempAccessToken = tokenResponse.json()['access_token'];
+              this.tempRefreshToken = tokenResponse.json()['refresh_token'];
               this.requestCoinbaseUser();
             },
             (error) => console.log(error)
@@ -40,7 +42,7 @@ export class AuthComponent implements OnInit {
   }
 
   requestCoinbaseUser() {
-    this.authService.requestCoinbaseUser().subscribe(
+    this.authService.requestCoinbaseUser(this.tempAccessToken).subscribe(
       (userResponse) => {
         console.log(userResponse.json()['data']);
         this.authService.setCoinbaseUser(userResponse.json()['data']);
@@ -50,7 +52,7 @@ export class AuthComponent implements OnInit {
   }
 
   requestCoinbaseAccountsList() {
-    this.apiService.getCoinbaseAccountsList().subscribe(
+    this.apiService.getCoinbaseAccountsList(this.tempAccessToken).subscribe(
       (response) => {
         console.log(response.json()['data']);
         const accounts: any[] = response.json()['data'];
@@ -62,6 +64,7 @@ export class AuthComponent implements OnInit {
             this.userWallet['balance'] = account['balance']['amount'];
           }
         });
+        this.authService.signIn();
         this.sendUserAndAccountToAPI();
       });
   }
