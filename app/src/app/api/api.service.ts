@@ -21,6 +21,12 @@ export class ApiService {
     return this.http.post('https://api.nostradamusbot.com/prices/' + currencyCode, data);
   }
 
+  getWalletBalance(currencyCode: string) {
+    const data = this.authService.addUserIdPasswordAPIKeyToData({});
+    data['wallet'] = currencyCode;
+    return this.http.post('https://api.nostradamusbot.com/wallets/balance', data);
+  }
+
   /** COINBASE API **/
 
   getCoinbaseAccountsList(accessToken: string) {

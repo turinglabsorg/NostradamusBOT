@@ -20,6 +20,7 @@ import {RulesListComponent} from './rules/rules-list/rules-list.component';
 import {RuleDetailComponent} from './rules/rule-detail/rule-detail.component';
 import {RuleEditComponent} from './rules/rule-edit/rule-edit.component';
 import {RulesService} from './rules/rules.service';
+import {WalletComponent} from './dashboard/wallet/wallet.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import {RulesService} from './rules/rules.service';
     ActionsComponent,
     RulesListComponent,
     RuleDetailComponent,
-    RuleEditComponent
+    RuleEditComponent,
+    WalletComponent
   ],
   imports: [
     BrowserModule,
