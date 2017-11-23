@@ -65,6 +65,8 @@ export class AuthComponent implements OnInit {
           }
         });
         this.authService.signIn();
+        this.authService.setCoinbaseToken('access', this.userWallet['currency'], this.tempAccessToken);
+        this.authService.setCoinbaseToken('refresh', this.userWallet['currency'], this.tempRefreshToken);
         this.sendUserAndAccountToAPI();
       });
   }
