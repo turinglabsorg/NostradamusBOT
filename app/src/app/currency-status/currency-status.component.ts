@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ApiService} from '../api/api.service';
 import {Constants} from '../app-constants';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-currency-status',
@@ -17,14 +18,14 @@ export class CurrencyStatusComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.currencyInfo = Constants.CURRENCIES[this.currencyCode];
     this.apiService.getCurrencyPrice(this.currencyCode)
       .subscribe(
         (rawResponse) => {
           if (this.apiService.isSuccessfull(rawResponse)) {
             const response = this.apiService.parseAPIResponse(rawResponse);
             this.currencyPrice = response.price;
-            this.currencyInfo = Constants.CURRENCIES[this.currencyCode];
-            this.currencyDataReady = true;
+            this.currencyDataReady = !_.isEmpty(this.currencyInfo);
           } else {
             console.log('errore');
           }

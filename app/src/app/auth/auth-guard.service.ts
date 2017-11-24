@@ -16,42 +16,46 @@ export class AuthGuard implements CanActivate, CanActivateChild, OnInit {
 
   canActivate(route: ActivatedRouteSnapshot,
               state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    console.log(state);
-    if (this.authService.isAuthenticated() || this.authService.areUserDataPresentInLocalStorage()) {
-      if (this.authService.areUserDataPresentInLocalStorage()) {
-        this.checkStoredUserData();
-      }
-
-      if (this.authService.ALLOWED_TO_UNSIGNED.includes(state.url)) {
-        this.router.navigate(['/']);
-      } else {
-        return true;
-      }
+    console.log('url = ' + state.url);
+    if (this.authService.isAuthenticated()) {
+      console.log('utente autenticato - OK');
+      return true;
     } else {
-      if (this.authService.ALLOWED_TO_UNSIGNED.includes(state.url)) {
-        return true;
+      if (this.authService.areUserDataPresentInLocalStorage()) {
+        console.log('utente con cookie - check');
+        return new Observable<boolean>(observer => {
+          this.authService.checkUserStoredData().subscribe(
+            (rawResponse) => {
+              const response = this.apiService.parseAPIResponse(rawResponse);
+              this.authService.setCurrentUser(response);
+              this.authService.setCoinbaseTokens(response);
+              this.authService.signIn();
+              console.log('utente con cookie - check OK');
+              observer.next(true);
+            }, (error) => {
+              this.authService.setCurrentUser({});
+              this.authService.resetCoinbaseTokens();
+              this.authService.signOut();
+              this.router.navigate(['/signin']);
+              console.log('utente con cookie - check ERROR');
+              console.log(error);
+              observer.error(error);
+            });
+        });
       } else {
-        this.router.navigate(['/signin']);
+        if (this.authService.ALLOWED_TO_UNSIGNED.includes(state.url)) {
+          console.log('utente NON autenticato - URL NON riservato - OK');
+          return true;
+        } else {
+          console.log('utente NON autenticato - URL riservato - SIGN IN');
+          this.router.navigate(['/signin']);
+        }
       }
     }
-
   }
 
   canActivateChild(route: ActivatedRouteSnapshot,
                    state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     return this.canActivate(route, state);
-  }
-
-  checkStoredUserData() {
-    this.authService.checkUserStoredData().subscribe(
-      (rawResponse) => {
-        const response = this.apiService.parseAPIResponse(rawResponse);
-        this.authService.setCurrentUser(response);
-        this.authService.signIn();
-      }, () => {
-        this.authService.setCurrentUser({});
-        this.authService.signOut();
-        this.router.navigate(['/']);
-      });
   }
 }

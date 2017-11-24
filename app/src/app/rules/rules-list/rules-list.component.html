@@ -1,0 +1,9 @@
+<a class="list-group-item list-group-item-action pointer"
+   *ngFor="let rule of rulesService.getRules()"
+   [routerLink]="[rule.id]"
+   routerLinkActive="active">
+  <div>
+    <h5 class="list-group-item-heading">{{ rule.name }}</h5>
+    <p class="list-group-item-text">Wallet : {{ rule.wallet }}</p>
+  </div>
+</a>

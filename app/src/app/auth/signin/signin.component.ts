@@ -1,4 +1,4 @@
-import {Component, OnInit, NgModule, OnDestroy} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {AuthService} from '../auth.service';
 import {ApiService} from '../../api/api.service';
 import {Router} from '@angular/router';
@@ -8,13 +8,12 @@ import {Router} from '@angular/router';
   templateUrl: './signin.component.html',
   styleUrls: ['./signin.component.css']
 })
-export class SigninComponent implements OnInit , OnDestroy{
+export class SigninComponent implements OnInit, OnDestroy {
   coinbaseAuthCodeRequestURL: string;
   user = {
     email: '',
     password: ''
   };
-  scope = 'wallet:user:read,wallet:user:email,wallet:accounts:create';
 
   constructor(private authService: AuthService, private apiService: ApiService, private router: Router) {
   }
@@ -34,10 +33,12 @@ export class SigninComponent implements OnInit , OnDestroy{
         (rawResponse) => {
           if (this.apiService.isSuccessfull(rawResponse)) {
             const response = this.apiService.parseAPIResponse(rawResponse);
+            console.log(response);
             this.authService.setCurrentUser(response);
+            this.authService.setCoinbaseTokens(response);
             this.authService.signIn();
             this.authService.saveUserDataToLocalStorage(response.uuid, response.password);
-            this.router.navigate(['/']);
+            this.router.navigate(['/dashboard']);
           } else {
             console.log('errore');
           }

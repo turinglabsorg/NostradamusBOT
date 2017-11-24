@@ -14,8 +14,13 @@ import {AuthGuard} from './auth/auth-guard.service';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {ApiService} from './api/api.service';
 import {SettingsComponent} from './settings/settings/settings.component';
-import {RulesComponent} from './rules/rules/rules.component';
+import {RulesComponent} from './rules/rules.component';
 import {ActionsComponent} from './actions/actions/actions.component';
+import {RulesListComponent} from './rules/rules-list/rules-list.component';
+import {RuleDetailComponent} from './rules/rule-detail/rule-detail.component';
+import {RuleEditComponent} from './rules/rule-edit/rule-edit.component';
+import {RulesService} from './rules/rules.service';
+import {WalletComponent} from './dashboard/wallet/wallet.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +32,11 @@ import {ActionsComponent} from './actions/actions/actions.component';
     DashboardComponent,
     SettingsComponent,
     RulesComponent,
-    ActionsComponent
+    ActionsComponent,
+    RulesListComponent,
+    RuleDetailComponent,
+    RuleEditComponent,
+    WalletComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +44,7 @@ import {ActionsComponent} from './actions/actions/actions.component';
     AppRoutingModule,
     FormsModule
   ],
-  providers: [AuthService, AuthGuard, ApiService],
+  providers: [AuthService, AuthGuard, ApiService, RulesService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
