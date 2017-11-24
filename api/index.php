@@ -1,5 +1,5 @@
 <?php	
-	//error_reporting(E_ALL); ini_set('display_errors', 'On'); 
+	error_reporting(E_ALL); ini_set('display_errors', 'On'); 
 	header("Access-Control-Allow-Origin: *");
     header("Access-Control-Allow-Methods: *");
     header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
@@ -17,7 +17,8 @@
 	include('classes/wallets.class.php');
 	include('classes/actions.class.php');
 	include('classes/miners.class.php');
-
+	include('vendor/autoload.php');
+	
 	try {
 		if(isset($_GET['area'])){
 			$check_angular=json_decode(file_get_contents('php://input'),1);
