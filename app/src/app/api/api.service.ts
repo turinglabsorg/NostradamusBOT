@@ -42,6 +42,11 @@ export class ApiService {
     return this.http.post('https://api.nostradamusbot.com/rules/edit', data);
   }
 
+  deleteRule(rule: any) {
+    const data = this.authService.addUserIdPasswordAPIKeyToData(rule);
+    return this.http.post('https://api.nostradamusbot.com/rules/delete', data);
+  }
+
   /** COINBASE API **/
 
   getCoinbaseAccountsList(accessToken: string) {

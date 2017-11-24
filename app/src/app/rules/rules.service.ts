@@ -55,4 +55,11 @@ export class RulesService implements OnInit {
     console.log(this.rules);
   }
 
+  removeRule(id: string) {
+    const index = _.findIndex(this.rules, ['id', id]);
+    this.rules = _.remove(this.rules, function (rule) {
+      return rule.id === id;
+    });
+  }
+
 }

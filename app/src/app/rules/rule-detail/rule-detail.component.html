@@ -1,7 +1,9 @@
 <div class="row" *ngIf="rule != undefined">
   <div class="col-md-12">
     <h4>{{rule.name}}
-      <button class="btn btn-primary pull-right" (click)="openRuleEditor()">Edit</button>
+      <button [disabled]="isLoading" class="btn btn-danger pull-right" (click)="deleteRule()">Delete</button>
+      <button class="btn btn-primary pull-right mr-2" (click)="openRuleEditor()">Edit</button>
+
     </h4>
     <hr>
     Wallet : {{rule.wallet.name}} <br>
