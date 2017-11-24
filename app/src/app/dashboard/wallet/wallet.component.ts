@@ -21,7 +21,7 @@ export class WalletComponent implements OnInit {
         if (this.apiService.isSuccessfull(rawResponse)) {
           const response: string = this.apiService.parseAPIResponse(rawResponse);
           console.log(response);
-          this.balance = parseFloat(response).toFixed(2);
+          this.balance = parseFloat(response).toFixed(4);
           this.showBalanceOrButton = true;
         } else {
           console.log('errore');
