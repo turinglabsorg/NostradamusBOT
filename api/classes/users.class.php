@@ -149,6 +149,45 @@
 		   		return $this->data=array('response'=>'No user info','status'=>'200');
 		   	}
 	    }
+
+	    public function refreshTokens($user,$wallet){
+	    	$urlPOST='https://api.coinbase.com/oauth/token';
+	    	$refreshToken=$user['refresh_token_'.$wallet];
+			$fields = array(
+				'grant_type' => urlencode('refresh_token'),
+				'client_id' => urlencode('8a7cbffab1d011558b80731428985953b5758308fa1db27a3548420b4e6abbfa'),
+				'client_secret' => urlencode('b01858df10ae0806196c9e96ce7df280ddc15f6a5b65e82f23c8332acc64baea'),
+				'refresh_token' => urlencode($refreshToken)
+			);
+			$fields_string='';
+			foreach($fields as $key=>$value) { $fields_string .= $key.'='.$value.'&'; }
+			rtrim($fields_string, '&');
+
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+			curl_setopt($ch,CURLOPT_URL, $urlPOST);
+			curl_setopt($ch,CURLOPT_POST, count($fields));
+			curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+			$result = json_decode(curl_exec($ch),1);
+			
+			$accessToken=$result['access_token'];
+			$refreshToken=$result['refresh_token'];
+
+			runDBQuery(
+				"app",
+				"UPDATE users SET refresh_token_".$wallet."=?, last_token_".$wallet."=? WHERE uuid=?",
+				array(
+					$result['refresh_token'],
+					$result['access_token'],
+					$user['uuid']
+				)
+			);
+			curl_close($ch);
+
+			$tokens=array("access_token"=>$accessToken,"refresh_token"=>$refreshToken);
+
+	    	return $tokens;
+	    }
 	              
 	}
 ?>

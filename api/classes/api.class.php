@@ -17,6 +17,9 @@
          * not be handled by the basic methods. eg: /files/process
          */
         protected $verb = '';
+        protected $request;
+        protected $isAngular;
+        protected $origin;
         /**
          * Property: args
          * Any additional URI components after the endpoint and verb have been removed, in our
@@ -35,6 +38,10 @@
          * Allow for CORS, assemble and pre-process the data
          */
         public function __construct($request,$isAngular) {
+            $this->request=$request;
+            $this->isAngular=$isAngular;
+            $this->origin=$_SERVER['REQUEST_URI'];
+            
             header("Access-Control-Allow-Origin: *");
             header("Access-Control-Allow-Methods: *");
             header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
