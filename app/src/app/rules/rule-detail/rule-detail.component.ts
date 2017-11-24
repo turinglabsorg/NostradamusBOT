@@ -18,7 +18,7 @@ export class RuleDetailComponent implements OnInit {
     this.route.params
       .subscribe(
         (params: Params) => {
-          const id = +params['id'];
+          const id = params['id'];
           this.rule = this.rulesService.getRule(id);
         }
       );

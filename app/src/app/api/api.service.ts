@@ -27,6 +27,16 @@ export class ApiService {
     return this.http.post('https://api.nostradamusbot.com/wallets/balance', data);
   }
 
+  getRules() {
+    const data = this.authService.addUserIdPasswordAPIKeyToData({});
+    return this.http.post('https://api.nostradamusbot.com/rules/get', data);
+  }
+
+  editRule(rule: any) {
+    const data = this.authService.addUserIdPasswordAPIKeyToData(rule);
+    return this.http.post('https://api.nostradamusbot.com/rules/edit', data);
+  }
+
   /** COINBASE API **/
 
   getCoinbaseAccountsList(accessToken: string) {

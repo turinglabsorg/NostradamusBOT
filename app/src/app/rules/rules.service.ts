@@ -1,57 +1,37 @@
 import {Injectable, OnInit} from '@angular/core';
 import * as _ from 'lodash';
+import {AuthService} from '../auth/auth.service';
+import {ApiService} from '../api/api.service';
 
 @Injectable()
-export class RulesService {
+export class RulesService implements OnInit {
+  private rules: any[] = [];
 
-  private rules: any[] = [
-    {
-      id: 1,
-      name: 'Una regola',
-      wallet: 'BTC',
-      action: 'buy',
-      price: 2000,
-      variation: 'up',
-      percentage: 0
-    },
-    {
-      id: 2,
-      name: 'regola due',
-      wallet: 'BTC',
-      action: 'buy',
-      price: 2000,
-      variation: 'up',
-      percentage: 0
-    },
-    {
-      id: 3,
-      name: 'regola 3',
-      wallet: 'BTC',
-      action: 'buy',
-      price: 2000,
-      variation: 'up',
-      percentage: 0
-    },
-    {
-      id: 4,
-      name: 'regola 4',
-      wallet: 'BTC',
-      action: 'buy',
-      price: 2000,
-      variation: 'up',
-      percentage: 0
-    }
-  ];
+  constructor(private authService: AuthService, private apiService: ApiService) {
+
+  }
+
+  ngOnInit() {
+
+  }
 
   getRules() {
     return this.rules;
   }
 
-  getRule(id: number) {
+  setRules(rules: any[]) {
+    this.rules = rules;
+  }
+
+  getRule(id: string) {
     return _.find(this.rules, ['id', id]);
   }
 
-  constructor() {
+  setRule(id: string, rule: any) {
+    const index = _.findIndex(this.rules, ['id', id]);
+    this.rules[index] = rule;
+    console.log('rule updated on service');
+    console.log(this.rules);
   }
 
 }
