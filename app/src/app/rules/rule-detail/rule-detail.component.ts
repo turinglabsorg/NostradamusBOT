@@ -8,7 +8,7 @@ import {RulesService} from '../rules.service';
   styleUrls: ['./rule-detail.component.css']
 })
 export class RuleDetailComponent implements OnInit {
-  private rule;
+  rule;
 
 
   constructor(private router: Router, private route: ActivatedRoute, private rulesService: RulesService) {

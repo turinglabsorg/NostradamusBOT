@@ -10,7 +10,11 @@ import * as _ from 'lodash';
 })
 export class CurrencyStatusComponent implements OnInit {
   @Input() currencyCode: string;
-  currencyInfo = {};
+  currencyInfo = {
+    symbol: '',
+    coinName: '',
+    fullName: ''
+  };
   currencyPrice = 0;
   currencyDataReady = false;
 
