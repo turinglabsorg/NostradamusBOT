@@ -32,6 +32,11 @@ export class ApiService {
     return this.http.post('https://api.nostradamusbot.com/rules/get', data);
   }
 
+  createRule(rule: any) {
+    const data = this.authService.addUserIdPasswordAPIKeyToData(rule);
+    return this.http.post('https://api.nostradamusbot.com/rules/create', data);
+  }
+
   editRule(rule: any) {
     const data = this.authService.addUserIdPasswordAPIKeyToData(rule);
     return this.http.post('https://api.nostradamusbot.com/rules/edit', data);

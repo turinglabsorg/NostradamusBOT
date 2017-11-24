@@ -2,10 +2,15 @@ import {Injectable, OnInit} from '@angular/core';
 import * as _ from 'lodash';
 import {AuthService} from '../auth/auth.service';
 import {ApiService} from '../api/api.service';
+import {Subject} from 'rxjs/Subject';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class RulesService implements OnInit {
+  public static MSG_GET_RULES = 'get_rules';
+
   private rules: any[] = [];
+  private messageCenter = new Subject<string>();
 
   constructor(private authService: AuthService, private apiService: ApiService) {
 
@@ -13,6 +18,18 @@ export class RulesService implements OnInit {
 
   ngOnInit() {
 
+  }
+
+  sendMessage(message: string) {
+    this.messageCenter.next(message);
+  }
+
+  clearMessage() {
+    this.messageCenter.next();
+  }
+
+  getMessage(): Observable<string> {
+    return this.messageCenter.asObservable();
   }
 
   getRules() {
@@ -25,6 +42,10 @@ export class RulesService implements OnInit {
 
   getRule(id: string) {
     return _.find(this.rules, ['id', id]);
+  }
+
+  addRule(rule: any) {
+    this.rules.push(rule);
   }
 
   setRule(id: string, rule: any) {

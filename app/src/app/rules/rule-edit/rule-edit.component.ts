@@ -52,7 +52,6 @@ export class RuleEditComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    // console.log(form);
     this.isLoading = true;
     if (this.editMode) {
       console.log(form.value);
@@ -65,6 +64,23 @@ export class RuleEditComponent implements OnInit {
             const tempRule = this.rulesService.getRule(this.id);
             data['wallet'] = tempRule.wallet;
             this.rulesService.setRule(data['id'], data);
+            this.rulesService.sendMessage(RulesService.MSG_GET_RULES);
+            form.reset();
+            this.router.navigate(['../'], {relativeTo: this.route});
+            this.isLoading = false;
+          } else {
+            console.log('errore');
+          }
+        }
+      );
+    } else {
+      const data = form.value;
+      data['id_rule'] = '';
+      this.apiService.createRule(data).subscribe(
+        (rawResponse) => {
+          if (this.apiService.isSuccessfull(rawResponse)) {
+            this.rulesService.sendMessage(RulesService.MSG_GET_RULES);
+            this.rulesService.addRule(form.value);
             form.reset();
             this.router.navigate(['../'], {relativeTo: this.route});
             this.isLoading = false;
