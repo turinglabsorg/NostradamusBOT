@@ -1,11 +1,11 @@
 <div class="row">
   <div class="col-md-12">
-    <form (ngSubmit)="onSubmit(form)" #form="ngForm">
+    <form [formGroup]="ruleForm" (ngSubmit)="onSubmit()">
       <div class="row">
         <div class="col-md-12">
           <div class="form-group">
             <label for="name">Name (optional)</label>
-            <input type="text" id="name" class="form-control" ngModel="{{rule.name}}" name="name">
+            <input type="text" id="name" class="form-control" formControlName="name" name="name">
           </div>
         </div>
       </div>
@@ -14,7 +14,7 @@
         <div class="col-md-12">
           <div class="form-group">
             <label for="wallet">Wallet</label>
-            <select id="wallet" class="form-control" name="wallet" required ngModel="{{rule.wallet.currency}}">
+            <select id="wallet" class="form-control" name="wallet" formControlName="wallet">
               <option value>Choose a Wallet</option>
               <option value="BTC">BTC Wallet</option>
               <option value="ETH">ETH Wallet</option>
@@ -25,7 +25,7 @@
         <div class="col-md-6">
           <div class="form-group">
             <label for="action">Action</label>
-            <select id="action" class="form-control" name="action" ngModel="{{rule.action}}" required>
+            <select id="action" class="form-control" name="action" formControlName="action">
               <option value>Choose an Action</option>
               <option value="buy">Buy</option>
               <option value="sell">Sell</option>
@@ -38,13 +38,13 @@
         <div class="col-md-6">
           <div class="form-group">
             <label for="price">Price</label>
-            <input type="text" id="price" class="form-control" ngModel="{{rule.price}}" name="price" required>
+            <input type="text" id="price" class="form-control" name="price" formControlName="price">
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-group">
             <label for="var_action">Variation</label>
-            <select id="var_action" class="form-control" name="var_action" required ngModel="{{rule.var_action}}">
+            <select id="var_action" class="form-control" name="var_action" formControlName="var_action">
               <option value>Choose a Variation</option>
               <option value="up">Up</option>
               <option value="down">Down</option>
@@ -54,13 +54,13 @@
         <div class="col-md-6">
           <div class="form-group">
             <label for="var_perc">Percentage</label>
-            <input type="text" id="var_perc" class="form-control" ngModel="{{rule.var_perc}}" name="var_perc" required>
+            <input type="text" id="var_perc" class="form-control" name="var_perc" formControlName="var_perc">
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-group">
             <label for="auto">Auto</label>
-            <select id="auto" class="form-control" name="auto" required ngModel="{{rule.auto}}">
+            <select id="auto" class="form-control" name="auto" formControlName="auto">
               <option value>Choose</option>
               <option value="yes">Yes</option>
               <option value="no">No</option>
@@ -70,8 +70,8 @@
       </div>
 
 
-
-      <button [disabled]="isLoading" class="btn btn-primary pull-right" type="submit" ><span>{{editMode ? 'Save' : 'Create'}}</span> <i *ngIf="isLoading" class="fa fa-spinner fa-spin pull-right"></i></button>
+      <button [disabled]="isLoading" class="btn btn-primary pull-right" type="submit"><span>{{editMode ? 'Save' : 'Create'}}</span>
+        <i *ngIf="isLoading" class="fa fa-spinner fa-spin pull-right"></i></button>
       <button [disabled]="isLoading" class="btn btn-info" type="reset" (click)="form.reset()">Reset</button>
     </form>
   </div>

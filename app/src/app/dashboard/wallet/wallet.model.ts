@@ -1,10 +1,10 @@
 export class Wallet {
-  public id: string;
-  public name: string;
-  public uuid_user: string;
-  public id_wallet: string;
-  public balance: string;
-  public currency: string;
+  public id: string = '';
+  public name: string = '';
+  public uuid_user: string = '';
+  public id_wallet: string = '';
+  public balance: string = '';
+  public currency: string = '';
 
   public getId(): string {
     return this.id;

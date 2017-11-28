@@ -1,96 +1,106 @@
 import {Wallet} from '../dashboard/wallet/wallet.model';
+import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
 
 export class Rule {
-  public id: string;
-  public name: string;
-  public uuid_user: string;
-  public action: string;
-  public price: string;
-  public var_action: string;
-  public var_perc: string;
-  public amount_eur: string;
-  public amount_crypto: string;
-  public id_rule: string;
-  public type: string;
-  public wallet: Wallet;
-  public auto: string;
-  public active: string;
+  public id: string = '';
+  public name: string = '';
+  public uuid_user: string = '';
+  public action: string = '';
+  public price: string = '';
+  public var_action: string = '';
+  public var_perc: string = '';
+  public amount_eur: string = '';
+  public amount_crypto: string = '';
+  public id_rule: string = '';
+  public type: string = '';
+  public wallet: Wallet = new Wallet();
+  public auto: string = '';
+  public active: string = '';
 
-  constructor(name: string, uuid_user: string, action: string, price: string, var_action: string,
-              var_perc: string, amount_eur: string, amount_crypto: string, id_rule: string,
-              type: string, wallet: Wallet, auto: string, active: string) {
-    this.name = name;
-    this.uuid_user = uuid_user;
-    this.action = action;
-    this.price = price;
-    this.var_action = var_action;
-    this.var_perc = var_perc;
-    this.amount_eur = amount_eur;
-    this.amount_crypto = amount_crypto;
-    this.id_rule = id_rule;
-    this.type = type;
-    this.wallet = wallet;
-    this.auto = auto;
-    this.active = active;
+  get getForm(): FormGroup {
+    const form = new FormGroup({});
+
+    form.addControl('name', new FormControl(this.name));
+    form.addControl('action', new FormControl(this.action, Validators.required));
+    form.addControl('price', new FormControl(this.getPrice(), Validators.pattern(/[1-9]+[0-9]*(\.[0-9]+|[0-9]+)/)));
+    form.addControl('var_action', new FormControl(this.var_action));
+    form.addControl('var_perc', new FormControl(this.getVarPerc, Validators.pattern(/[1-9]+[0-9]*(\.[0-9]+|[0-9]+)/)));
+    form.addControl('amount_eur', new FormControl(this.getAmountEur(), Validators.pattern(/[1-9]+[0-9]*(\.[0-9]+|[0-9]+)/)));
+    form.addControl('amount_crypto', new FormControl(this.getAmountCrypto(), Validators.pattern(/[1-9]+[0-9]*(\.[0-9]+|[0-9]+)/)));
+    form.addControl('id_rule', new FormControl(this.id_rule));
+    form.addControl('type', new FormControl(this.type));
+    form.addControl('wallet', new FormControl(this.wallet.currency));
+    form.addControl('auto', new FormControl(this.auto));
+    form.addControl('active', new FormControl(this.active));
+
+    return form;
   }
 
-  public getId(): string {
+  getFormObject(): { [key: string]: AbstractControl; } {
+    return {'name': new FormControl(this.name, Validators.required)};
+  }
+
+  getId(): string {
     return this.id;
   }
 
-  public setId(): string {
+  setId(): string {
     return this.id;
   }
 
-  public getName(): string {
+  getName(): string {
     return this.name;
   }
 
-  public getUUIDUser(): string {
+  getUUIDUser(): string {
     return this.uuid_user;
   }
 
-  public getAction(): string {
+  getAction(): string {
     return this.action;
   }
 
-  public getPrice(): Number {
+  // get getPrice(): Number {
+  //   return Number(this.price);
+  // }
+
+  getPrice(): Number {
     return Number(this.price);
   }
 
-  public getVarAction(): string {
+  getVarAction(): string {
     return this.var_action;
   }
 
-  get getVarPerc(): Number {
+  getVarPerc(): Number {
     return Number(this.var_perc);
   }
 
-  public getAmountEur(): Number {
+  getAmountEur(): Number {
     return Number(this.amount_eur);
   }
 
-  public getAmountCrypto(): Number {
+  getAmountCrypto(): Number {
     return Number(this.amount_crypto);
   }
 
-  public getIdRule(): string {
+  getIdRule(): string {
     return this.id_rule;
   }
 
-  public getType(): string {
+  getType(): string {
     return this.type;
   }
 
-  public getWallet(): Wallet {
+  getWallet(): Wallet {
     return this.wallet;
   }
 
-  public isAuto(): boolean {
+  isAuto(): boolean {
     return this.auto === 'y';
   }
 
-  public isActive(): boolean {
+  isActive(): boolean {
     return this.active === 'y';
   }
 
