@@ -26,7 +26,10 @@ RewriteRule (\W|^)prices/LTC(\W|$)  index.php?area=prices&request=LTC [L]
 RewriteRule (\W|^)rules/create(\W|$)  index.php?area=rules&request=create [L]
 RewriteRule (\W|^)rules/edit(\W|$)  index.php?area=rules&request=edit [L]
 RewriteRule (\W|^)rules/delete(\W|$)  index.php?area=rules&request=delete [L]
-RewriteRule (\W|^)rules(\W|$)  index.php?area=rules&request=list [L]
+RewriteRule (\W|^)rules/get(\W|$)  index.php?area=rules&request=get [L]
+
+#ACTIONS#
+RewriteRule (\W|^)actions/search(\W|$)  index.php?area=actions&request=search [L]
 
 #MINERS#
 RewriteRule (\W|^)miners/state(\W|$)  index.php?area=miners&request=state [L]
