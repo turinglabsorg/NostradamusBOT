@@ -11,7 +11,6 @@ import * as _ from 'lodash';
 })
 export class RulesListComponent implements OnInit, OnDestroy {
   rulesMessageSubscription: Subscription;
-  isLoading = false;
 
   constructor(private apiService: ApiService, public rulesService: RulesService) {
   }
@@ -20,18 +19,17 @@ export class RulesListComponent implements OnInit, OnDestroy {
     this.rulesMessageSubscription = this.rulesService.getMessage().subscribe(message => {
       if (message === RulesService.MSG_GET_RULES) {
         console.log(RulesService.MSG_GET_RULES);
-        this.getRules(false);
+        this.getRules();
       }
     });
-    this.getRules(true);
+    this.getRules();
   }
 
   ngOnDestroy() {
     this.rulesMessageSubscription.unsubscribe();
   }
 
-  getRules(showLoading: boolean) {
-    this.isLoading = showLoading;
+  getRules() {
     this.apiService.getRules().subscribe(
       (rawResponse) => {
         if (this.apiService.isSuccessfull(rawResponse)) {
@@ -44,7 +42,6 @@ export class RulesListComponent implements OnInit, OnDestroy {
         }
       }
     );
-    this.isLoading = false;
   }
 
 
