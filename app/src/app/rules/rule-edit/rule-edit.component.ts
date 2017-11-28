@@ -3,6 +3,7 @@ import {NgForm} from '@angular/forms';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {RulesService} from '../rules.service';
 import {ApiService} from '../../api/api.service';
+import {Rule} from '../rule.model';
 
 @Component({
   selector: 'app-rule-edit',
@@ -12,40 +13,24 @@ import {ApiService} from '../../api/api.service';
 export class RuleEditComponent implements OnInit {
   @ViewChild('form') ruleForm: NgForm;
   id: string;
-  editMode = false;
-  rule = {
-    id: '',
-    name: '',
-    wallet: '',
-    action: '',
-    price: '',
-    var_action: '',
-    var_perc: '',
-    auto: ''
-  };
-  isLoading = false;
+  editMode: boolean;
+  rule: Rule;
+  isLoading: boolean;
 
   constructor(private router: Router, private route: ActivatedRoute, private rulesService: RulesService, private apiService: ApiService) {
   }
 
   ngOnInit() {
+    this.isLoading = false;
+
     this.route.params
       .subscribe(
         (params: Params) => {
           this.id = params['id'];
           this.editMode = params['id'] != null;
           if (this.editMode) {
-            const tempRule = this.rulesService.getRule(this.id);
-            console.log(tempRule);
-            this.rule.name = tempRule.name;
-            this.rule.id = tempRule.id;
-            this.rule.action = tempRule.action;
-            this.rule.price = tempRule.price;
-            this.rule.var_action = tempRule.var_action;
-            this.rule.var_perc = tempRule.var_perc;
-            this.rule.name = tempRule.name;
-            this.rule.wallet = tempRule.wallet.currency;
-            this.rule.auto = tempRule.auto;
+            this.rule = this.rulesService.getRule(this.id);
+            console.log(this.rule);
           }
         }
       );
@@ -54,6 +39,7 @@ export class RuleEditComponent implements OnInit {
   onSubmit(form: NgForm) {
     this.isLoading = true;
     if (this.editMode) {
+      console.log('form.value');
       console.log(form.value);
       const data = form.value;
       data['id'] = this.rule.id;

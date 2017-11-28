@@ -4,12 +4,13 @@ import {AuthService} from '../auth/auth.service';
 import {ApiService} from '../api/api.service';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
+import {Rule} from './rule.model';
 
 @Injectable()
 export class RulesService implements OnInit {
   public static MSG_GET_RULES = 'get_rules';
 
-  private rules: any[] = [];
+  private rules: Rule[] = [];
   private messageCenter = new Subject<string>();
 
   constructor(private authService: AuthService, private apiService: ApiService) {
@@ -32,7 +33,7 @@ export class RulesService implements OnInit {
     return this.messageCenter.asObservable();
   }
 
-  getRules() {
+  getRules(): Rule[] {
     return this.rules;
   }
 
@@ -40,7 +41,7 @@ export class RulesService implements OnInit {
     this.rules = rules;
   }
 
-  getRule(id: string) {
+  getRule(id: string): Rule {
     return _.find(this.rules, ['id', id]);
   }
 
