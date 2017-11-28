@@ -1,50 +1,54 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4" *ngIf="authService.isAuthenticated()">
   <img class="navbar-brand" src="assets/logo_top.png" alt="NostradamusBot" (click)="goToHome()" style="width: 170px">
-
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
-          aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarCollapse">
-    <ul class="navbar-nav mr-auto" *ngIf="authService.isAuthenticated()">
+  <div class="collapse navbar-collapse" id="navbarCollapse" [ngbCollapse]="isCollapsed">
+    <ul class="navbar-nav mx-auto">
       <li class="nav-item">
         <a class="nav-link" role="presentation"
            routerLinkActive="active"
            [routerLinkActiveOptions]="{exact: true}"
-           routerLink="/dashboard">
-          <i class="fa fa-tachometer"></i> Dashboard
+           routerLink="/dashboard"
+           (click)="toggleMenu()">
+          Dashboard
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" role="presentation"
            routerLinkActive="active"
-           routerLink="/rules">
-          <i class="fa fa-bars"></i> Rules
+           routerLink="/rules"
+           (click)="toggleMenu()">
+          Rules
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" role="presentation"
            routerLinkActive="active"
            [routerLinkActiveOptions]="{exact: true}"
-           routerLink="/actions">
-          <i class="fa fa-exchange"></i> Actions
+           routerLink="/actions"
+           (click)="toggleMenu()">
+          Actions
         </a>
       </li>
-
+      <li class="nav-item">
+        <a class="nav-link" role="presentation"
+           routerLinkActive="active"
+           [routerLinkActiveOptions]="{exact: true}"
+           routerLink="/settings"
+           (click)="toggleMenu()">
+          Settings
+        </a>
+      </li>
     </ul>
     <ul class="navbar-nav" *ngIf="authService.isAuthenticated()">
+
       <li class="nav-item">
-        <a class="nav-link" role="presentation"
-           routerLinkActive="active"
-           [routerLinkActiveOptions]="{exact: true}"
-           routerLink="/settings">
-          <i class="fa fa-cog"></i> Settings
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link pointer" (click)="signOut()"><i class="fa fa-sign-out"></i> SignOut</a>
+        <a class="nav-link pointer" (click)="signOut()">SignOut</a>
       </li>
     </ul>
   </div>
+  <button class="navbar-toggler navbar-toggler-right" type="button" [hidden]="!isCollapsed"
+          aria-controls="appNavigation" [attr.aria-expanded]="!isCollapsed" aria-label="Toggle navigation"
+          (click)="toggleMenu()">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 </nav>
 
