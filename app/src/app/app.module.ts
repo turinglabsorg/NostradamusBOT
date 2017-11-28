@@ -21,6 +21,7 @@ import {RuleDetailComponent} from './rules/rule-detail/rule-detail.component';
 import {RuleEditComponent} from './rules/rule-edit/rule-edit.component';
 import {RulesService} from './rules/rules.service';
 import {WalletComponent} from './dashboard/wallet/wallet.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import {WalletComponent} from './dashboard/wallet/wallet.component';
     BrowserModule,
     HttpModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    NgbModule.forRoot()
   ],
   providers: [AuthService, AuthGuard, ApiService, RulesService],
   bootstrap: [AppComponent]
