@@ -3,6 +3,7 @@ import {RulesService} from '../rules.service';
 import {ApiService} from '../../api/api.service';
 import {Subscription} from 'rxjs/Subscription';
 import * as _ from 'lodash';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-rules-list',
@@ -12,7 +13,7 @@ import * as _ from 'lodash';
 export class RulesListComponent implements OnInit, OnDestroy {
   rulesMessageSubscription: Subscription;
 
-  constructor(private apiService: ApiService, public rulesService: RulesService) {
+  constructor(private router: Router, private route: ActivatedRoute, private apiService: ApiService, public rulesService: RulesService) {
   }
 
   ngOnInit() {
@@ -44,5 +45,25 @@ export class RulesListComponent implements OnInit, OnDestroy {
     );
   }
 
+  openRuleEditor(id: string) {
+    this.router.navigate([id, 'edit'], {relativeTo: this.route});
+  }
 
+  deleteRule(id: string) {
+    const data = {};
+    data['id'] = id;
+    this.apiService.deleteRule(data).subscribe(
+      (rawResponse) => {
+        if (this.apiService.isSuccessfull(rawResponse)) {
+          const tempRule = this.rulesService.getRule(id);
+          data['wallet'] = tempRule.wallet;
+          this.rulesService.removeRule(data['id']);
+          this.rulesService.sendMessage(RulesService.MSG_GET_RULES);
+          this.router.navigate(['../'], {relativeTo: this.route});
+        } else {
+          console.log('errore');
+        }
+      }
+    );
+  }
 }

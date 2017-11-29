@@ -9,6 +9,7 @@ import {RulesComponent} from './rules/rules.component';
 import {ActionsComponent} from './actions/actions/actions.component';
 import {RuleEditComponent} from './rules/rule-edit/rule-edit.component';
 import {RuleDetailComponent} from './rules/rule-detail/rule-detail.component';
+import {RulesListComponent} from './rules/rules-list/rules-list.component';
 
 const appRoutes: Routes = [
   {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
@@ -16,12 +17,16 @@ const appRoutes: Routes = [
   {path: 'callback', component: AuthComponent},
   {path: 'signin', component: SigninComponent, canActivate: [AuthGuard]},
   {path: 'settings', component: SettingsComponent, canActivate: [AuthGuard]},
-  { path: 'rules', component: RulesComponent, canActivate: [AuthGuard], children: [
-    { path: '', component: RuleDetailComponent },
-    { path: 'new', component: RuleEditComponent },
-    { path: ':id', component: RuleDetailComponent },
-    { path: ':id/edit', component: RuleEditComponent },
-  ] },
+  { path: 'rules', component: RulesListComponent, canActivate: [AuthGuard]},
+  { path: 'rules/new', component: RuleEditComponent, canActivate: [AuthGuard]},
+  // { path: 'rules/:id', component: RuleDetailComponent, canActivate: [AuthGuard]},
+  { path: 'rules/:id/edit', component: RuleEditComponent, canActivate: [AuthGuard]},
+  // { path: 'rules', component: RulesComponent, canActivate: [AuthGuard], children: [
+  //   { path: '', component: RuleDetailComponent },
+  //   { path: 'new', component: RuleEditComponent },
+  //   { path: ':id', component: RuleDetailComponent },
+  //   { path: ':id/edit', component: RuleEditComponent },
+  // ] },
   {path: 'actions', component: ActionsComponent, canActivate: [AuthGuard]}
 
 ];

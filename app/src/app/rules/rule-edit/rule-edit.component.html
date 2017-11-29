@@ -70,8 +70,9 @@
       </div>
 
 
-      <button [disabled]="isLoading" class="btn btn-primary pull-right" type="submit"><span>{{editMode ? 'Save' : 'Create'}}</span>
+      <button [disabled]="isLoading" class="btn btn-success pull-right" type="submit"><span>{{editMode ? 'Save' : 'Create'}}</span>
         <i *ngIf="isLoading" class="fa fa-spinner fa-spin pull-right"></i></button>
+      <button [disabled]="isLoading" class="btn btn-secondary" type="button" (click)="closeEditor()">Close</button>
       <button [disabled]="isLoading" class="btn btn-info" type="reset" (click)="form.reset()">Reset</button>
     </form>
   </div>

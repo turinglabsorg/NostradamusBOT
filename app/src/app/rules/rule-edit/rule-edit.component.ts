@@ -4,6 +4,7 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 import {RulesService} from '../rules.service';
 import {ApiService} from '../../api/api.service';
 import {Rule} from '../rule.model';
+import {isUndefined} from 'util';
 
 @Component({
   selector: 'app-rule-edit',
@@ -46,19 +47,24 @@ export class RuleEditComponent implements OnInit {
       console.log(this.rule);
     }
 
-    this.ruleForm = new FormGroup({});
-    this.ruleForm.addControl('name', new FormControl(this.rule.name));
-    this.ruleForm.addControl('action', new FormControl(this.rule.action, Validators.required));
-    this.ruleForm.addControl('price', new FormControl(this.rule.price, Validators.pattern(/[1-9]+[0-9]*(\.[0-9]+|[0-9]+)/)));
-    this.ruleForm.addControl('var_action', new FormControl(this.rule.var_action));
-    this.ruleForm.addControl('var_perc', new FormControl(this.rule.var_perc, Validators.pattern(/[1-9]+[0-9]*(\.[0-9]+|[0-9]+)/)));
-    this.ruleForm.addControl('amount_eur', new FormControl(this.rule.amount_eur, Validators.pattern(/[1-9]+[0-9]*(\.[0-9]+|[0-9]+)/)));
-    this.ruleForm.addControl('amount_crypto', new FormControl(this.rule.amount_crypto, Validators.pattern(/[1-9]+[0-9]*(\.[0-9]+|[0-9]+)/)));
-    this.ruleForm.addControl('id_rule', new FormControl(this.rule.id_rule));
-    this.ruleForm.addControl('type', new FormControl(this.rule.type));
-    this.ruleForm.addControl('wallet', new FormControl(this.rule.wallet.currency));
-    this.ruleForm.addControl('auto', new FormControl(this.rule.auto));
-    this.ruleForm.addControl('active', new FormControl(this.rule.active));
+    if (isUndefined(this.rule)) {
+      // go back to the rules list if editMode is active and the rule is undefined
+      this.router.navigate(['/rules']);
+    } else {
+      this.ruleForm = new FormGroup({});
+      this.ruleForm.addControl('name', new FormControl(this.rule.name));
+      this.ruleForm.addControl('action', new FormControl(this.rule.action, Validators.required));
+      this.ruleForm.addControl('price', new FormControl(this.rule.price, Validators.pattern(/[1-9]+[0-9]*(\.[0-9]+|[0-9]+)/)));
+      this.ruleForm.addControl('var_action', new FormControl(this.rule.var_action));
+      this.ruleForm.addControl('var_perc', new FormControl(this.rule.var_perc, Validators.pattern(/[1-9]+[0-9]*(\.[0-9]+|[0-9]+)/)));
+      this.ruleForm.addControl('amount_eur', new FormControl(this.rule.amount_eur, Validators.pattern(/[1-9]+[0-9]*(\.[0-9]+|[0-9]+)/)));
+      this.ruleForm.addControl('amount_crypto', new FormControl(this.rule.amount_crypto, Validators.pattern(/[1-9]+[0-9]*(\.[0-9]+|[0-9]+)/)));
+      this.ruleForm.addControl('id_rule', new FormControl(this.rule.id_rule));
+      this.ruleForm.addControl('type', new FormControl(this.rule.type));
+      this.ruleForm.addControl('wallet', new FormControl(this.rule.wallet.currency));
+      this.ruleForm.addControl('auto', new FormControl(this.rule.auto));
+      this.ruleForm.addControl('active', new FormControl(this.rule.active));
+    }
   }
 
   onSubmit() {
@@ -101,5 +107,9 @@ export class RuleEditComponent implements OnInit {
         }
       );
     }
+  }
+
+  closeEditor() {
+    this.router.navigate(['/rules']);
   }
 }
