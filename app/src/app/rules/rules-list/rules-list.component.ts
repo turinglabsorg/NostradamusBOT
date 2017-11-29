@@ -49,6 +49,10 @@ export class RulesListComponent implements OnInit, OnDestroy {
     this.router.navigate([id, 'edit'], {relativeTo: this.route});
   }
 
+  openNewRuleEditor() {
+    this.router.navigate(['new'], {relativeTo: this.route});
+  }
+
   deleteRule(id: string) {
     const data = {};
     data['id'] = id;
