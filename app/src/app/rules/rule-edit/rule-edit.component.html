@@ -1,20 +1,18 @@
 <div class="row">
   <div class="col-md-12">
     <form [formGroup]="ruleForm" (ngSubmit)="onSubmit()">
-      <div class="row">
-        <div class="col-md-12">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
           <div class="form-group">
-            <label for="name">Name (optional)</label>
-            <input type="text" id="name" class="form-control" formControlName="name" name="name">
+            <label for="name"><h6>Set a name, if you want (optional)</h6></label>
+            <input type="text" id="name" class="form-control form-control-lg" formControlName="name" name="name">
           </div>
         </div>
-      </div>
 
-      <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-8 mt-4">
           <div class="form-group">
-            <label for="wallet">Wallet</label>
-            <select id="wallet" class="form-control" name="wallet" formControlName="wallet">
+            <label for="wallet"><h6>Which Wallet you want to use?</h6></label>
+            <select id="wallet" class="form-control form-control-lg" name="wallet" formControlName="wallet" #wallet>
               <option value>Choose a Wallet</option>
               <option value="BTC">BTC Wallet</option>
               <option value="ETH">ETH Wallet</option>
@@ -22,58 +20,158 @@
             </select>
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-8 mt-4">
           <div class="form-group">
-            <label for="action">Action</label>
-            <select id="action" class="form-control" name="action" formControlName="action">
-              <option value>Choose an Action</option>
+            <label for="type"><h6>Are you interested about fixed or variable price?</h6></label>
+            <select id="type" class="form-control form-control-lg" name="type" formControlName="type" #type>
+              <option value>Choose a price type</option>
+              <option value="fixed">Fixed Price</option>
+              <option value="variable">Variable Price</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-8 mt-4" *ngIf="showPriceInput()">
+          <div class="row align-items-center justify-content-center">
+            <div class="col-md-3">
+              <h6 class="text-center">So, if price goes to</h6>
+            </div>
+            <div class="col-md-3">
+              <div class="input-group" style="margin-bottom: 1rem">
+                <input type="number" id="price" class="form-control" name="price" formControlName="price">
+                <span class="input-group-addon"><i class="fa fa-eur"></i></span>
+              </div>
+            </div>
+            <div class="col-md-1">
+              <h6 class="text-center">or</h6>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <select id="price_var" class="form-control" name="price_var" formControlName="price_var">
+                  <option value>Choose</option>
+                  <option value="less">Less</option>
+                  <option value="more">More</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <h6 class="text-center">per {{wallet.value}}</h6>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-8 mt-4" *ngIf="showActionInput()">
+          <div class="form-group">
+            <label for="action"><h6>Then, what you want to do? Buy or sell?</h6></label>
+            <select id="action" class="form-control" name="action" formControlName="action" #action>
+              <option value>Choose</option>
               <option value="buy">Buy</option>
               <option value="sell">Sell</option>
             </select>
           </div>
         </div>
-      </div>
 
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <label for="price">Price</label>
-            <input type="text" id="price" class="form-control" name="price" formControlName="price">
+        <div class="col-md-8 mt-4" *ngIf="showBuyParamsInput()">
+          <div class="row align-items-center justify-content-center">
+            <div class="col-md-2">
+              <h6 class="text-center">Which currency?</h6>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <select id="currency_buy" class="form-control" name="currency_buy" formControlName="currency_buy">
+                  <option value>Choose</option>
+                  <option value="euro">Euro</option>
+                  <option value="{{wallet.value}}">{{wallet.value}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-2" *ngIf="buyEuro() || buyCrypto()">
+              <h6 class="text-center">How much?</h6>
+            </div>
+            <div class="col-md-3" *ngIf="buyEuro()">
+              <div class="input-group" style="margin-bottom: 1rem">
+                <input type="number" id="amount_eur_to_buy" class="form-control" name="amount_eur_to_buy"
+                       formControlName="amount_eur_to_buy">
+                <span class="input-group-addon"><i class="fa fa-eur"></i></span>
+              </div>
+            </div>
+            <div class="col-md-3" *ngIf="buyCrypto()">
+              <div class="input-group" style="margin-bottom: 1rem">
+                <input type="number" id="amount_crypto_to_buy" class="form-control" name="amount_crypto_to_buy"
+                       formControlName="amount_crypto_to_buy">
+              </div>
+            </div>
+            <div class="col-md-1" *ngIf="buyCrypto()">
+              <h6 class="text-center">{{wallet.value}}</h6>
+            </div>
           </div>
         </div>
-        <div class="col-md-6">
-          <div class="form-group">
-            <label for="var_action">Variation</label>
-            <select id="var_action" class="form-control" name="var_action" formControlName="var_action">
-              <option value>Choose a Variation</option>
-              <option value="up">Up</option>
-              <option value="down">Down</option>
-            </select>
+
+        <div class="col-md-8 mt-4" *ngIf="showSellParamsInput()">
+          <div class="row align-items-center justify-content-center">
+            <div class="col-md-2">
+              <h6 class="text-center">How much?</h6>
+            </div>
+            <div class="col-md-3">
+              <div class="input-group" style="margin-bottom: 1rem">
+                <input type="number" id="amount_crypto_to_sell" class="form-control" name="amount_crypto_to_sell"
+                       formControlName="amount_crypto_to_sell">
+              </div>
+            </div>
+            <div class="col-md-1">
+              <h6 class="text-center">{{wallet.value}}</h6>
+            </div>
           </div>
         </div>
-        <div class="col-md-6">
+
+        <div class="col-md-8 mt-4" *ngIf="showAutoInput()">
           <div class="form-group">
-            <label for="var_perc">Percentage</label>
-            <input type="text" id="var_perc" class="form-control" name="var_perc" formControlName="var_perc">
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="form-group">
-            <label for="auto">Auto</label>
+            <label for="auto"><h6>Do you want allow Nostradamus to {{getActionSelected()}} automatically, or you prefer to be just notified?</h6></label>
             <select id="auto" class="form-control" name="auto" formControlName="auto">
               <option value>Choose</option>
-              <option value="yes">Yes</option>
-              <option value="no">No</option>
+              <option value="y">Yes! {{getActionSelected()}} automatically!</option>
+              <option value="n">No! just notify me!</option>
             </select>
           </div>
         </div>
+
+        <!--<div class="col-md-6">-->
+        <!--<div class="form-group">-->
+        <!--<label for="var_action">Variation</label>-->
+        <!--<select id="var_action" class="form-control" name="var_action" formControlName="var_action">-->
+        <!--<option value>Choose a Variation</option>-->
+        <!--<option value="up">Up</option>-->
+        <!--<option value="down">Down</option>-->
+        <!--</select>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--<div class="col-md-6">-->
+        <!--<div class="form-group">-->
+        <!--<label for="var_perc">Percentage</label>-->
+        <!--<input type="text" id="var_perc" class="form-control" name="var_perc" formControlName="var_perc">-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--<div class="col-md-6">-->
+        <!--<div class="form-group">-->
+        <!--<label for="auto">Auto</label>-->
+        <!--<select id="auto" class="form-control" name="auto" formControlName="auto">-->
+        <!--<option value>Choose</option>-->
+        <!--<option value="yes">Yes</option>-->
+        <!--<option value="no">No</option>-->
+        <!--</select>-->
+        <!--</div>-->
+        <!--</div>-->
+
+
       </div>
-
-
-      <button [disabled]="isLoading" class="btn btn-success pull-right" type="submit"><span>{{editMode ? 'Save' : 'Create'}}</span>
-        <i *ngIf="isLoading" class="fa fa-spinner fa-spin pull-right"></i></button>
-      <button [disabled]="isLoading" class="btn btn-secondary" type="button" (click)="closeEditor()">Close</button>
-      <button [disabled]="isLoading" class="btn btn-info" type="reset" (click)="form.reset()">Reset</button>
+      <div class="row justify-content-center">
+        <div class="col-md-10">
+          <button *ngIf="enableSubmit()" class="btn btn-success pull-right" type="submit"><span>{{editMode ? 'Save' : 'Create'}}</span>
+            <i *ngIf="isLoading" class="fa fa-spinner fa-spin pull-right"></i></button>
+          <button [disabled]="isLoading" class="btn btn-secondary" type="button" (click)="closeEditor()">Close</button>
+          <button [disabled]="isLoading" class="btn btn-info" type="reset" (click)="ruleForm.reset()">Reset</button>
+        </div>
+      </div>
     </form>
   </div>
 </div>

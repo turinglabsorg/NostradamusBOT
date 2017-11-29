@@ -54,27 +54,126 @@ export class RuleEditComponent implements OnInit {
       this.ruleForm = new FormGroup({});
       this.ruleForm.addControl('name', new FormControl(this.rule.name));
       this.ruleForm.addControl('action', new FormControl(this.rule.action, Validators.required));
+      this.ruleForm.addControl('type', new FormControl(this.rule.type, Validators.required));
       this.ruleForm.addControl('price', new FormControl(this.rule.price, Validators.pattern(/[1-9]+[0-9]*(\.[0-9]+|[0-9]+)/)));
+      this.ruleForm.addControl('price_var', new FormControl('more', Validators.required));
       this.ruleForm.addControl('var_action', new FormControl(this.rule.var_action));
       this.ruleForm.addControl('var_perc', new FormControl(this.rule.var_perc, Validators.pattern(/[1-9]+[0-9]*(\.[0-9]+|[0-9]+)/)));
-      this.ruleForm.addControl('amount_eur', new FormControl(this.rule.amount_eur, Validators.pattern(/[1-9]+[0-9]*(\.[0-9]+|[0-9]+)/)));
-      this.ruleForm.addControl('amount_crypto', new FormControl(this.rule.amount_crypto, Validators.pattern(/[1-9]+[0-9]*(\.[0-9]+|[0-9]+)/)));
+
+      let amount_eur_to_buy = '';
+      let amount_crypto_to_buy = '';
+      let amount_crypto_to_sell = '';
+      let currency_buy = '';
+      if (this.rule.action === 'buy') {
+        amount_eur_to_buy = this.rule.amount_eur;
+        amount_crypto_to_buy = this.rule.amount_crypto;
+        if (Number(amount_eur_to_buy) > 0) {
+          currency_buy = 'euro';
+        }
+        if (Number(amount_crypto_to_buy) > 0) {
+          currency_buy = this.rule.wallet.currency;
+        }
+      }
+      if (this.rule.action === 'sell') {
+        amount_crypto_to_sell = this.rule.amount_crypto;
+      }
+
+      this.ruleForm.addControl('amount_eur_to_buy', new FormControl(amount_eur_to_buy, Validators.pattern(/[1-9]+[0-9]*(\.[0-9]+|[0-9]+)/)));
+      this.ruleForm.addControl('amount_crypto_to_buy', new FormControl(amount_crypto_to_buy, Validators.pattern(/[1-9]+[0-9]*(\.[0-9]+|[0-9]+)/)));
+      this.ruleForm.addControl('amount_crypto_to_sell', new FormControl(amount_crypto_to_sell, Validators.pattern(/[1-9]+[0-9]*(\.[0-9]+|[0-9]+)/)));
       this.ruleForm.addControl('id_rule', new FormControl(this.rule.id_rule));
       this.ruleForm.addControl('type', new FormControl(this.rule.type));
       this.ruleForm.addControl('wallet', new FormControl(this.rule.wallet.currency));
       this.ruleForm.addControl('auto', new FormControl(this.rule.auto));
       this.ruleForm.addControl('active', new FormControl(this.rule.active));
+
+      this.ruleForm.addControl('currency_buy', new FormControl(currency_buy, Validators.required));
     }
+  }
+
+  getActionSelected(): string {
+    return this.ruleForm.controls['action'].value ? this.ruleForm.controls['action'].value : '';
+  }
+
+  showPriceInput(): boolean {
+    return this.ruleForm.controls['type'].value === 'fixed' &&
+      this.ruleForm.controls['wallet'].value !== '';
+  }
+
+  showActionInput(): boolean {
+    return this.showPriceInput() &&
+      Number(this.ruleForm.controls['price'].value) > 0 &&
+      this.ruleForm.controls['price_var'].value !== '';
+  }
+
+  showBuyParamsInput(): boolean {
+    return this.showActionInput() && this.ruleForm.controls['action'].value === 'buy';
+  }
+
+  buyEuro(): boolean {
+    return this.ruleForm.controls['currency_buy'].value === 'euro';
+  }
+
+  buyCrypto(): boolean {
+    return this.ruleForm.controls['currency_buy'].value === this.ruleForm.controls['wallet'].value;
+  }
+
+  showSellParamsInput(): boolean {
+    return this.showActionInput() && this.ruleForm.controls['action'].value === 'sell';
+  }
+
+  showAutoInput(): boolean {
+    if (this.showBuyParamsInput()) {
+      if (this.buyEuro()) {
+        return Number(this.ruleForm.controls['amount_eur_to_buy'].value) > 0;
+      }
+      if (this.buyCrypto()) {
+        return Number(this.ruleForm.controls['amount_crypto_to_buy'].value) > 0;
+      }
+      return false;
+    }
+    if (this.showSellParamsInput()) {
+      return Number(this.ruleForm.controls['amount_crypto_to_sell'].value) > 0;
+    }
+  }
+
+  enableSubmit() {
+    return this.showAutoInput() && this.ruleForm.controls['auto'].value;
   }
 
   onSubmit() {
     this.isLoading = true;
+
+    const data = this.ruleForm.value;
+    data['id_rule'] = '';
+    data['active'] = 'yes';
+    data['public'] = 'no';
+    data['price'] = data['price'].toString();
+
+    if (data['action'] === 'buy') {
+      if (data['currency_buy'] === 'euro') {
+        data['amount_eur'] = data['amount_eur_to_buy'].toString();
+        data['amount_crypto'] = '';
+      }
+      if (data['currency_buy'] === data['wallet']) {
+        data['amount_crypto'] = data['amount_crypto_to_buy'].toString();
+        data['amount_eur'] = '';
+      }
+    }
+    if (data['action'] === 'sell') {
+      data['amount_crypto'] = data['amount_crypto_to_sell'].toString();
+      data['amount_eur'] = '';
+    }
+    delete data['amount_eur_to_buy'];
+    delete data['amount_crypto_to_buy'];
+    delete data['amount_crypto_to_sell'];
+    delete data['currency_buy'];
+
+    console.log('rule data');
+    console.log(data);
+
     if (this.editMode) {
-      console.log('form.value');
-      console.log(this.ruleForm.value);
-      const data = this.ruleForm.value;
       data['id'] = this.rule.id;
-      data['id_rule'] = '';
       this.apiService.editRule(this.ruleForm.value).subscribe(
         (rawResponse) => {
           if (this.apiService.isSuccessfull(rawResponse)) {
@@ -83,7 +182,7 @@ export class RuleEditComponent implements OnInit {
             this.rulesService.setRule(data['id'], data);
             this.rulesService.sendMessage(RulesService.MSG_GET_RULES);
             this.ruleForm.reset();
-            this.router.navigate(['../'], {relativeTo: this.route});
+            this.router.navigate(['rules']);
             this.isLoading = false;
           } else {
             console.log('errore');
@@ -91,15 +190,13 @@ export class RuleEditComponent implements OnInit {
         }
       );
     } else {
-      const data = this.ruleForm.value;
-      data['id_rule'] = '';
       this.apiService.createRule(data).subscribe(
         (rawResponse) => {
           if (this.apiService.isSuccessfull(rawResponse)) {
             this.rulesService.sendMessage(RulesService.MSG_GET_RULES);
             this.rulesService.addRule(this.ruleForm.value);
             this.ruleForm.reset();
-            this.router.navigate(['../'], {relativeTo: this.route});
+            this.router.navigate(['rules']);
             this.isLoading = false;
           } else {
             console.log('errore');

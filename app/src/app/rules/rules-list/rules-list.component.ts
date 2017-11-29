@@ -63,7 +63,6 @@ export class RulesListComponent implements OnInit, OnDestroy {
           data['wallet'] = tempRule.wallet;
           this.rulesService.removeRule(data['id']);
           this.rulesService.sendMessage(RulesService.MSG_GET_RULES);
-          this.router.navigate(['../'], {relativeTo: this.route});
         } else {
           console.log('errore');
         }
