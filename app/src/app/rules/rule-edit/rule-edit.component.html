@@ -9,7 +9,7 @@
           </div>
         </div>
 
-        <div class="col-md-8 mt-4">
+        <div class="col-md-8 mt-2">
           <div class="form-group">
             <label for="wallet"><h6>Which Wallet you want to use?</h6></label>
             <select id="wallet" class="form-control form-control-lg" name="wallet" formControlName="wallet" #wallet>
@@ -20,7 +20,7 @@
             </select>
           </div>
         </div>
-        <div class="col-md-8 mt-4">
+        <div class="col-md-8 mt-2">
           <div class="form-group">
             <label for="type"><h6>Are you interested about fixed or variable price?</h6></label>
             <select id="type" class="form-control form-control-lg" name="type" formControlName="type" #type>
@@ -31,7 +31,7 @@
           </div>
         </div>
 
-        <div class="col-md-8 mt-4" *ngIf="showPriceInput()">
+        <div class="col-md-8 mt-2" *ngIf="showPriceInput()">
           <div class="row align-items-center justify-content-center">
             <div class="col-md-3">
               <h6 class="text-center">So, if price goes to</h6>
@@ -60,7 +60,7 @@
           </div>
         </div>
 
-        <div class="col-md-8 mt-4" *ngIf="showActionInput()">
+        <div class="col-md-8 mt-2" *ngIf="showActionInput()">
           <div class="form-group">
             <label for="action"><h6>Then, what you want to do? Buy or sell?</h6></label>
             <select id="action" class="form-control" name="action" formControlName="action" #action>
@@ -71,7 +71,7 @@
           </div>
         </div>
 
-        <div class="col-md-8 mt-4" *ngIf="showBuyParamsInput()">
+        <div class="col-md-8 mt-2" *ngIf="showBuyParamsInput()">
           <div class="row align-items-center justify-content-center">
             <div class="col-md-2">
               <h6 class="text-center">Which currency?</h6>
@@ -107,7 +107,7 @@
           </div>
         </div>
 
-        <div class="col-md-8 mt-4" *ngIf="showSellParamsInput()">
+        <div class="col-md-8 mt-2" *ngIf="showSellParamsInput()">
           <div class="row align-items-center justify-content-center">
             <div class="col-md-2">
               <h6 class="text-center">How much?</h6>
@@ -124,7 +124,7 @@
           </div>
         </div>
 
-        <div class="col-md-8 mt-4" *ngIf="showAutoInput()">
+        <div class="col-md-8 mt-2" *ngIf="showAutoInput()">
           <div class="form-group">
             <label for="auto"><h6>Do you want allow Nostradamus to {{getActionSelected()}} automatically, or you prefer to be just notified?</h6></label>
             <select id="auto" class="form-control" name="auto" formControlName="auto">
@@ -164,7 +164,7 @@
 
 
       </div>
-      <div class="row justify-content-center">
+      <div class="row justify-content-center mt-4 mb-4">
         <div class="col-md-10">
           <button *ngIf="enableSubmit()" class="btn btn-success pull-right" type="submit"><span>{{editMode ? 'Save' : 'Create'}}</span>
             <i *ngIf="isLoading" class="fa fa-spinner fa-spin pull-right"></i></button>
