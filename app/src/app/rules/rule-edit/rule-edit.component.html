@@ -9,12 +9,12 @@
           </div>
         </div>
 
-        <div class="col-md-8 mt-2">
+        <div class="col-md-8 mt-2" *ngIf="rulesToPick.length > 0">
           <div class="form-group">
             <label for="rule_id"><h6>Do you want connect this new rule to an existing one? (optional)</h6></label>
             <select id="rule_id" class="form-control form-control-lg" name="rule_id" formControlName="rule_id">
               <option value>Select a rule</option>
-              <option *ngFor="let rule of rulesService.getRules()" value="{{rule.id}}">{{rule.name}}</option>
+              <option *ngFor="let rule of rulesToPick" value="{{rule.id}}">{{rule.name}}</option>
             </select>
           </div>
         </div>

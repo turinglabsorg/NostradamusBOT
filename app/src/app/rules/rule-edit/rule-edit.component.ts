@@ -7,6 +7,7 @@ import {Rule} from '../rule.model';
 import {isUndefined} from 'util';
 import {CustomValidators} from 'ng2-validation';
 import {AuthService} from '../../auth/auth.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-rule-edit',
@@ -19,6 +20,7 @@ export class RuleEditComponent implements OnInit {
   editMode: boolean;
   rule: Rule;
   isLoading: boolean;
+  rulesToPick: Rule[];
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -30,6 +32,7 @@ export class RuleEditComponent implements OnInit {
   ngOnInit() {
     this.isLoading = false;
     this.rule = new Rule();
+    this.ruleForm = new FormGroup({});
 
     this.route.params
       .subscribe(
@@ -40,51 +43,52 @@ export class RuleEditComponent implements OnInit {
             this.rule = this.rulesService.getRule(this.id);
             console.log(this.rule);
           }
-          this.initForm();
+
+          if (isUndefined(this.rule)) {
+            // go back to the rules list if editMode is active and the rule is undefined
+            this.router.navigate(['/rules']);
+          } else {
+
+            this.rulesToPick = this.rulesService.getRules().slice();
+            if (this.editMode) {
+              const ruleID = this.rule.id;
+              this.rulesToPick = _.remove(this.rulesToPick, function (itemRule) {
+                return itemRule.id !== ruleID;
+              });
+            }
+            this.initForm();
+          }
         }
       );
   }
 
   private initForm() {
-    this.rule = new Rule();
+    this.ruleForm.addControl('name', new FormControl(this.rule.name));
+    this.ruleForm.addControl('rule_id', new FormControl(this.rule.action, Validators.required));
+    this.ruleForm.addControl('action', new FormControl(this.rule.action, Validators.required));
+    this.ruleForm.addControl('type', new FormControl(this.rule.type, Validators.required));
+    this.ruleForm.addControl('price', new FormControl(this.rule.price, [CustomValidators.gt(0), CustomValidators.number]));
+    this.ruleForm.addControl('price_var', new FormControl(this.rule.price_var, Validators.required));
+    this.ruleForm.addControl('var_action', new FormControl(this.rule.var_action));
+    this.ruleForm.addControl('var_perc', new FormControl(this.rule.var_perc, [CustomValidators.gt(0), CustomValidators.number]));
 
-    if (this.editMode) {
-      this.rule = this.rulesService.getRule(this.id);
-      console.log(this.rule);
+    let currency_buy_or_sell = '';
+    if (Number(this.rule.amount_eur) > 0) {
+      currency_buy_or_sell = 'euro';
+    }
+    if (Number(this.rule.amount_crypto) > 0) {
+      currency_buy_or_sell = this.rule.wallet.currency;
     }
 
-    if (isUndefined(this.rule)) {
-      // go back to the rules list if editMode is active and the rule is undefined
-      this.router.navigate(['/rules']);
-    } else {
-      this.ruleForm = new FormGroup({});
-      this.ruleForm.addControl('name', new FormControl(this.rule.name));
-      this.ruleForm.addControl('rule_id', new FormControl(this.rule.action, Validators.required));
-      this.ruleForm.addControl('action', new FormControl(this.rule.action, Validators.required));
-      this.ruleForm.addControl('type', new FormControl(this.rule.type, Validators.required));
-      this.ruleForm.addControl('price', new FormControl(this.rule.price, [CustomValidators.gt(0), CustomValidators.number]));
-      this.ruleForm.addControl('price_var', new FormControl(this.rule.price_var, Validators.required));
-      this.ruleForm.addControl('var_action', new FormControl(this.rule.var_action));
-      this.ruleForm.addControl('var_perc', new FormControl(this.rule.var_perc, [CustomValidators.gt(0), CustomValidators.number]));
+    this.ruleForm.addControl('amount_eur', new FormControl(this.rule.amount_eur, [CustomValidators.gt(0), CustomValidators.number]));
+    this.ruleForm.addControl('amount_crypto', new FormControl(this.rule.amount_crypto, [CustomValidators.gt(0), CustomValidators.number]));
+    this.ruleForm.addControl('id_rule', new FormControl(this.rule.id_rule));
+    this.ruleForm.addControl('type', new FormControl(this.rule.type));
+    this.ruleForm.addControl('wallet', new FormControl(this.rule.wallet.currency));
+    this.ruleForm.addControl('auto', new FormControl(this.rule.auto));
+    this.ruleForm.addControl('active', new FormControl(this.rule.active));
 
-      let currency_buy_or_sell = '';
-      if (Number(this.rule.amount_eur) > 0) {
-        currency_buy_or_sell = 'euro';
-      }
-      if (Number(this.rule.amount_crypto) > 0) {
-        currency_buy_or_sell = this.rule.wallet.currency;
-      }
-
-      this.ruleForm.addControl('amount_eur', new FormControl(this.rule.amount_eur, [CustomValidators.gt(0), CustomValidators.number]));
-      this.ruleForm.addControl('amount_crypto', new FormControl(this.rule.amount_crypto, [CustomValidators.gt(0), CustomValidators.number]));
-      this.ruleForm.addControl('id_rule', new FormControl(this.rule.id_rule));
-      this.ruleForm.addControl('type', new FormControl(this.rule.type));
-      this.ruleForm.addControl('wallet', new FormControl(this.rule.wallet.currency));
-      this.ruleForm.addControl('auto', new FormControl(this.rule.auto));
-      this.ruleForm.addControl('active', new FormControl(this.rule.active));
-
-      this.ruleForm.addControl('currency_buy_or_sell', new FormControl(currency_buy_or_sell, Validators.required));
-    }
+    this.ruleForm.addControl('currency_buy_or_sell', new FormControl(currency_buy_or_sell, Validators.required));
   }
 
 
