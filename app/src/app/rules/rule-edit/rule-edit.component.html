@@ -38,7 +38,7 @@
             </div>
             <div class="col-md-3">
               <div class="input-group" style="margin-bottom: 1rem">
-                <input type="number" id="price" class="form-control" name="price" formControlName="price">
+                <input type="number" min="0" step="0.0001" id="price" class="form-control" name="price" formControlName="price">
                 <span class="input-group-addon"><i class="fa fa-eur"></i></span>
               </div>
             </div>
@@ -90,14 +90,14 @@
             </div>
             <div class="col-md-3" *ngIf="buyEuro()">
               <div class="input-group" style="margin-bottom: 1rem">
-                <input type="number" id="amount_eur_to_buy" class="form-control" name="amount_eur_to_buy"
+                <input type="number" min="0" step="0.0001" id="amount_eur_to_buy" class="form-control" name="amount_eur_to_buy"
                        formControlName="amount_eur_to_buy">
                 <span class="input-group-addon"><i class="fa fa-eur"></i></span>
               </div>
             </div>
             <div class="col-md-3" *ngIf="buyCrypto()">
               <div class="input-group" style="margin-bottom: 1rem">
-                <input type="number" id="amount_crypto_to_buy" class="form-control" name="amount_crypto_to_buy"
+                <input type="number" min="0" step="0.0001" id="amount_crypto_to_buy" class="form-control" name="amount_crypto_to_buy"
                        formControlName="amount_crypto_to_buy">
               </div>
             </div>
@@ -114,7 +114,7 @@
             </div>
             <div class="col-md-3">
               <div class="input-group" style="margin-bottom: 1rem">
-                <input type="number" id="amount_crypto_to_sell" class="form-control" name="amount_crypto_to_sell"
+                <input type="number" min="0" step="0.0001" id="amount_crypto_to_sell" class="form-control" name="amount_crypto_to_sell"
                        formControlName="amount_crypto_to_sell">
               </div>
             </div>

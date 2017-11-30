@@ -5,6 +5,7 @@ import {RulesService} from '../rules.service';
 import {ApiService} from '../../api/api.service';
 import {Rule} from '../rule.model';
 import {isUndefined} from 'util';
+import {CustomValidators} from 'ng2-validation';
 
 @Component({
   selector: 'app-rule-edit',
@@ -55,10 +56,10 @@ export class RuleEditComponent implements OnInit {
       this.ruleForm.addControl('name', new FormControl(this.rule.name));
       this.ruleForm.addControl('action', new FormControl(this.rule.action, Validators.required));
       this.ruleForm.addControl('type', new FormControl(this.rule.type, Validators.required));
-      this.ruleForm.addControl('price', new FormControl(this.rule.price, Validators.pattern(/[1-9]+[0-9]*(\.[0-9]+|[0-9]+)/)));
-      this.ruleForm.addControl('price_var', new FormControl('more', Validators.required));
+      this.ruleForm.addControl('price', new FormControl(this.rule.price, [CustomValidators.gt(0), CustomValidators.number]));
+      this.ruleForm.addControl('price_var', new FormControl(this.rule.price_var, Validators.required));
       this.ruleForm.addControl('var_action', new FormControl(this.rule.var_action));
-      this.ruleForm.addControl('var_perc', new FormControl(this.rule.var_perc, Validators.pattern(/[1-9]+[0-9]*(\.[0-9]+|[0-9]+)/)));
+      this.ruleForm.addControl('var_perc', new FormControl(this.rule.var_perc, [CustomValidators.gt(0), CustomValidators.number]));
 
       let amount_eur_to_buy = '';
       let amount_crypto_to_buy = '';
@@ -78,9 +79,9 @@ export class RuleEditComponent implements OnInit {
         amount_crypto_to_sell = this.rule.amount_crypto;
       }
 
-      this.ruleForm.addControl('amount_eur_to_buy', new FormControl(amount_eur_to_buy, Validators.pattern(/[1-9]+[0-9]*(\.[0-9]+|[0-9]+)/)));
-      this.ruleForm.addControl('amount_crypto_to_buy', new FormControl(amount_crypto_to_buy, Validators.pattern(/[1-9]+[0-9]*(\.[0-9]+|[0-9]+)/)));
-      this.ruleForm.addControl('amount_crypto_to_sell', new FormControl(amount_crypto_to_sell, Validators.pattern(/[1-9]+[0-9]*(\.[0-9]+|[0-9]+)/)));
+      this.ruleForm.addControl('amount_eur_to_buy', new FormControl(amount_eur_to_buy, [CustomValidators.gt(0), CustomValidators.number]));
+      this.ruleForm.addControl('amount_crypto_to_buy', new FormControl(amount_crypto_to_buy, [CustomValidators.gt(0), CustomValidators.number]));
+      this.ruleForm.addControl('amount_crypto_to_sell', new FormControl(amount_crypto_to_sell, [CustomValidators.gt(0), CustomValidators.number]));
       this.ruleForm.addControl('id_rule', new FormControl(this.rule.id_rule));
       this.ruleForm.addControl('type', new FormControl(this.rule.type));
       this.ruleForm.addControl('wallet', new FormControl(this.rule.wallet.currency));
@@ -90,6 +91,7 @@ export class RuleEditComponent implements OnInit {
       this.ruleForm.addControl('currency_buy', new FormControl(currency_buy, Validators.required));
     }
   }
+
 
   getActionSelected(): string {
     return this.ruleForm.controls['action'].value ? this.ruleForm.controls['action'].value : '';
