@@ -22,6 +22,7 @@ import {RuleEditComponent} from './rules/rule-edit/rule-edit.component';
 import {RulesService} from './rules/rules.service';
 import {WalletComponent} from './dashboard/wallet/wallet.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {CustomFormsModule} from 'ng2-validation';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    CustomFormsModule,
     NgbModule.forRoot()
   ],
   providers: [AuthService, AuthGuard, ApiService, RulesService],
