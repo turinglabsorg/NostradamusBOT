@@ -24,9 +24,9 @@
             <label for="wallet"><h6>Which Wallet you want to use?</h6></label>
             <select id="wallet" class="form-control form-control-lg" name="wallet" formControlName="wallet" #wallet>
               <option value>Choose a Wallet</option>
-              <option value="BTC">BTC Wallet</option>
-              <option value="ETH">ETH Wallet</option>
-              <option value="LTC">LTC Wallet</option>
+              <option *ngIf="authService.isCoinbaseWalletAuthorized('BTC')" value="BTC">BTC Wallet</option>
+              <option *ngIf="authService.isCoinbaseWalletAuthorized('ETH')" value="ETH">ETH Wallet</option>
+              <option *ngIf="authService.isCoinbaseWalletAuthorized('LTC')" value="LTC">LTC Wallet</option>
             </select>
           </div>
         </div>

@@ -6,6 +6,7 @@ import {ApiService} from '../../api/api.service';
 import {Rule} from '../rule.model';
 import {isUndefined} from 'util';
 import {CustomValidators} from 'ng2-validation';
+import {AuthService} from '../../auth/auth.service';
 
 @Component({
   selector: 'app-rule-edit',
@@ -19,7 +20,11 @@ export class RuleEditComponent implements OnInit {
   rule: Rule;
   isLoading: boolean;
 
-  constructor(private router: Router, private route: ActivatedRoute, public rulesService: RulesService, private apiService: ApiService) {
+  constructor(private router: Router,
+              private route: ActivatedRoute,
+              public rulesService: RulesService,
+              private apiService: ApiService,
+              public authService: AuthService) {
   }
 
   ngOnInit() {

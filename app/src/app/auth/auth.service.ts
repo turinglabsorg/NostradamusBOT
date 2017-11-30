@@ -193,6 +193,14 @@ export class AuthService {
     }
   }
 
+  isCoinbaseWalletAuthorized(currencyCode: string): boolean {
+    if (this.getCoinbaseToken('refresh', currencyCode)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   requestCoinbaseUser(accessToken: string) {
     const headers = new Headers();
     headers.append('Authorization', 'Bearer ' + accessToken);
