@@ -19,6 +19,20 @@ export class AuthGuard implements CanActivate, CanActivateChild, OnInit {
     console.log('url = ' + state.url);
     if (this.authService.isAuthenticated()) {
       console.log('utente autenticato - OK');
+      if (state.url === '/rules') {
+        /* refresh user in rules page */
+        this.authService.checkUserStoredData().subscribe(
+          (rawResponse) => {
+            const response = this.apiService.parseAPIResponse(rawResponse);
+            this.authService.setCurrentUser(response);
+            this.authService.setCoinbaseTokens(response);
+          }, (error) => {
+            this.authService.setCurrentUser({});
+            this.authService.resetCoinbaseTokens();
+            this.authService.signOut();
+            this.router.navigate(['/signin']);
+          });
+      }
       return true;
     } else {
       if (this.authService.areUserDataPresentInLocalStorage()) {
