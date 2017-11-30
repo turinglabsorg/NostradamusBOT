@@ -18,7 +18,7 @@ export class AuthService {
   COINBASE_CLIENT_SECRET = 'b01858df10ae0806196c9e96ce7df280ddc15f6a5b65e82f23c8332acc64baea';
   COINBASE_REDIRECT_URI = 'https://app.nostradamusbot.com/callback';
   COINBASE_RESPONSE_TYPE = 'code';
-  COINBASE_SCOPE = 'wallet:user:read,wallet:user:email,wallet:accounts:read,wallet:sells:create,wallet:buys:create';
+  COINBASE_SCOPE = 'wallet:user:read,wallet:user:email,wallet:accounts:read,wallet:sells:create,wallet:buys:create,wallet:buys:read,wallet:sells:read';
   COINBASE_GRANT_TYPE_AUTH_CODE = 'authorization_code';
 
   /* API Key */
