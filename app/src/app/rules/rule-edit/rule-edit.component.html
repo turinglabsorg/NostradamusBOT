@@ -11,6 +11,16 @@
 
         <div class="col-md-8 mt-2">
           <div class="form-group">
+            <label for="rule_id"><h6>Do you want connect this new rule to an existing one? (optional)</h6></label>
+            <select id="rule_id" class="form-control form-control-lg" name="rule_id" formControlName="rule_id">
+              <option value>Select a rule</option>
+              <option *ngFor="let rule of rulesService.getRules()" value="{{rule.id}}">{{rule.name}}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-8 mt-2">
+          <div class="form-group">
             <label for="wallet"><h6>Which Wallet you want to use?</h6></label>
             <select id="wallet" class="form-control form-control-lg" name="wallet" formControlName="wallet" #wallet>
               <option value>Choose a Wallet</option>
@@ -71,58 +81,58 @@
           </div>
         </div>
 
-        <div class="col-md-8 mt-2" *ngIf="showBuyParamsInput()">
+        <div class="col-md-8 mt-2" *ngIf="showBuyOrSellParamsInput()">
           <div class="row align-items-center justify-content-center">
             <div class="col-md-2">
               <h6 class="text-center">Which currency?</h6>
             </div>
             <div class="col-md-3">
               <div class="form-group">
-                <select id="currency_buy" class="form-control" name="currency_buy" formControlName="currency_buy">
+                <select id="currency_buy_or_sell" class="form-control" name="currency_buy_or_sell" formControlName="currency_buy_or_sell">
                   <option value>Choose</option>
                   <option value="euro">Euro</option>
                   <option value="{{wallet.value}}">{{wallet.value}}</option>
                 </select>
               </div>
             </div>
-            <div class="col-md-2" *ngIf="buyEuro() || buyCrypto()">
+            <div class="col-md-2" *ngIf="buyOrSellEuro() || buyOrSellCrypto()">
               <h6 class="text-center">How much?</h6>
             </div>
-            <div class="col-md-3" *ngIf="buyEuro()">
+            <div class="col-md-3" *ngIf="buyOrSellEuro()">
               <div class="input-group" style="margin-bottom: 1rem">
-                <input type="number" min="0" step="0.0001" id="amount_eur_to_buy" class="form-control" name="amount_eur_to_buy"
-                       formControlName="amount_eur_to_buy">
+                <input type="number" min="0" step="0.0001" id="amount_eur" class="form-control" name="amount_eur"
+                       formControlName="amount_eur">
                 <span class="input-group-addon"><i class="fa fa-eur"></i></span>
               </div>
             </div>
-            <div class="col-md-3" *ngIf="buyCrypto()">
+            <div class="col-md-3" *ngIf="buyOrSellCrypto()">
               <div class="input-group" style="margin-bottom: 1rem">
-                <input type="number" min="0" step="0.0001" id="amount_crypto_to_buy" class="form-control" name="amount_crypto_to_buy"
-                       formControlName="amount_crypto_to_buy">
+                <input type="number" min="0" step="0.0001" id="amount_crypto" class="form-control" name="amount_crypto"
+                       formControlName="amount_crypto">
               </div>
             </div>
-            <div class="col-md-1" *ngIf="buyCrypto()">
+            <div class="col-md-1" *ngIf="buyOrSellCrypto()">
               <h6 class="text-center">{{wallet.value}}</h6>
             </div>
           </div>
         </div>
 
-        <div class="col-md-8 mt-2" *ngIf="showSellParamsInput()">
-          <div class="row align-items-center justify-content-center">
-            <div class="col-md-2">
-              <h6 class="text-center">How much?</h6>
-            </div>
-            <div class="col-md-3">
-              <div class="input-group" style="margin-bottom: 1rem">
-                <input type="number" min="0" step="0.0001" id="amount_crypto_to_sell" class="form-control" name="amount_crypto_to_sell"
-                       formControlName="amount_crypto_to_sell">
-              </div>
-            </div>
-            <div class="col-md-1">
-              <h6 class="text-center">{{wallet.value}}</h6>
-            </div>
-          </div>
-        </div>
+        <!--<div class="col-md-8 mt-2" *ngIf="showSellParamsInput()">-->
+          <!--<div class="row align-items-center justify-content-center">-->
+            <!--<div class="col-md-2">-->
+              <!--<h6 class="text-center">How much?</h6>-->
+            <!--</div>-->
+            <!--<div class="col-md-3">-->
+              <!--<div class="input-group" style="margin-bottom: 1rem">-->
+                <!--<input type="number" min="0" step="0.0001" id="amount_crypto_to_sell" class="form-control" name="amount_crypto_to_sell"-->
+                       <!--formControlName="amount_crypto_to_sell">-->
+              <!--</div>-->
+            <!--</div>-->
+            <!--<div class="col-md-1">-->
+              <!--<h6 class="text-center">{{wallet.value}}</h6>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
 
         <div class="col-md-8 mt-2" *ngIf="showAutoInput()">
           <div class="form-group">

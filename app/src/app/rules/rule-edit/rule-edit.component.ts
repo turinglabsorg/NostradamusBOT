@@ -19,7 +19,7 @@ export class RuleEditComponent implements OnInit {
   rule: Rule;
   isLoading: boolean;
 
-  constructor(private router: Router, private route: ActivatedRoute, private rulesService: RulesService, private apiService: ApiService) {
+  constructor(private router: Router, private route: ActivatedRoute, public rulesService: RulesService, private apiService: ApiService) {
   }
 
   ngOnInit() {
@@ -54,6 +54,7 @@ export class RuleEditComponent implements OnInit {
     } else {
       this.ruleForm = new FormGroup({});
       this.ruleForm.addControl('name', new FormControl(this.rule.name));
+      this.ruleForm.addControl('rule_id', new FormControl(this.rule.action, Validators.required));
       this.ruleForm.addControl('action', new FormControl(this.rule.action, Validators.required));
       this.ruleForm.addControl('type', new FormControl(this.rule.type, Validators.required));
       this.ruleForm.addControl('price', new FormControl(this.rule.price, [CustomValidators.gt(0), CustomValidators.number]));
@@ -61,34 +62,23 @@ export class RuleEditComponent implements OnInit {
       this.ruleForm.addControl('var_action', new FormControl(this.rule.var_action));
       this.ruleForm.addControl('var_perc', new FormControl(this.rule.var_perc, [CustomValidators.gt(0), CustomValidators.number]));
 
-      let amount_eur_to_buy = '';
-      let amount_crypto_to_buy = '';
-      let amount_crypto_to_sell = '';
-      let currency_buy = '';
-      if (this.rule.action === 'buy') {
-        amount_eur_to_buy = this.rule.amount_eur;
-        amount_crypto_to_buy = this.rule.amount_crypto;
-        if (Number(amount_eur_to_buy) > 0) {
-          currency_buy = 'euro';
-        }
-        if (Number(amount_crypto_to_buy) > 0) {
-          currency_buy = this.rule.wallet.currency;
-        }
+      let currency_buy_or_sell = '';
+      if (Number(this.rule.amount_eur) > 0) {
+        currency_buy_or_sell = 'euro';
       }
-      if (this.rule.action === 'sell') {
-        amount_crypto_to_sell = this.rule.amount_crypto;
+      if (Number(this.rule.amount_crypto) > 0) {
+        currency_buy_or_sell = this.rule.wallet.currency;
       }
 
-      this.ruleForm.addControl('amount_eur_to_buy', new FormControl(amount_eur_to_buy, [CustomValidators.gt(0), CustomValidators.number]));
-      this.ruleForm.addControl('amount_crypto_to_buy', new FormControl(amount_crypto_to_buy, [CustomValidators.gt(0), CustomValidators.number]));
-      this.ruleForm.addControl('amount_crypto_to_sell', new FormControl(amount_crypto_to_sell, [CustomValidators.gt(0), CustomValidators.number]));
+      this.ruleForm.addControl('amount_eur', new FormControl(this.rule.amount_eur, [CustomValidators.gt(0), CustomValidators.number]));
+      this.ruleForm.addControl('amount_crypto', new FormControl(this.rule.amount_crypto, [CustomValidators.gt(0), CustomValidators.number]));
       this.ruleForm.addControl('id_rule', new FormControl(this.rule.id_rule));
       this.ruleForm.addControl('type', new FormControl(this.rule.type));
       this.ruleForm.addControl('wallet', new FormControl(this.rule.wallet.currency));
       this.ruleForm.addControl('auto', new FormControl(this.rule.auto));
       this.ruleForm.addControl('active', new FormControl(this.rule.active));
 
-      this.ruleForm.addControl('currency_buy', new FormControl(currency_buy, Validators.required));
+      this.ruleForm.addControl('currency_buy_or_sell', new FormControl(currency_buy_or_sell, Validators.required));
     }
   }
 
@@ -108,34 +98,28 @@ export class RuleEditComponent implements OnInit {
       this.ruleForm.controls['price_var'].value !== '';
   }
 
-  showBuyParamsInput(): boolean {
-    return this.showActionInput() && this.ruleForm.controls['action'].value === 'buy';
+  showBuyOrSellParamsInput(): boolean {
+    return this.showActionInput() && this.ruleForm.controls['action'].value === 'buy' ||
+      this.showActionInput() && this.ruleForm.controls['action'].value === 'sell';
   }
 
-  buyEuro(): boolean {
-    return this.ruleForm.controls['currency_buy'].value === 'euro';
+  buyOrSellEuro(): boolean {
+    return this.ruleForm.controls['currency_buy_or_sell'].value === 'euro';
   }
 
-  buyCrypto(): boolean {
-    return this.ruleForm.controls['currency_buy'].value === this.ruleForm.controls['wallet'].value;
-  }
-
-  showSellParamsInput(): boolean {
-    return this.showActionInput() && this.ruleForm.controls['action'].value === 'sell';
+  buyOrSellCrypto(): boolean {
+    return this.ruleForm.controls['currency_buy_or_sell'].value === this.ruleForm.controls['wallet'].value;
   }
 
   showAutoInput(): boolean {
-    if (this.showBuyParamsInput()) {
-      if (this.buyEuro()) {
-        return Number(this.ruleForm.controls['amount_eur_to_buy'].value) > 0;
+    if (this.showBuyOrSellParamsInput()) {
+      if (this.buyOrSellEuro()) {
+        return Number(this.ruleForm.controls['amount_eur'].value) > 0;
       }
-      if (this.buyCrypto()) {
-        return Number(this.ruleForm.controls['amount_crypto_to_buy'].value) > 0;
+      if (this.buyOrSellCrypto()) {
+        return Number(this.ruleForm.controls['amount_crypto'].value) > 0;
       }
       return false;
-    }
-    if (this.showSellParamsInput()) {
-      return Number(this.ruleForm.controls['amount_crypto_to_sell'].value) > 0;
     }
   }
 
@@ -152,24 +136,17 @@ export class RuleEditComponent implements OnInit {
     data['public'] = 'no';
     data['price'] = data['price'].toString();
 
-    if (data['action'] === 'buy') {
-      if (data['currency_buy'] === 'euro') {
-        data['amount_eur'] = data['amount_eur_to_buy'].toString();
-        data['amount_crypto'] = '';
-      }
-      if (data['currency_buy'] === data['wallet']) {
-        data['amount_crypto'] = data['amount_crypto_to_buy'].toString();
-        data['amount_eur'] = '';
-      }
+
+    if (data['currency_buy_or_sell'] === 'euro') {
+      data['amount_eur'] = data['amount_eur'].toString();
+      data['amount_crypto'] = '';
     }
-    if (data['action'] === 'sell') {
-      data['amount_crypto'] = data['amount_crypto_to_sell'].toString();
+    if (data['currency_buy_or_sell'] === data['wallet']) {
+      data['amount_crypto'] = data['amount_crypto'].toString();
       data['amount_eur'] = '';
     }
-    delete data['amount_eur_to_buy'];
-    delete data['amount_crypto_to_buy'];
-    delete data['amount_crypto_to_sell'];
-    delete data['currency_buy'];
+
+    delete data['currency_buy_or_sell'];
 
     console.log('rule data');
     console.log(data);
