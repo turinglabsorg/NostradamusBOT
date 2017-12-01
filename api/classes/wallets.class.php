@@ -1,6 +1,5 @@
 <?php
-	use Coinbase\Wallet\Client;
-	use Coinbase\Wallet\Configuration;
+	
 	class WalletsAPI extends API {
 	    
 	    public function __construct($request, $origin, $isAngular) {
@@ -14,29 +13,29 @@
 
 	    	if($checkUUID['uuid']!=''){
 				$currentWallet=strtolower($_POST['wallet']);
+				
 				if($checkUUID['refresh_token_'.$currentWallet]!=''){
-					$tokens=$usersAPI->refreshTokens($checkUUID,$currentWallet);
-					
-					$configuration = Configuration::oauth($tokens['access_token'], $tokens['refresh_token']);
-					$client = Client::create($configuration);
-					
-					$accounts = $client->getAccounts();
-					$address = $client->decodeLastResponse();
-					$response=$address['data'][0]['balance']['amount'];
-					
 					$checkWALLET=returnDBObject("app","SELECT * FROM wallets WHERE uuid_user=? AND currency=?",array($_POST['uuid'], $_POST['wallet']));
+						if($checkWALLET['id']!=''){
+							$tokens=$usersAPI->refreshTokens($checkUUID,$currentWallet);
+            				$urlPOST='https://api.coinbase.com/v2/accounts/'.$checkWALLET['id_wallet'];
+            				
+            				$result=parent::coinbaseAPI($tokens,$urlPOST);
 
-					if($checkWALLET['id']!=''){
-						runDBQuery(
-							"app",
-							"UPDATE wallets SET balance=? WHERE id=?",
-							array(
-								$address['data'][0]['balance']['amount'],
-								$checkWALLET['id']
-							)
-						);
-					}
+							runDBQuery(
+								"app",
+								"UPDATE wallets SET balance=? WHERE id=?",
+								array(
+									$result['data']['balance']['amount'],
+									$checkWALLET['id']
+								)
+							);
+							
+							$response=$result['data']['balance']['amount'];
 
+						}else{
+							return $this->data=array('response'=>'WALLET NOT FOUND','status'=>'404');
+						}
 					return $this->data=array('response'=>$response,'status'=>'200');
 				}else{
 					return $this->data=array('response'=>'WALLET NOT FOUND','status'=>'404');

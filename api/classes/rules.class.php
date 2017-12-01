@@ -36,7 +36,7 @@
 	    		if($checkWALLET['id']!=''){
 					runDBQuery(
 						"app",
-						"INSERT INTO rules (uuid_user,name,action,id_wallet,price,var_action,var_perc,id_rule,auto,active,public,amount_eur,amount_crypto,type) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+						"INSERT INTO rules (uuid_user,name,action,id_wallet,price,var_action,var_perc,id_rule,auto,active,public,amount_eur,amount_crypto,type,price_var) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
 						array(
 							$_POST['uuid'],
 							$_POST['name'],
@@ -51,13 +51,14 @@
 							$_POST['public'],
 							$_POST['amount_eur'],
 							$_POST['amount_crypto'],
-							$_POST['type']
+							$_POST['type'],
+							$_POST['price_var']
 						)
 					);
 
 					return $this->data=array('response'=>'RULE CREATED','status'=>'200');
 				}else{
-					return $this->data=array('response'=>'WALLET NOT FOUND','status'=>'200');
+					return $this->data=array('response'=>'WALLET NOT FOUND','status'=>'404');
 				}
 				
 			}else{
@@ -83,7 +84,7 @@
 
 					return $this->data=array('response'=>'RULE DELETED','status'=>'200');
 				}else{
-					return $this->data=array('response'=>'RULE NOT FOUND','status'=>'200');
+					return $this->data=array('response'=>'RULE NOT FOUND','status'=>'404');
 				}
 				
 			}else{
@@ -108,7 +109,7 @@
 	    				}
 						runDBQuery(
 							"app",
-							"UPDATE rules SET uuid_user=?,name=?,action=?,id_wallet=?,price=?,var_action=?,var_perc=?,id_rule=?,auto=?,active=?,public=?,amount_eur=?,amount_crypto=?,type=? WHERE id=?",
+							"UPDATE rules SET uuid_user=?,name=?,action=?,id_wallet=?,price=?,var_action=?,var_perc=?,id_rule=?,auto=?,active=?,public=?,amount_eur=?,amount_crypto=?,type=?,price_var=? WHERE id=?",
 							array(
 								$_POST['uuid'],
 								$_POST['name'],
@@ -124,16 +125,17 @@
 								$_POST['amount_eur'],
 								$_POST['amount_crypto'],
 								$_POST['type'],
+								$_POST['price_var'],
 								$_POST['id']
 							)
 						);
 
 						return $this->data=array('response'=>'RULE EDITED','status'=>'200');
 					}else{
-						return $this->data=array('response'=>'RULE NOT FOUND','status'=>'200');
+						return $this->data=array('response'=>'RULE NOT FOUND','status'=>'404');
 					}
 				}else{
-					return $this->data=array('response'=>'WALLET NOT FOUND','status'=>'200');
+					return $this->data=array('response'=>'WALLET NOT FOUND','status'=>'404');
 				}
 				
 			}else{
