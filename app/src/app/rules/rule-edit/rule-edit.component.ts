@@ -84,10 +84,11 @@ export class RuleEditComponent implements OnInit {
     this.ruleForm.addControl('amount_eur', new FormControl(this.rule.amount_eur, [CustomValidators.gt(0), CustomValidators.number]));
     this.ruleForm.addControl('amount_crypto', new FormControl(this.rule.amount_crypto, [CustomValidators.gt(0), CustomValidators.number]));
     this.ruleForm.addControl('id_rule', new FormControl(this.rule.id_rule));
-    this.ruleForm.addControl('type', new FormControl(this.rule.type));
+    this.ruleForm.addControl('type', new FormControl(this.rule.type, Validators.required));
     this.ruleForm.addControl('wallet', new FormControl(this.rule.wallet.currency));
-    this.ruleForm.addControl('auto', new FormControl(this.rule.auto));
-    this.ruleForm.addControl('active', new FormControl(this.rule.active));
+    this.ruleForm.addControl('included_fees', new FormControl(this.rule.included_fees, Validators.required));
+    this.ruleForm.addControl('loop_rule', new FormControl(this.rule.loop_rule, Validators.required));
+    this.ruleForm.addControl('auto', new FormControl(this.rule.auto, Validators.required));
 
     this.ruleForm.addControl('currency_buy_or_sell', new FormControl(currency_buy_or_sell, Validators.required));
 

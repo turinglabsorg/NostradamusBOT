@@ -15,6 +15,8 @@ export class Rule {
   public type: string = '';
   public wallet: Wallet = new Wallet();
   public auto: string = '';
+  public included_fees: string = '';
+  public loop_rule: string = '';
   public active: string = '';
 
   getId(): string {
@@ -79,6 +81,14 @@ export class Rule {
 
   isActive(): boolean {
     return this.active === 'y';
+  }
+
+  isIncludedFees(): boolean {
+    return this.included_fees === 'y';
+  }
+
+  isLoopRule(): boolean {
+    return this.loop_rule === 'y';
   }
 
 }
