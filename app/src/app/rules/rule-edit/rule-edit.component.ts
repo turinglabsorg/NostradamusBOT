@@ -21,6 +21,7 @@ export class RuleEditComponent implements OnInit {
   rule: Rule;
   isLoading: boolean;
   rulesToPick: Rule[];
+  butDisabled = true;
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -89,8 +90,15 @@ export class RuleEditComponent implements OnInit {
     this.ruleForm.addControl('active', new FormControl(this.rule.active));
 
     this.ruleForm.addControl('currency_buy_or_sell', new FormControl(currency_buy_or_sell, Validators.required));
+
+    if (this.rulesToPick.length == 0) {
+      this.ruleForm.get('rule_id').disable();
+    }
   }
 
+  isVariablePriceEnable() {
+    return !this.ruleForm.get('rule_id').disabled && !_.isEmpty(this.ruleForm.get('rule_id').value);
+  }
 
   getActionSelected(): string {
     return this.ruleForm.controls['action'].value ? this.ruleForm.controls['action'].value : '';
