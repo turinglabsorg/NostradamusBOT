@@ -3,14 +3,14 @@
     <form [formGroup]="ruleForm" (ngSubmit)="onSubmit()">
       <div class="row justify-content-center">
 
-        <div class="col-md-8">
+        <div class="col-md-9">
           <div class="form-group">
             <label for="name"><h6>Set a name, if you want (optional)</h6></label>
             <input type="text" id="name" class="form-control form-control-lg" formControlName="name" name="name">
           </div>
         </div>
 
-        <div class="col-md-8 mt-2">
+        <div class="col-md-9 mt-2">
           <div class="form-group">
             <label for="id_rule"><h6>Do you want connect this new rule to an existing one? (optional)</h6></label>
             <select id="id_rule" class="form-control form-control-lg" name="id_rule" formControlName="id_rule"
@@ -21,7 +21,7 @@
           </div>
         </div>
 
-        <div class="col-md-8 mt-2">
+        <div class="col-md-9 mt-2">
           <div class="form-group">
             <label for="wallet"><h6>Which Wallet you want to use?</h6></label>
             <select id="wallet" class="form-control form-control-lg" name="wallet" formControlName="wallet" #wallet>
@@ -33,7 +33,7 @@
           </div>
         </div>
 
-        <div class="col-md-8 mt-2">
+        <div class="col-md-9 mt-2">
           <div class="form-group">
             <label for="type"><h6>Are you interested about fixed or variable price?</h6></label>
             <select id="type" class="form-control form-control-lg" name="type" formControlName="type" #type>
@@ -44,10 +44,10 @@
           </div>
         </div>
 
-        <div class="col-md-8 mt-2" *ngIf="showFixedPriceInput()">
+        <div class="col-md-9 mt-2" *ngIf="showFixedPriceInput()">
           <div class="row align-items-center justify-content-center">
             <div class="col-md-3">
-              <h6 class="text-center">So, if price goes to</h6>
+              <h6>So, if price goes to</h6>
             </div>
             <div class="col-md-3">
               <div class="input-group" style="margin-bottom: 1rem">
@@ -74,10 +74,10 @@
           </div>
         </div>
 
-        <div class="col-md-8 mt-2" *ngIf="showVariablePriceInput()">
+        <div class="col-md-9 mt-2" *ngIf="showVariablePriceInput()">
           <div class="row align-items-center justify-content-center">
             <div class="col-md-3">
-              <h6 class="text-center">So, if price goes</h6>
+              <h6>So, if price goes</h6>
             </div>
             <div class="col-md-3">
               <div class="form-group">
@@ -91,7 +91,7 @@
             <div class="col-md-2">
               <h6 class="text-center">by</h6>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
               <div class="input-group" style="margin-bottom: 1rem">
                 <input type="number" min="0" step="0.0001" id="var_perc" class="form-control" name="var_perc"
                        formControlName="var_perc">
@@ -107,10 +107,10 @@
           </div>
         </div>
 
-        <div class="col-md-8 mt-2" *ngIf="showActionInput()">
+        <div class="col-md-9 mt-2" *ngIf="showActionInput()">
           <div class="row align-items-center justify-content-center">
             <div class="col-md-7">
-              <h6 class="text-center">Then, what you want to do? Buy or sell?</h6>
+              <h6>Then, what you want to do? Buy or sell?</h6>
             </div>
             <div class="col-md-5">
               <div class="form-group">
@@ -124,10 +124,10 @@
           </div>
         </div>
 
-        <div class="col-md-8 mt-2" *ngIf="showBuyOrSellParamsInput()">
+        <div class="col-md-9 mt-2" *ngIf="showBuyOrSellParamsInput()">
           <div class="row align-items-center justify-content-center">
-            <div class="col-md-2">
-              <h6 class="text-center">Which currency?</h6>
+            <div class="col-md-3">
+              <h6>Which currency?</h6>
             </div>
             <div class="col-md-3">
               <div class="form-group">
@@ -139,7 +139,7 @@
                 </select>
               </div>
             </div>
-            <div class="col-md-2" *ngIf="buyOrSellEuro() || buyOrSellCrypto()">
+            <div class="col-md-3" *ngIf="buyOrSellEuro() || buyOrSellCrypto()">
               <h6 class="text-center">How much?</h6>
             </div>
             <div class="col-md-3" *ngIf="buyOrSellEuro()">
@@ -161,7 +161,7 @@
           </div>
         </div>
 
-        <div class="col-md-8 mt-2" *ngIf="showBuyOrSellParamsInput()">
+        <div class="col-md-9 mt-2" *ngIf="showBuyOrSellParamsInput()">
           <div class="row align-items-center justify-content-center">
             <div class="col-md-6">
               <h6 class="text-center">Do you want include <a target="_blank"
@@ -181,7 +181,7 @@
           </div>
         </div>
 
-        <div class="col-md-8 mt-2" *ngIf="showAutoInput()">
+        <div class="col-md-9 mt-2" *ngIf="showAutoInput()">
           <div class="form-group">
             <label for="auto"><h6>Do you want allow Nostradamus to {{getActionSelected()}} automatically, or you prefer
               to be just notified?</h6></label>
@@ -193,20 +193,16 @@
           </div>
         </div>
 
-        <div class="col-md-8 mt-2" *ngIf="showAutoInput()">
-          <div class="row align-items-center justify-content-center">
-            <div class="col-md-7">
-              <h6 class="text-center">Do you want run this rule indefinitely or just once?</h6>
-            </div>
-            <div class="col-md-5">
-              <div class="form-group">
-                <select id="loop_rule" class="form-control" name="loop_rule"
-                        formControlName="loop_rule">
-                  <option value>Choose</option>
-                  <option value="y">Yes, run this rule indefinitely</option>
-                  <option value="n">No, run the rule just once</option>
-                </select>
-              </div>
+        <div class="col-md-9 mt-2" *ngIf="showAutoInput()">
+          <div class="form-group">
+            <label for="auto"><h6>Do you want run this rule indefinitely or just once?</h6></label>
+            <div class="form-group">
+              <select id="loop_rule" class="form-control" name="loop_rule"
+                      formControlName="loop_rule">
+                <option value>Choose</option>
+                <option value="y">Yes, run this rule indefinitely</option>
+                <option value="n">No, run the rule just once</option>
+              </select>
             </div>
           </div>
         </div>
