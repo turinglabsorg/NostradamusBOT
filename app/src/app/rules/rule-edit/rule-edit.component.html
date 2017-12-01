@@ -12,7 +12,7 @@
         <div class="col-md-8 mt-2">
           <div class="form-group">
             <label for="id_rule"><h6>Do you want connect this new rule to an existing one? (optional)</h6></label>
-            <select id="id_rule" class="form-control form-control-lg" name="id_rule" formControlName="id_rule">
+            <select id="id_rule" class="form-control form-control-lg" name="id_rule" formControlName="id_rule" (change)="connectedRuleSelected($event.target.value)">
               <option value>Select a rule</option>
               <option *ngFor="let rule of rulesToPick" value="{{rule.id}}">{{rule.name}}</option>
             </select>
@@ -98,7 +98,7 @@
           </div>
           <div class="row align-items-center justify-content-center">
             <div class="col-md-12">
-              <h6 class="text-center">compared to the selling or buying price of the connected rule</h6>
+              <h6 class="text-center">compared to the {{parentRule.action}}ing price of the connected rule #{{parentRule.id}} - {{parentRule.name}}</h6>
             </div>
           </div>
         </div>

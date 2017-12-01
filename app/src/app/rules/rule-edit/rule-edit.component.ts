@@ -21,7 +21,7 @@ export class RuleEditComponent implements OnInit {
   rule: Rule;
   isLoading: boolean;
   rulesToPick: Rule[];
-  butDisabled = true;
+  parentRule: Rule;
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -33,6 +33,7 @@ export class RuleEditComponent implements OnInit {
   ngOnInit() {
     this.isLoading = false;
     this.rule = new Rule();
+    this.parentRule = new Rule();
     this.ruleForm = new FormGroup({});
 
     this.route.params
@@ -54,7 +55,7 @@ export class RuleEditComponent implements OnInit {
             if (this.editMode) {
               const ruleID = this.rule.id;
               this.rulesToPick = _.remove(this.rulesToPick, function (itemRule) {
-                return itemRule.id !== ruleID;
+                return itemRule.id !== ruleID && itemRule.id_rule !== ruleID;
               });
             }
             this.initForm();
@@ -90,17 +91,24 @@ export class RuleEditComponent implements OnInit {
 
     this.ruleForm.addControl('currency_buy_or_sell', new FormControl(currency_buy_or_sell, Validators.required));
 
-    if (this.rulesToPick.length == 0) {
-      this.ruleForm.get('rule_id').disable();
+    if (this.rulesToPick.length === 0) {
+      this.ruleForm.get('id_rule').disable();
+    }
+    if (this.rule.id_rule) {
+      this.parentRule = this.rulesService.getRule(this.rule.id_rule);
     }
   }
 
-  isVariablePriceEnable() {
-    return !this.ruleForm.get('rule_id').disabled && !_.isEmpty(this.ruleForm.get('rule_id').value);
+  isVariablePriceEnable(): boolean {
+    return this.ruleForm.get('rule_id') != null && !this.ruleForm.get('rule_id').disabled && !_.isEmpty(this.ruleForm.get('rule_id').value);
   }
 
   getActionSelected(): string {
     return this.ruleForm.controls['action'].value ? this.ruleForm.controls['action'].value : '';
+  }
+
+  connectedRuleSelected(ruleId: string) {
+    this.parentRule = this.rulesService.getRule(ruleId);
   }
 
   showFixedPriceInput(): boolean {
@@ -155,7 +163,8 @@ export class RuleEditComponent implements OnInit {
     this.isLoading = true;
 
     const data = this.ruleForm.value;
-    data['id_rule'] = data['id_rule'].toString();;
+    data['id_rule'] = data['id_rule'].toString();
+    ;
     data['active'] = 'yes';
     data['public'] = 'no';
     data['price'] = data['price'].toString();
