@@ -65,7 +65,6 @@ export class RuleEditComponent implements OnInit {
 
   private initForm() {
     this.ruleForm.addControl('name', new FormControl(this.rule.name));
-    this.ruleForm.addControl('rule_id', new FormControl(this.rule.action, Validators.required));
     this.ruleForm.addControl('action', new FormControl(this.rule.action, Validators.required));
     this.ruleForm.addControl('type', new FormControl(this.rule.type, Validators.required));
     this.ruleForm.addControl('price', new FormControl(this.rule.price, [CustomValidators.gt(0), CustomValidators.number]));
@@ -104,15 +103,23 @@ export class RuleEditComponent implements OnInit {
     return this.ruleForm.controls['action'].value ? this.ruleForm.controls['action'].value : '';
   }
 
-  showPriceInput(): boolean {
+  showFixedPriceInput(): boolean {
     return this.ruleForm.controls['type'].value === 'fixed' &&
       this.ruleForm.controls['wallet'].value !== '';
   }
 
+  showVariablePriceInput(): boolean {
+    return this.ruleForm.controls['type'].value === 'variable' &&
+      this.ruleForm.controls['wallet'].value !== '';
+  }
+
   showActionInput(): boolean {
-    return this.showPriceInput() &&
+    return (this.showFixedPriceInput() &&
       Number(this.ruleForm.controls['price'].value) > 0 &&
-      this.ruleForm.controls['price_var'].value !== '';
+      this.ruleForm.controls['price_var'].value !== '') ||
+      (this.showVariablePriceInput() &&
+        Number(this.ruleForm.controls['var_perc'].value) > 0 &&
+        this.ruleForm.controls['var_action'].value !== '');
   }
 
   showBuyOrSellParamsInput(): boolean {
@@ -148,7 +155,7 @@ export class RuleEditComponent implements OnInit {
     this.isLoading = true;
 
     const data = this.ruleForm.value;
-    data['id_rule'] = '';
+    data['id_rule'] = data['id_rule'].toString();;
     data['active'] = 'yes';
     data['public'] = 'no';
     data['price'] = data['price'].toString();

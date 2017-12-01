@@ -38,6 +38,7 @@ export class RulesListComponent implements OnInit, OnDestroy {
           response = _.reverse(response);
           this.rulesService.setRules(response);
           console.log('rules');
+          console.log(response);
         } else {
           console.log('errore');
         }

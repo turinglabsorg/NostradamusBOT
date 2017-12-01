@@ -11,8 +11,8 @@
 
         <div class="col-md-8 mt-2">
           <div class="form-group">
-            <label for="rule_id"><h6>Do you want connect this new rule to an existing one? (optional)</h6></label>
-            <select id="rule_id" class="form-control form-control-lg" name="rule_id" formControlName="rule_id">
+            <label for="id_rule"><h6>Do you want connect this new rule to an existing one? (optional)</h6></label>
+            <select id="id_rule" class="form-control form-control-lg" name="id_rule" formControlName="id_rule">
               <option value>Select a rule</option>
               <option *ngFor="let rule of rulesToPick" value="{{rule.id}}">{{rule.name}}</option>
             </select>
@@ -41,14 +41,15 @@
           </div>
         </div>
 
-        <div class="col-md-8 mt-2" *ngIf="showPriceInput()">
+        <div class="col-md-8 mt-2" *ngIf="showFixedPriceInput()">
           <div class="row align-items-center justify-content-center">
             <div class="col-md-3">
               <h6 class="text-center">So, if price goes to</h6>
             </div>
             <div class="col-md-3">
               <div class="input-group" style="margin-bottom: 1rem">
-                <input type="number" min="0" step="0.0001" id="price" class="form-control" name="price" formControlName="price">
+                <input type="number" min="0" step="0.0001" id="price" class="form-control" name="price"
+                       formControlName="price">
                 <span class="input-group-addon"><i class="fa fa-eur"></i></span>
               </div>
             </div>
@@ -66,6 +67,38 @@
             </div>
             <div class="col-md-2">
               <h6 class="text-center">per {{wallet.value}}</h6>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-8 mt-2" *ngIf="showVariablePriceInput()">
+          <div class="row align-items-center justify-content-center">
+            <div class="col-md-3">
+              <h6 class="text-center">So, if price goes</h6>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <select id="var_action" class="form-control" name="var_action" formControlName="var_action">
+                  <option value>Choose</option>
+                  <option value="up">Up</option>
+                  <option value="down">Down</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <h6 class="text-center">by</h6>
+            </div>
+            <div class="col-md-3">
+              <div class="input-group" style="margin-bottom: 1rem">
+                <input type="number" min="0" step="0.0001" id="var_perc" class="form-control" name="var_perc"
+                       formControlName="var_perc">
+                <span class="input-group-addon"><i class="fa fa-percent"></i></span>
+              </div>
+            </div>
+          </div>
+          <div class="row align-items-center justify-content-center">
+            <div class="col-md-12">
+              <h6 class="text-center">compared to the selling or buying price of the connected rule</h6>
             </div>
           </div>
         </div>
@@ -88,7 +121,8 @@
             </div>
             <div class="col-md-3">
               <div class="form-group">
-                <select id="currency_buy_or_sell" class="form-control" name="currency_buy_or_sell" formControlName="currency_buy_or_sell">
+                <select id="currency_buy_or_sell" class="form-control" name="currency_buy_or_sell"
+                        formControlName="currency_buy_or_sell">
                   <option value>Choose</option>
                   <option value="euro">Euro</option>
                   <option value="{{wallet.value}}">{{wallet.value}}</option>
@@ -118,25 +152,26 @@
         </div>
 
         <!--<div class="col-md-8 mt-2" *ngIf="showSellParamsInput()">-->
-          <!--<div class="row align-items-center justify-content-center">-->
-            <!--<div class="col-md-2">-->
-              <!--<h6 class="text-center">How much?</h6>-->
-            <!--</div>-->
-            <!--<div class="col-md-3">-->
-              <!--<div class="input-group" style="margin-bottom: 1rem">-->
-                <!--<input type="number" min="0" step="0.0001" id="amount_crypto_to_sell" class="form-control" name="amount_crypto_to_sell"-->
-                       <!--formControlName="amount_crypto_to_sell">-->
-              <!--</div>-->
-            <!--</div>-->
-            <!--<div class="col-md-1">-->
-              <!--<h6 class="text-center">{{wallet.value}}</h6>-->
-            <!--</div>-->
-          <!--</div>-->
+        <!--<div class="row align-items-center justify-content-center">-->
+        <!--<div class="col-md-2">-->
+        <!--<h6 class="text-center">How much?</h6>-->
+        <!--</div>-->
+        <!--<div class="col-md-3">-->
+        <!--<div class="input-group" style="margin-bottom: 1rem">-->
+        <!--<input type="number" min="0" step="0.0001" id="amount_crypto_to_sell" class="form-control" name="amount_crypto_to_sell"-->
+        <!--formControlName="amount_crypto_to_sell">-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--<div class="col-md-1">-->
+        <!--<h6 class="text-center">{{wallet.value}}</h6>-->
+        <!--</div>-->
+        <!--</div>-->
         <!--</div>-->
 
         <div class="col-md-8 mt-2" *ngIf="showAutoInput()">
           <div class="form-group">
-            <label for="auto"><h6>Do you want allow Nostradamus to {{getActionSelected()}} automatically, or you prefer to be just notified?</h6></label>
+            <label for="auto"><h6>Do you want allow Nostradamus to {{getActionSelected()}} automatically, or you prefer
+              to be just notified?</h6></label>
             <select id="auto" class="form-control" name="auto" formControlName="auto">
               <option value>Choose</option>
               <option value="y">Yes! {{getActionSelected()}} automatically!</option>
