@@ -9,11 +9,28 @@
           <p class="list-group-item-text">Wallet : {{ rule.wallet.name }}</p>
         </div>
         <div class="col-md-4">
-          <button class="btn btn-danger pull-right" (click)="deleteRule(rule.id)">Delete</button>
+          <button class="btn btn-danger pull-right" (click)="askRuleDeletingConfirm(rule.id, deleteRuleModal)">Delete</button>
           <button class="btn btn-info pull-right mr-2" (click)="openRuleEditor(rule.id)">Edit</button>
         </div>
       </div>
     </a>
   </div>
 </div>
+
+<ng-template #deleteRuleModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Delete Rule</h4>
+    <button type="button" class="close pointer" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Do you want delete the following rule?</p>
+    <p>#{{ruleToDelete.id}} - {{ruleToDelete.wallet.currency}} Wallet- {{ruleToDelete.name}}</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="d()">Close</button>
+    <button type="button" class="btn btn-danger" (click)="c()">Delete</button>
+  </div>
+</ng-template>
 
