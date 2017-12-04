@@ -101,7 +101,7 @@ export class RuleEditComponent implements OnInit {
   }
 
   isVariablePriceEnable(): boolean {
-    return this.ruleForm.get('rule_id') != null && !this.ruleForm.get('rule_id').disabled && !_.isEmpty(this.ruleForm.get('rule_id').value);
+    return this.ruleForm.get('id_rule') != null && !this.ruleForm.get('id_rule').disabled && !_.isEmpty(this.ruleForm.get('id_rule').value);
   }
 
   getActionSelected(): string {
@@ -164,8 +164,12 @@ export class RuleEditComponent implements OnInit {
     this.isLoading = true;
 
     const data = this.ruleForm.value;
-    data['id_rule'] = data['id_rule'].toString();
-    ;
+    console.log(data);
+    if (data['id_rule']) {
+      data['id_rule'] = data['id_rule'].toString();
+    } else {
+      data['id_rule'] = '';
+    }
     data['active'] = 'yes';
     data['public'] = 'no';
     data['price'] = data['price'].toString();
