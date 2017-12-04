@@ -1,6 +1,7 @@
 import {Http, RequestOptions, Headers} from '@angular/http';
 import {Injectable} from '@angular/core';
 import {AuthService} from '../auth/auth.service';
+import {Base} from '../base.model';
 
 @Injectable()
 export class ApiService {
