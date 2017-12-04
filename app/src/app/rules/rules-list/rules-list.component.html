@@ -1,19 +1,33 @@
 <div class="row">
   <div class="col-md-12">
     <button class="btn btn-info mb-4" (click)="openNewRuleEditor()">Create new Rule</button>
-    <a class="list-group-item list-group-item-action"
-       *ngFor="let rule of rulesService.getRules()">
+    <div class="list-group-item"
+         *ngFor="let rule of rulesService.getRules()">
       <div class="row">
-        <div class="col-md-8">
-          <h5 class="list-group-item-heading">{{ rule.name }}</h5>
-          <p class="list-group-item-text">Wallet : {{ rule.wallet.name }}</p>
+        <div class="col-md-9">
+          <h5 class="list-group-item-heading">#{{rule.id}} - {{rule.wallet.currency}} Wallet - {{rule.name}}</h5>
+          <p class="list-group-item-text mb-2 font-italic"  [innerHTML]="rule.getRuleDescription"></p>
+          <ul>
+            <li>Coinbase fees {{rule.isIncludedFees ? 'included' : 'not included'}}</li>
+            <li>{{rule.isAuto ? _.capitalize(rule.action) + ' automatically' : 'just notification'}}</li>
+            <li>{{rule.isLoopRule ? 'Run this rule indefinitely' : 'Run this rule just once'}}</li>
+          </ul>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
+          <span *ngIf="rule.isActive" class="badge badge-success pull-right">Active</span>
+          <span *ngIf="!rule.isActive" class="badge badge-outline-success pull-right">NO Active</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <button class="btn btn-info" (click)="openNewRuleEditor()">Connect Rule</button>
           <button class="btn btn-danger pull-right" (click)="askRuleDeletingConfirm(rule.id, deleteRuleModal)">Delete</button>
+          <button *ngIf="!rule.isActive" class="btn btn-success pull-right mr-2" (click)="activeRule(rule.id)">Active</button>
+          <button *ngIf="rule.isActive" class="btn btn-outline-success pull-right mr-2" (click)="activeRule(rule.id)">Deactive</button>
           <button class="btn btn-info pull-right mr-2" (click)="openRuleEditor(rule.id)">Edit</button>
         </div>
       </div>
-    </a>
+    </div>
   </div>
 </div>
 
@@ -26,7 +40,7 @@
   </div>
   <div class="modal-body">
     <p>Do you want delete the following rule?</p>
-    <p>#{{ruleToDelete.id}} - {{ruleToDelete.wallet.currency}} Wallet- {{ruleToDelete.name}}</p>
+    <p>#{{ruleToDelete.id}} - {{ruleToDelete.wallet.currency}} Wallet - {{ruleToDelete.name}}</p>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="d()">Close</button>

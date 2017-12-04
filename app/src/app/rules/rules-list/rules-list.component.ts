@@ -14,6 +14,7 @@ import {Rule} from '../rule.model';
 })
 export class RulesListComponent implements OnInit, OnDestroy {
   rulesMessageSubscription: Subscription;
+  public _ = _;
 
   ruleToDelete: Rule;
 
@@ -42,11 +43,7 @@ export class RulesListComponent implements OnInit, OnDestroy {
     this.apiService.getRules().subscribe(
       (rawResponse) => {
         if (this.apiService.isSuccessfull(rawResponse)) {
-          let response: any[] = this.apiService.parseAPIResponse(rawResponse);
-          response = _.reverse(response);
-          this.rulesService.setRules(response);
-          console.log('rules');
-          console.log(response);
+          this.rulesService.setRules(this.apiService.parseAPIResponse(rawResponse));
         } else {
           console.log('errore');
         }
