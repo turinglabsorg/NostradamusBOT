@@ -19,6 +19,10 @@ export class Rule extends Base {
   public included_fees: string = '';
   public loop_rule: string = '';
   public active: string = '';
+  public ran: string = '';
+
+  public isParent: boolean;
+  public isChild: boolean;
 
   getId(): string {
     return this.id;

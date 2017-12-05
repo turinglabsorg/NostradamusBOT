@@ -17,6 +17,7 @@ export class RulesListComponent implements OnInit, OnDestroy {
   public _ = _;
 
   ruleToDelete: Rule;
+  idLoadingRule: string;
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -44,6 +45,7 @@ export class RulesListComponent implements OnInit, OnDestroy {
       (rawResponse) => {
         if (this.apiService.isSuccessfull(rawResponse)) {
           this.rulesService.setRules(this.apiService.parseAPIResponse(rawResponse));
+          this.idLoadingRule = '';
         } else {
           console.log('errore');
         }
@@ -75,8 +77,6 @@ export class RulesListComponent implements OnInit, OnDestroy {
     this.apiService.deleteRule(data).subscribe(
       (rawResponse) => {
         if (this.apiService.isSuccessfull(rawResponse)) {
-          const tempRule = this.rulesService.getRule(id);
-          data['wallet'] = tempRule.wallet;
           this.rulesService.removeRule(data['id']);
           this.rulesService.sendMessage(RulesService.MSG_GET_RULES);
         } else {
@@ -87,11 +87,29 @@ export class RulesListComponent implements OnInit, OnDestroy {
   }
 
   showConnectRuleButton(rule: Rule): boolean {
-    return Number(rule.id_rule) > 0;
+    return Number(rule.id_rule) <= 0;
   }
 
   openConnectRuleEditor(ruleIdToConnect: string) {
     this.rulesService.setRuleIdToConnect(ruleIdToConnect)
     this.router.navigate(['new'], {relativeTo: this.route});
+  }
+
+  setRuleStatus(id: string, status: string) {
+    this.idLoadingRule = id;
+    const data = {};
+    data['id'] = id;
+    data['active'] = status;
+
+    this.apiService.toggleRuleStatus(data).subscribe(
+      (rawResponse) => {
+        if (this.apiService.isSuccessfull(rawResponse)) {
+          this.rulesService.setRuleStatus(id, status);
+          this.rulesService.sendMessage(RulesService.MSG_GET_RULES);
+        } else {
+          console.log('errore');
+        }
+      }
+    );
   }
 }

@@ -50,6 +50,18 @@ export class RulesService implements OnInit {
     console.log('Set Rules on Rules Service');
     console.log(this.rules);
     console.log('--------------------------');
+    this.initRulesList();
+  }
+
+  initRulesList() {
+    const parentRulesIDS: string[] = [];
+    this.rules = _.forEach(this.rules, function (rule: Rule) {
+      rule.isChild = Number(rule.id_rule) > 0;
+      parentRulesIDS.push(rule.id_rule);
+    });
+    this.rules = _.forEach(this.rules, function (rule: Rule) {
+      rule.isParent = _.includes(parentRulesIDS, rule.id) || Number(rule.id_rule) <= 0;
+    });
   }
 
   getRule(id: string): Rule {
@@ -80,6 +92,11 @@ export class RulesService implements OnInit {
 
   getRuleIdToConnect() {
     return this.idRuleToConnect;
+  }
+
+  setRuleStatus(id: string, status: string) {
+    const rule: Rule = _.find(this.rules, ['id', id]);
+    rule.active = status;
   }
 
 }

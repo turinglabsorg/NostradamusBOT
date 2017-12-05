@@ -1,12 +1,12 @@
 <div class="row">
-  <div class="col-md-12">
-    <button class="btn btn-info mb-4" (click)="openNewRuleEditor()">Create new Rule</button>
-    <div class="list-group-item"
+  <div class="col-md-12 mb-4">
+    <button class="btn btn-info" (click)="openNewRuleEditor()">Create new Rule</button>
+    <div class="list-group-item mt-4" [ngClass]="{'mt-4' : rule.isParent}"
          *ngFor="let rule of rulesService.getRules()">
       <div class="row">
         <div class="col-md-9">
           <h5 class="list-group-item-heading">#{{rule.id}} - {{rule.wallet.currency}} Wallet - {{rule.name}}</h5>
-          <p class="list-group-item-text mb-2 font-italic"  [innerHTML]="rule.getRuleDescription"></p>
+          <p class="list-group-item-text mb-2 font-italic" [innerHTML]="rule.getRuleDescription"></p>
           <ul>
             <li>Coinbase fees {{rule.isIncludedFees ? 'included' : 'not included'}}</li>
             <li>{{rule.isAuto ? _.capitalize(rule.action) + ' automatically' : 'just notification'}}</li>
@@ -16,15 +16,52 @@
         <div class="col-md-3">
           <span *ngIf="rule.isActive" class="badge badge-success pull-right">Active</span>
           <span *ngIf="!rule.isActive" class="badge badge-outline-success pull-right">NO Active</span>
+          <span class="badge badge-info pull-right mr-4">{{rule.ran}} executions</span>
         </div>
       </div>
       <div class="row">
         <div class="col-md-12">
-          <button *ngIf="showConnectRuleButton(rule)" class="btn btn-info" (click)="openConnectRuleEditor(rule.id)">Connect Rule</button>
-          <button class="btn btn-danger pull-right" (click)="askRuleDeletingConfirm(rule.id, deleteRuleModal)">Delete</button>
-          <button *ngIf="!rule.isActive" class="btn btn-success pull-right mr-2" (click)="activeRule(rule.id)">Active</button>
-          <button *ngIf="rule.isActive" class="btn btn-outline-success pull-right mr-2" (click)="activeRule(rule.id)">Deactive</button>
-          <button class="btn btn-info pull-right mr-2" (click)="openRuleEditor(rule.id)">Edit</button>
+          <button
+            class="btn btn-info"
+            *ngIf="showConnectRuleButton(rule)"
+            [disabled]="idLoadingRule === rule.id"
+            (click)="openConnectRuleEditor(rule.id)">
+            Connect Rule
+          </button>
+          <button
+            class="btn btn-danger pull-right"
+            [disabled]="idLoadingRule === rule.id"
+            (click)="askRuleDeletingConfirm(rule.id, deleteRuleModal)">
+            Delete
+          </button>
+          <button
+            class="btn btn-success pull-right mr-2"
+            *ngIf="!rule.isActive"
+            [disabled]="idLoadingRule === rule.id"
+            (click)="setRuleStatus(rule.id, 'y')">
+            Active
+            <i *ngIf="idLoadingRule === rule.id"
+               class="fa fa-spinner fa-spin pull-right">
+
+            </i>
+          </button>
+          <button
+            class="btn btn-outline-success pull-right mr-2"
+            *ngIf="rule.isActive"
+            [disabled]="idLoadingRule === rule.id"
+            (click)="setRuleStatus(rule.id, 'n')">
+            Deactive
+            <i *ngIf="idLoadingRule === rule.id"
+               class="fa fa-spinner fa-spin pull-right">
+
+            </i>
+          </button>
+          <button
+            class="btn btn-info pull-right mr-2"
+            [disabled]="idLoadingRule === rule.id"
+            (click)="openRuleEditor(rule.id)">
+            Edit
+          </button>
         </div>
       </div>
     </div>
