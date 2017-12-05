@@ -13,6 +13,8 @@ export class RulesService implements OnInit {
   private rules: Rule[] = [];
   private messageCenter = new Subject<string>();
 
+  private idRuleToConnect: string;
+
   constructor() {
 
   }
@@ -70,6 +72,14 @@ export class RulesService implements OnInit {
     this.rules = _.remove(this.rules, function (rule) {
       return rule.id === id;
     });
+  }
+
+  setRuleIdToConnect(id: string) {
+    this.idRuleToConnect = id;
+  }
+
+  getRuleIdToConnect() {
+    return this.idRuleToConnect;
   }
 
 }

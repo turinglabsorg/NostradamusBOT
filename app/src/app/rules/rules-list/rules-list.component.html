@@ -20,7 +20,7 @@
       </div>
       <div class="row">
         <div class="col-md-12">
-          <button class="btn btn-info" (click)="openNewRuleEditor()">Connect Rule</button>
+          <button *ngIf="showConnectRuleButton(rule)" class="btn btn-info" (click)="openConnectRuleEditor(rule.id)">Connect Rule</button>
           <button class="btn btn-danger pull-right" (click)="askRuleDeletingConfirm(rule.id, deleteRuleModal)">Delete</button>
           <button *ngIf="!rule.isActive" class="btn btn-success pull-right mr-2" (click)="activeRule(rule.id)">Active</button>
           <button *ngIf="rule.isActive" class="btn btn-outline-success pull-right mr-2" (click)="activeRule(rule.id)">Deactive</button>

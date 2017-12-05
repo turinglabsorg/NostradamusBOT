@@ -85,4 +85,13 @@ export class RulesListComponent implements OnInit, OnDestroy {
       }
     );
   }
+
+  showConnectRuleButton(rule: Rule): boolean {
+    return Number(rule.id_rule) > 0;
+  }
+
+  openConnectRuleEditor(ruleIdToConnect: string) {
+    this.rulesService.setRuleIdToConnect(ruleIdToConnect)
+    this.router.navigate(['new'], {relativeTo: this.route});
+  }
 }

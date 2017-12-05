@@ -57,6 +57,12 @@ export class RuleEditComponent implements OnInit {
               this.rulesToPick = _.remove(this.rulesToPick, function (itemRule) {
                 return itemRule.id !== ruleID && itemRule.id_rule !== ruleID;
               });
+            } else { /*create*/
+              if (this.rulesService.getRuleIdToConnect()) {
+                this.rule.id_rule = this.rulesService.getRuleIdToConnect();
+                this.parentRule = this.rulesService.getRule(this.rule.id_rule);
+                this.rulesService.setRuleIdToConnect(null);
+              }
             }
             this.initForm();
           }
