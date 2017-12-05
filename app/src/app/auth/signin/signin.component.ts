@@ -24,7 +24,7 @@ export class SigninComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    document.body.style.background = "#FFFFFF";
+    document.body.style.background = "#eeeeee";
   }
 
   signIn() {
