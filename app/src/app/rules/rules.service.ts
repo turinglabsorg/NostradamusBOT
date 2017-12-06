@@ -76,6 +76,16 @@ export class RulesService implements OnInit {
     return _.find(this.rules, ['id', id]);
   }
 
+  getChildRules(parentId: string): Rule[] {
+    const childRules: Rule[] = [];
+    this.rules = _.forEach(this.rules, function (rule: Rule) {
+      if (rule.id_rule === parentId) {
+        childRules.push(rule);
+      }
+    });
+    return childRules;
+  }
+
   addRule(rule: Rule) {
     this.rules.push(rule);
   }
