@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Params} from '@angular/router';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 import {AuthService} from './auth.service';
 import {ApiService} from '../api/api.service';
 
@@ -16,12 +16,13 @@ export class AuthComponent implements OnInit {
     currency: '',
     balance: ''
   };
+
   processCompleted = false;
 
   tempAccessToken = '';
   tempRefreshToken = '';
 
-  constructor(private route: ActivatedRoute, private authService: AuthService, private apiService: ApiService) {
+  constructor(private route: ActivatedRoute, private authService: AuthService, private apiService: ApiService, private router: Router) {
   }
 
   ngOnInit() {
@@ -77,6 +78,7 @@ export class AuthComponent implements OnInit {
         const response = this.apiService.parseAPIResponse(rawResponse);
         this.authService.saveUserDataToLocalStorage(response.uuid, response.password);
         this.processCompleted = true;
+        this.router.navigate(['/dashboard']);
       });
   }
 
