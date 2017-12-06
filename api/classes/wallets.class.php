@@ -45,14 +45,20 @@
 			}
 	    }
 
-	    protected function buy() {
-	        $response='BUY WALLET!';
-	        return $this->data=array('response'=>$response,'status'=>'200');
-	    }
 
-	    protected function sell() {
-	        $response='SELL WALLET!';
-	        return $this->data=array('response'=>$response,'status'=>'200');
-	    }         
+	    protected function get() {
+	        $_POST=$this->request;
+			$checkUUID=returnDBObject("app","SELECT * FROM users WHERE uuid=? AND password=?",array($_POST['uuid'],$_POST['password']));
+
+	    	if($checkUUID['uuid']!=''){
+	    		
+	    		$wallets=returnDBObject("app","SELECT * FROM wallets WHERE uuid_user=?",array($_POST['uuid']),1);
+	    		
+	    		return $this->data=array('response'=>$wallets,'status'=>'200');
+
+			}else{
+				return $this->data=array('response'=>'NOPE','status'=>'404');
+			}
+	    }        
 	}
 ?>
