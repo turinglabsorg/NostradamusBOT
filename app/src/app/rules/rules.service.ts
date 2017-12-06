@@ -1,7 +1,5 @@
 import {Injectable, OnInit} from '@angular/core';
 import * as _ from 'lodash';
-import {AuthService} from '../auth/auth.service';
-import {ApiService} from '../api/api.service';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
 import {Rule} from './rule.model';
