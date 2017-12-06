@@ -540,11 +540,15 @@ $str = str_replace("½","&#189;" , $str);
 return $str;
 
 }
-function print_money($number){
+function print_money($number,$currency){
 	if($number!=''){
 		$number=round($number,2);
 		//return str_replace('EUR ','',money_format('%.'.$decimal.'n',$number)).'&euro;';
-		return number_format($number, 2, ',', '.').'&euro;';
+		if($currency=='EUR'){
+			return number_format($number, 2, ',', '.').'&euro;';
+		}else{
+			return number_format($number, 2, ',', '.').' '.$currency;
+		}
 	}else{
 		return '0,00'.' &euro;';
 	}

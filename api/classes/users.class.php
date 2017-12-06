@@ -170,18 +170,24 @@
 			curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
 			$result = json_decode(curl_exec($ch),1);
 			
-			$accessToken=$result['access_token'];
-			$refreshToken=$result['refresh_token'];
+			$accessToken='';
+			$refreshToken='';
 
-			runDBQuery(
-				"app",
-				"UPDATE users SET refresh_token_".$wallet."=?, last_token_".$wallet."=? WHERE uuid=?",
-				array(
-					$result['refresh_token'],
-					$result['access_token'],
-					$user['uuid']
-				)
-			);
+			if(isset($result['access_token']) && isset($result['refresh_token'])){
+				if($result['refresh_token']!='' && $result['access_token']!=''){
+					$accessToken=$result['access_token'];
+					$refreshToken=$result['refresh_token'];
+					runDBQuery(
+						"app",
+						"UPDATE users SET refresh_token_".$wallet."=?, last_token_".$wallet."=? WHERE uuid=?",
+						array(
+							$result['refresh_token'],
+							$result['access_token'],
+							$user['uuid']
+						)
+					);
+				}
+			}
 			curl_close($ch);
 
 			$tokens=array("access_token"=>$accessToken,"refresh_token"=>$refreshToken);

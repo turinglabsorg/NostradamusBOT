@@ -85,12 +85,37 @@
                 }
             }
         }
+
+        public function coinbaseAPI($tokens,$endpoint,$data){
+                            
+            $ch = curl_init();
+            $headers = [
+                'Content-Type: application/json',
+                'Authorization: Bearer '.$tokens['access_token']
+            ];
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+            curl_setopt($ch, CURLOPT_URL, $endpoint);
+            if(isset($data) && $data!=''){                                                                   
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST"); 
+                curl_setopt($ch,CURLOPT_POSTFIELDS, json_encode($data));
+            }
+            $result = json_decode(curl_exec($ch),1);
+
+            curl_close($ch);
+            
+            return $result;
+
+        }  
+
         public function processAPI() {
-            if (!array_key_exists('apiKey', $this->request)) {
-                throw new Exception('No API Key provided');
-            } else if ($this->request['apiKey']!='00xzcvY59zL2MvZ4NnZzd3cl5SaqQ') {
-                throw new Exception('Invalid API Key');
-            } 
+            if($this->request['area']!='actions' && $this->request['search']!='search'){
+                if (!array_key_exists('apiKey', $this->request)) {
+                    throw new Exception('No API Key provided');
+                } else if ($this->request['apiKey']!='00xzcvY59zL2MvZ4NnZzd3cl5SaqQ') {
+                    throw new Exception('Invalid API Key');
+                } 
+            }
             
             if (method_exists($this, $this->endpoint)) {
                 return $this->_response($this->{$this->endpoint}($this->args));

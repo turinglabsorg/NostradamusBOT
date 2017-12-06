@@ -17,7 +17,6 @@
 	include('classes/wallets.class.php');
 	include('classes/actions.class.php');
 	include('classes/miners.class.php');
-	include('vendor/autoload.php');
 	
 	try {
 		if(isset($_GET['area'])){
