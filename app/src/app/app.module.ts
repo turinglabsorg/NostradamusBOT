@@ -17,7 +17,6 @@ import {SettingsComponent} from './settings/settings/settings.component';
 import {RulesComponent} from './rules/rules.component';
 import {ActionsComponent} from './actions/actions-list/actions-list.component';
 import {RulesListComponent} from './rules/rules-list/rules-list.component';
-import {RuleDetailComponent} from './rules/rule-detail/rule-detail.component';
 import {RuleEditComponent} from './rules/rule-edit/rule-edit.component';
 import {RulesService} from './rules/rules.service';
 import {WalletComponent} from './dashboard/wallet/wallet.component';
@@ -36,7 +35,6 @@ import {CustomFormsModule} from 'ng2-validation';
     RulesComponent,
     ActionsComponent,
     RulesListComponent,
-    RuleDetailComponent,
     RuleEditComponent,
     WalletComponent
   ],
