@@ -17,6 +17,12 @@ export class ApiService {
     return JSON.parse(response._body).status === '200';
   }
 
+  saveSettings(virtualWallet: string) {
+    const data = this.authService.addUserIdPasswordAPIKeyToData({});
+    data['virtual_wallet'] = virtualWallet;
+    return this.http.post('https://api.nostradamusbot.com/users/settings', data);
+  }
+
   getCurrencyPrice(currencyCode: string) {
     const data = this.authService.addAPIKeyToData({});
     return this.http.post('https://api.nostradamusbot.com/prices/' + currencyCode, data);
