@@ -1,6 +1,7 @@
 import {Wallet} from '../dashboard/wallet/wallet.model';
+import {Base} from '../base.model';
 
-export class Rule {
+export class Rule extends Base {
   public id: string = '';
   public name: string = '';
   public uuid_user: string = '';
@@ -15,7 +16,13 @@ export class Rule {
   public type: string = '';
   public wallet: Wallet = new Wallet();
   public auto: string = '';
+  public included_fees: string = '';
+  public loop_rule: string = '';
   public active: string = '';
+  public ran: string = '';
+
+  public isParent: boolean;
+  public isChild: boolean;
 
   getId(): string {
     return this.id;
@@ -25,7 +32,7 @@ export class Rule {
     return this.id;
   }
 
-  getName(): string {
+  get getName(): string {
     return this.name;
   }
 
@@ -73,12 +80,39 @@ export class Rule {
     return this.wallet;
   }
 
-  isAuto(): boolean {
+  get isAuto(): boolean {
     return this.auto === 'y';
   }
 
-  isActive(): boolean {
+  get isActive(): boolean {
     return this.active === 'y';
+  }
+
+  get isIncludedFees(): boolean {
+    return this.included_fees === 'y';
+  }
+
+  get isLoopRule(): boolean {
+    return this.loop_rule === 'y';
+  }
+
+  get getRuleDescription(): string {
+    let desc = '';
+    let amoutToBuyOrSellCurrency = '€';
+    let amoutToBuyOrSell = this.amount_eur;
+    if (Number(this.amount_crypto) > 0) {
+      amoutToBuyOrSellCurrency = this.wallet.currency;
+      amoutToBuyOrSell = this.amount_crypto;
+    }
+    if (this.type === 'fixed') {
+      desc = 'If <b>' + this.wallet.currency + '</b> price goes to ' + this.price + ' € or ' + this.price_var + ' <b>' + this.action + '</b> ' +
+        amoutToBuyOrSell + ' ' + amoutToBuyOrSellCurrency;
+    }
+    if (this.type === 'variable') {
+      desc = 'If <b>' + this.wallet.currency + '</b> price goes ' + this.var_action + ' by ' + this.var_perc + ' % compared to the price of the rule #' + this.id_rule + ', then <b>' + this.action + '</b> ' +
+        amoutToBuyOrSell + ' ' + amoutToBuyOrSellCurrency;
+    }
+    return desc;
   }
 
 }

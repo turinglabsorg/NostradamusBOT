@@ -24,13 +24,15 @@ export class AuthGuard implements CanActivate, CanActivateChild, OnInit {
         this.authService.checkUserStoredData().subscribe(
           (rawResponse) => {
             const response = this.apiService.parseAPIResponse(rawResponse);
-            this.authService.setCurrentUser(response);
-            this.authService.setCoinbaseTokens(response);
-          }, (error) => {
-            this.authService.setCurrentUser({});
-            this.authService.resetCoinbaseTokens();
-            this.authService.signOut();
-            this.router.navigate(['/signin']);
+            if (this.apiService.isSuccessfull(rawResponse)) {
+              this.authService.setCurrentUser(response);
+              this.authService.setCoinbaseTokens(response);
+            } else {
+              this.authService.setCurrentUser({});
+              this.authService.resetCoinbaseTokens();
+              this.authService.signOut();
+              this.router.navigate(['/signin']);
+            }
           });
       }
       return true;
@@ -41,19 +43,21 @@ export class AuthGuard implements CanActivate, CanActivateChild, OnInit {
           this.authService.checkUserStoredData().subscribe(
             (rawResponse) => {
               const response = this.apiService.parseAPIResponse(rawResponse);
-              this.authService.setCurrentUser(response);
-              this.authService.setCoinbaseTokens(response);
-              this.authService.signIn();
-              console.log('utente con cookie - check OK');
-              observer.next(true);
-            }, (error) => {
-              this.authService.setCurrentUser({});
-              this.authService.resetCoinbaseTokens();
-              this.authService.signOut();
-              this.router.navigate(['/signin']);
-              console.log('utente con cookie - check ERROR');
-              console.log(error);
-              observer.error(error);
+              if (this.apiService.isSuccessfull(rawResponse)) {
+                this.authService.setCurrentUser(response);
+                this.authService.setCoinbaseTokens(response);
+                this.authService.signIn();
+                console.log('utente con cookie - check OK');
+                observer.next(true);
+              } else {
+                this.authService.setCurrentUser({});
+                this.authService.resetCoinbaseTokens();
+                this.authService.signOut();
+                this.router.navigate(['/signin']);
+                console.log('utente con cookie - check ERROR');
+                console.log(response);
+                observer.error(false);
+              }
             });
         });
       } else {

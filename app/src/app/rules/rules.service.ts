@@ -13,7 +13,9 @@ export class RulesService implements OnInit {
   private rules: Rule[] = [];
   private messageCenter = new Subject<string>();
 
-  constructor(private authService: AuthService, private apiService: ApiService) {
+  private idRuleToConnect: string;
+
+  constructor() {
 
   }
 
@@ -37,15 +39,36 @@ export class RulesService implements OnInit {
     return this.rules;
   }
 
-  setRules(rules: any[]) {
-    this.rules = rules;
+  setRules(rules) {
+    this.rules = _.remove(this.rules, _.isUndefined);
+    for (let index = 0; index < rules.length; index++) {
+      const rule = new Rule();
+      rule.fillFromJSON(rules[index]);
+      this.rules.push(rule);
+    }
+    console.log('--------------------------');
+    console.log('Set Rules on Rules Service');
+    console.log(this.rules);
+    console.log('--------------------------');
+    this.initRulesList();
+  }
+
+  initRulesList() {
+    const parentRulesIDS: string[] = [];
+    this.rules = _.forEach(this.rules, function (rule: Rule) {
+      rule.isChild = Number(rule.id_rule) > 0;
+      parentRulesIDS.push(rule.id_rule);
+    });
+    this.rules = _.forEach(this.rules, function (rule: Rule) {
+      rule.isParent = _.includes(parentRulesIDS, rule.id) || Number(rule.id_rule) <= 0;
+    });
   }
 
   getRule(id: string): Rule {
     return _.find(this.rules, ['id', id]);
   }
 
-  addRule(rule: any) {
+  addRule(rule: Rule) {
     this.rules.push(rule);
   }
 
@@ -61,6 +84,19 @@ export class RulesService implements OnInit {
     this.rules = _.remove(this.rules, function (rule) {
       return rule.id === id;
     });
+  }
+
+  setRuleIdToConnect(id: string) {
+    this.idRuleToConnect = id;
+  }
+
+  getRuleIdToConnect() {
+    return this.idRuleToConnect;
+  }
+
+  setRuleStatus(id: string, status: string) {
+    const rule: Rule = _.find(this.rules, ['id', id]);
+    rule.active = status;
   }
 
 }
