@@ -6,7 +6,7 @@ import {AuthGuard} from './auth/auth-guard.service';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {SettingsComponent} from './settings/settings/settings.component';
 import {RulesComponent} from './rules/rules.component';
-import {ActionsComponent} from './actions/actions/actions.component';
+import {ActionsComponent} from './actions/actions-list/actions-list.component';
 import {RuleEditComponent} from './rules/rule-edit/rule-edit.component';
 import {RuleDetailComponent} from './rules/rule-detail/rule-detail.component';
 import {RulesListComponent} from './rules/rules-list/rules-list.component';
