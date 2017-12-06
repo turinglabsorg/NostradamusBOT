@@ -33,6 +33,7 @@ RewriteRule (\W|^)rules/toggle(\W|$)  index.php?area=rules&request=toggle [L]
 
 #ACTIONS#
 RewriteRule (\W|^)actions/search(\W|$)  index.php?area=actions&request=search [L]
+RewriteRule (\W|^)actions/get(\W|$)  index.php?area=actions&request=get [L]
 
 #MINERS#
 RewriteRule (\W|^)miners/state(\W|$)  index.php?area=miners&request=state [L]

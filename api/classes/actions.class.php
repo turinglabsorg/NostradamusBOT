@@ -178,6 +178,21 @@
 	    	}
 	    	return '<br>DONE';
 	    }
+
+	    protected function get() {
+	        $_POST=$this->request;
+			$checkUUID=returnDBObject("app","SELECT * FROM users WHERE uuid=? AND password=?",array($_POST['uuid'],$_POST['password']));
+
+	    	if($checkUUID['uuid']!=''){
+	    		
+	    		$actions=returnDBObject("app","SELECT * FROM actions WHERE uuid_user=? ORDER BY running_date DESC",array($_POST['uuid']),1);
+	    		
+	    		return $this->data=array('response'=>$actions,'status'=>'200');
+
+			}else{
+				return $this->data=array('response'=>'NOPE','status'=>'404');
+			}
+	    }
 	              
 	}
 ?>
