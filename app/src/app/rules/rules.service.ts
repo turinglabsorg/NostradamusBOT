@@ -54,11 +54,19 @@ export class RulesService implements OnInit {
   }
 
   initRulesList() {
+    const tempRules: Rule[] = [];
     const parentRulesIDS: string[] = [];
     this.rules = _.forEach(this.rules, function (rule: Rule) {
       rule.isChild = Number(rule.id_rule) > 0;
       parentRulesIDS.push(rule.id_rule);
+      if (rule.isChild) {
+        const parentIndex = _.findIndex(tempRules, ['id', rule.id_rule]);
+        tempRules.splice(parentIndex + 1, 0, rule);
+      } else {
+        tempRules.push(rule);
+      }
     });
+    this.rules = tempRules;
     this.rules = _.forEach(this.rules, function (rule: Rule) {
       rule.isParent = _.includes(parentRulesIDS, rule.id) || Number(rule.id_rule) <= 0;
     });
@@ -84,6 +92,7 @@ export class RulesService implements OnInit {
     this.rules = _.remove(this.rules, function (rule) {
       return rule.id === id;
     });
+
   }
 
   setRuleIdToConnect(id: string) {
