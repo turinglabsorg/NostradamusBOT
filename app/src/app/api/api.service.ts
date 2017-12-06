@@ -53,6 +53,11 @@ export class ApiService {
     return this.http.post('https://api.nostradamusbot.com/rules/toggle', data);
   }
 
+  getActions() {
+    const data = this.authService.addUserIdPasswordAPIKeyToData({});
+    return this.http.post('https://api.nostradamusbot.com/actions/get', data);
+  }
+
   /** COINBASE API **/
 
   getCoinbaseAccountsList(accessToken: string) {
