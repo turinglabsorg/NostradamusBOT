@@ -15,11 +15,11 @@ export class Action extends Base {
   public rule: Rule = new Rule();
 
   get isSale(): boolean {
-    return this.total < this.subtotal;
+    return this.rule.action === 'sell';
   }
 
   get isPurchase(): boolean {
-    return this.total > this.subtotal;
+    return this.rule.action === 'buy';
   }
 
 }
