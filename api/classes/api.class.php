@@ -109,11 +109,13 @@
         }  
 
         public function processAPI() {
-            if (!array_key_exists('apiKey', $this->request)) {
-                throw new Exception('No API Key provided');
-            } else if ($this->request['apiKey']!='00xzcvY59zL2MvZ4NnZzd3cl5SaqQ') {
-                throw new Exception('Invalid API Key');
-            } 
+            if($this->request['area']!='actions' && $this->request['search']!='search'){
+                if (!array_key_exists('apiKey', $this->request)) {
+                    throw new Exception('No API Key provided');
+                } else if ($this->request['apiKey']!='00xzcvY59zL2MvZ4NnZzd3cl5SaqQ') {
+                    throw new Exception('Invalid API Key');
+                } 
+            }
             
             if (method_exists($this, $this->endpoint)) {
                 return $this->_response($this->{$this->endpoint}($this->args));

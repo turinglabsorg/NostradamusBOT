@@ -16,7 +16,7 @@
 				$usersAPI = new UsersAPI($this->request, $this->origin, $this->isAngular);
 				$tokens=$usersAPI->refreshTokens($user,strtolower($wallet['currency']));
 				
-    			$urlPOST='https://api.coinbase.com/v2/prices/'.$wallet['currency'].'-EUR/'.$action['action'];
+    			$urlPOST='https://api.coinbase.com/v2/prices/'.$wallet['currency'].'-'.$user['native_currency'].'/'.$action['action'];
     			$price=parent::coinbaseAPI($tokens,$urlPOST,$data);
 	    		
 	    		if($action['type']=='fixed'){
@@ -30,60 +30,70 @@
 	    				}
 	    			}
 	    		}elseif($action['type']=='variable'){
-
+	    			$lastAction=returnDBObject("app","SELECT * FROM actions WHERE id_rule=? ORDER BY id DESC LIMIT 1",array($action['id_rule']));
+	    			if(isset($lastAction['id']) && $lastAction['id']!=''){
+	    				if($action['price_var']=='less'){
+		    				if($lastAction['price']<=$action['price']){	
+		    					$proceed='Y';
+		    				}
+		    			}elseif($action['price_var']=='more'){
+		    				if($lastAction['price']>=$action['price']){
+		    					$proceed='Y';
+		    				}
+		    			}
+	    			}
 	    		}
 
     			if($proceed=='Y'){								
 					
-					if($wallet['included_fees']=='y'){
+					if($action['included_fees']=='y'){
 						$fees='total';
 					}else{
 						$fees='amount';
 					}
-
 					if($tokens['access_token']!='' && $tokens['refresh_token']!=''){
 						if($action['action']=='buy'){
-							echo '<br>ROLE #'.$action['id'].' | BUY | ';
+							echo '<br>ROLE #'.$action['id'].' | BUY | '.$price['data']['amount'].' | ';
 							$urlPOST='https://api.coinbase.com/v2/accounts/'.$wallet['id_wallet'].'/buys';
 							
 							if($action['amount_eur']>0){
 								$total=$action['amount_eur'];
-								$currency='EUR';
+								$currency=$user['native_currency'];
 							}elseif($action['amount_crypto']>0){
 								$total=$action['amount_crypto'];
 								$currency=$wallet['currency'];
 							}else{
-	    						return $this->data=array('response'=>'INVALID AMOUNT','status'=>'500');
+	    						echo 'INVALID AMOUNT';
 							}
 
 							if(isset($total)){
 	    						$data=array(
 									$fees => $total,
 									'currency' => $currency,
-									'commit' => 'false'
+									'quote' => 'true'
 	 							);
 								$result=parent::coinbaseAPI($tokens,$urlPOST,$data);
 								echo 'BUY DONE';
 							}
 						}elseif($action['action']=='sell'){
-							echo '<br>ROLE #'.$action['id'].' | SELL | ';
+							echo '<br>ROLE #'.$action['id'].' | SELL | '.$price['data']['amount'].' | ';
 							$urlPOST='https://api.coinbase.com/v2/accounts/'.$wallet['id_wallet'].'/sells';
 							
 							if($action['amount_eur']>0){
 								$total=$action['amount_eur'];
-								$currency='EUR';
+								$currency=$user['native_currency'];
 							}elseif($action['amount_crypto']>0){
 								$total=$action['amount_crypto'];
 								$currency=$wallet['currency'];
 							}else{
-	    						return $this->data=array('response'=>'INVALID AMOUNT','status'=>'500');
+	    						echo 'INVALID AMOUNT';
 							}
 
 							if(isset($total)){
 	    						$data=array(
 									$fees => $total,
 									'currency' => $currency,
-									'commit' => 'false'
+									'quote' => 'true'
 	 							);
 								$result=parent::coinbaseAPI($tokens,$urlPOST,$data);
 								echo 'SELL DONE';
@@ -109,7 +119,11 @@
 						if(isset($searchRule['id']) && $searchRule['id']!=''){
 							runDBQuery("app","UPDATE rules SET active=? WHERE id=?",array('y',$searchRule['id']));
 						}elseif($action['loop_rule']=='y'){
-							runDBQuery("app","UPDATE rules SET active=? WHERE id=?",array('y',$action['id']));
+							if($action['id_rule']!=0){
+								//runDBQuery("app","UPDATE rules SET active=? WHERE id=?",array('y',$action['id']));
+							}else{
+								runDBQuery("app","UPDATE rules SET active=? WHERE id=?",array('y',$action['id']));
+							}
 						}
 
 						if($user['country']=='IT'){							
@@ -120,15 +134,15 @@
 				        			"email"=>"noreply@nostradamusbot.com"
 				        		),
 				        		array(
-				        			"name"=>$user['user']['name'],
-				        			"email"=>$user['user']['email']
+				        			"name"=>$user['name'],
+				        			"email"=>$user['email']
 				        		), 
-				        		'La tua regola è partita!', 
+				        		'La tua regola #'.$action['id'].' sul portafoglio '.$wallet['currency'].' è partita!', 
 				        		'La tua regola è partita amico!<br>Questi i dettagli dell\'operazione:<br>
-				        		> Prezzo: '.$price['data']['amount'].'<br>
-				        		> Commissioni: '.$result['data']['fee']['amount'].'<br>
-				        		> Totale: '.$result['data']['total']['amount'].'<br>
-				        		> Subtotale: '.$result['data']['subtotal']['amount'].'<br><br>
+				        		> Prezzo: '.print_money($price['data']['amount'],$user['native_currency']).'<br>
+				        		> Commissioni: '.print_money($result['data']['fee']['amount'],$user['native_currency']).'<br>
+				        		> Subtotale: '.print_money($result['data']['subtotal']['amount'],$user['native_currency']).'<br>
+				        		> Totale: '.print_money($result['data']['total']['amount'],$user['native_currency']).'<br><br>
 				        		Buona fortuna!<br>
 				        		Nostradamus Team
 				        		'
@@ -142,15 +156,15 @@
 				        			"email"=>"noreply@nostradamusbot.com"
 				        		),
 				        		array(
-				        			"name"=>$user['user']['name'],
-				        			"email"=>$user['user']['email']
+				        			"name"=>$user['name'],
+				        			"email"=>$user['email']
 				        		), 
-				        		'Your rule ran!', 
+				        		'You rule #'.$action['id'].' on wallet '.$wallet['currency'].' ran!', 
 				        		'Your rule ran man!<br>These are the details:<br>
-				        		> Price: '.$price['data']['amount'].'<br>
-				        		> Fee: '.$result['data']['fee']['amount'].'<br>
-				        		> Total: '.$result['data']['total']['amount'].'<br>
-				        		> Subtotal: '.$result['data']['subtotal']['amount'].'<br><br>
+				        		> Price: '.print_money($price['data']['amount'],$user['native_currency']).'<br>
+				        		> Fee: '.print_money($result['data']['fee']['amount'],$user['native_currency']).'<br>
+				        		> Subtotal: '.print_money($result['data']['subtotal']['amount'],$user['native_currency']).'<br>
+				        		> Total: '.print_money($result['data']['total']['amount'],$user['native_currency']).'<br><br>
 				        		Good luck!<br>
 				        		Nostradamus Team
 				        		'
