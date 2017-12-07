@@ -186,7 +186,6 @@
 	    	if($checkUUID['uuid']!=''){
 	    		
 	    		$actions=returnDBObject("app","SELECT * FROM actions WHERE uuid_user=? ORDER BY running_date DESC",array($_POST['uuid']),1);
-	    		
 	    		return $this->data=array('response'=>$actions,'status'=>'200');
 
 			}else{
