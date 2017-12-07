@@ -38,7 +38,7 @@
           </div>
         </div>
         <div class="col-sm-12">
-          <button class="btn btn-danger pull-right" [disabled]="wallet.value.length == 0" (click)="askWalletDeletingConfirm(deleteWalletModal, wallet.value)">Disconnect the wallet</button>
+          <button class="btn btn-danger pull-right" [disabled]="wallet.value.length == 0 || disconnectWalletLoading" (click)="askWalletDeletingConfirm(deleteWalletModal, wallet.value)"><i *ngIf="disconnectWalletLoading" class="fa fa-spinner fa-spin pull-right"></i> Disconnect the wallet</button>
         </div>
       </div>
     </div>

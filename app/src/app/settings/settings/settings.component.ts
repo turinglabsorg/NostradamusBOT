@@ -12,6 +12,7 @@ import {ApiService} from '../../api/api.service';
 export class SettingsComponent implements OnInit {
 
   settingsLoading = false;
+  disconnectWalletLoading = false;
 
   virtualWallet;
 
@@ -77,13 +78,16 @@ export class SettingsComponent implements OnInit {
   }
 
   deleteWallet() {
+    this.disconnectWalletLoading = true;
     this.apiService.removeWallet(this.walletCurrencyToDisconnect).subscribe(
       (rawResponse) => {
         if (this.apiService.isSuccessfull(rawResponse)) {
           this.authService.setCoinbaseToken('access', this.walletCurrencyToDisconnect, '');
           this.authService.setCoinbaseToken('refresh', this.walletCurrencyToDisconnect, '');
+          this.disconnectWalletLoading = false;
         } else {
           console.log('errore');
+          this.disconnectWalletLoading = false;
         }
       }
     );
