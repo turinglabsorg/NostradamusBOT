@@ -227,8 +227,11 @@ export class AuthService {
   }
 
   setCurrentUser(user: {}) {
-    console.log('set current user : ' + user);
     this.currentUser = user;
+    console.log('---------------------');
+    console.log('User received');
+    console.log(user);
+    console.log('---------------------');
   }
 
   setCoinbaseTokens(user: Object) {
