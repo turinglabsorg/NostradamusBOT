@@ -33,7 +33,6 @@ export class SigninComponent implements OnInit, OnDestroy {
         (rawResponse) => {
           if (this.apiService.isSuccessfull(rawResponse)) {
             const response = this.apiService.parseAPIResponse(rawResponse);
-            console.log(response);
             this.authService.setCurrentUser(response);
             this.authService.setCoinbaseTokens(response);
             this.authService.signIn();
