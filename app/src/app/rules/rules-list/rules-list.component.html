@@ -1,7 +1,12 @@
 <div class="row">
-  <div class="col-md-12 mb-4">
+  <div class="col-md-12">
     <button class="btn btn-info" (click)="openNewRuleEditor()">Create new Rule</button>
-    <div class="list-group-item mt-4" [ngClass]="{'mt-4' : rule.isParent}"
+  </div>
+  <div *ngIf="isLoading" class="col-sm-12">
+    <h5 class="text-center"><i class="fa fa-spinner fa-spin"></i></h5>
+  </div>
+  <div class="col-sm-12">
+    <div class="list-group-item mb-4" [ngClass]="{'mt-4' : rule.isParent}"
          *ngFor="let rule of rulesService.getRules()">
       <div class="row">
         <div class="col-md-9">

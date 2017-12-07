@@ -16,6 +16,8 @@ export class RulesListComponent implements OnInit, OnDestroy {
   rulesMessageSubscription: Subscription;
   public _ = _;
 
+  isLoading = false;
+
   ruleToDelete: Rule;
   childsRuleToDelete: Rule[];
   idLoadingRule: string;
@@ -31,24 +33,27 @@ export class RulesListComponent implements OnInit, OnDestroy {
     this.rulesMessageSubscription = this.rulesService.getMessage().subscribe(message => {
       if (message === RulesService.MSG_GET_RULES) {
         console.log(RulesService.MSG_GET_RULES);
-        this.getRules();
+        this.getRules(false);
       }
     });
-    this.getRules();
+    this.getRules(true);
   }
 
   ngOnDestroy() {
     this.rulesMessageSubscription.unsubscribe();
   }
 
-  getRules() {
+  getRules(showLoading) {
+    this.isLoading = showLoading;
     this.apiService.getRules().subscribe(
       (rawResponse) => {
         if (this.apiService.isSuccessfull(rawResponse)) {
           this.rulesService.setRules(this.apiService.parseAPIResponse(rawResponse));
           this.idLoadingRule = '';
+          this.isLoading = false;
         } else {
           console.log('errore');
+          this.isLoading = false;
         }
       }
     );
