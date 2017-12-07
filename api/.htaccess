@@ -13,11 +13,13 @@ RewriteRule (\W|^)users/delete(\W|$)  index.php?area=users&request=delete [L]
 RewriteRule (\W|^)users/check(\W|$)  index.php?area=users&request=check [L]
 RewriteRule (\W|^)users/login(\W|$)  index.php?area=users&request=login [L]
 RewriteRule (\W|^)users/delete(\W|$)  index.php?area=users&request=delete [L]
+RewriteRule (\W|^)users/settings(\W|$)  index.php?area=users&request=settings [L]
 
 #WALLETS#
 RewriteRule (\W|^)wallets/create(\W|$)  index.php?area=wallets&request=create [L]
 RewriteRule (\W|^)wallets/balance(\W|$)  index.php?area=wallets&request=balance [L]
 RewriteRule (\W|^)wallets/delete(\W|$)  index.php?area=wallets&request=delete [L]
+RewriteRule (\W|^)wallets/get(\W|$)  index.php?area=wallets&request=get [L]
 
 #PRICES#
 RewriteRule (\W|^)prices/ETH(\W|$)  index.php?area=prices&request=ETH [L]

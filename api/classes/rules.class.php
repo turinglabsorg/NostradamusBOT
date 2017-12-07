@@ -11,7 +11,7 @@
 
 	    	if($checkUUID['uuid']!=''){
 	    		
-	    		$rules=returnDBObject("app","SELECT * FROM rules WHERE uuid_user=?",array($_POST['uuid']),1);
+	    		$rules=returnDBObject("app","SELECT * FROM rules WHERE uuid_user=? AND hidden=?",array($_POST['uuid'],'n'),1);
 	    		$r=0;
 	    		foreach($rules as $rule){
 	    			$wallet=returnDBObject("app","SELECT * FROM wallets WHERE id=?",array($rule['id_wallet']));
@@ -38,7 +38,7 @@
 	    		if($checkWALLET['id']!=''){
 					runDBQuery(
 						"app",
-						"INSERT INTO rules (uuid_user,name,action,id_wallet,price,var_action,var_perc,id_rule,auto,active,public,amount_eur,amount_crypto,type,price_var,included_fees,loop_rule) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+						"INSERT INTO rules (uuid_user,name,action,id_wallet,price,var_action,var_perc,id_rule,auto,active,public,amount_eur,amount_crypto,type,price_var,included_fees,loop_rule,hidden) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
 						array(
 							$_POST['uuid'],
 							$_POST['name'],
@@ -56,7 +56,8 @@
 							$_POST['type'],
 							$_POST['price_var'],
 							$_POST['included_fees'],
-							$_POST['loop_rule']
+							$_POST['loop_rule'],
+							'n'
 						)
 					);
 
@@ -80,11 +81,25 @@
 	    		if($checkRULE['id']!=''){
 					runDBQuery(
 						"app",
-						"DELETE FROM rules WHERE id=?",
+						"UPDATE rules SET hidden=? WHERE id=?",
 						array(
+							'y',
 							$_POST['id'],
 						)
 					);
+					$checkRULES=returnDBObject("app","SELECT * FROM rules WHERE uuid_user=? AND id_rule=?",array($_POST['uuid'], $_POST['id']),1);
+					if(count($checkRULES)>0){
+						foreach($checkRULES as $rule){
+							runDBQuery(
+								"app",
+								"UPDATE rules SET hidden=? WHERE id=?",
+								array(
+									'y',
+									$rule['id'],
+								)
+							);
+						}
+					}
 
 					return $this->data=array('response'=>'RULE DELETED','status'=>'200');
 				}else{
