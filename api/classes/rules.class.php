@@ -85,6 +85,18 @@
 							$_POST['id'],
 						)
 					);
+					$checkRULES=returnDBObject("app","SELECT * FROM rules WHERE uuid_user=? AND id_rule=?",array($_POST['uuid'], $_POST['id']),1);
+					if(count($checkRULES)>0){
+						foreach($checkRULES as $rule){
+							runDBQuery(
+								"app",
+								"DELETE FROM rules WHERE id=?",
+								array(
+									$rule['id'],
+								)
+							);
+						}
+					}
 
 					return $this->data=array('response'=>'RULE DELETED','status'=>'200');
 				}else{
