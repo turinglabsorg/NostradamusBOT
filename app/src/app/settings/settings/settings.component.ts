@@ -11,7 +11,9 @@ import {ApiService} from '../../api/api.service';
 })
 export class SettingsComponent implements OnInit {
 
-  virtualWallet = 'y'; /* get from user */
+  settingsLoading = false;
+
+  virtualWallet;
 
   constructor(private router: Router,
               public authService: AuthService,
@@ -20,17 +22,23 @@ export class SettingsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.virtualWallet = this.authService.getCurrentUser()['virtual_wallet'];
   }
 
   saveSettings() {
+    this.settingsLoading = true;
     this.apiService.saveSettings(this.virtualWallet).subscribe(
       (rawResponse) => {
-      if (this.apiService.isSuccessfull(rawResponse)) {
-
-      } else {
-        console.log('errore');
-      }
-    });
+        if (this.apiService.isSuccessfull(rawResponse)) {
+          const response = this.apiService.parseAPIResponse(rawResponse);
+          this.authService.setCurrentUser(response);
+          this.authService.setCoinbaseTokens(response);
+          this.settingsLoading = false;
+        } else {
+          console.log('errore');
+          this.settingsLoading = false;
+        }
+      });
   }
 
   askAccountDeletingConfirm(deleteAccountModal) {
