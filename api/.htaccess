@@ -13,6 +13,7 @@ RewriteRule (\W|^)users/delete(\W|$)  index.php?area=users&request=delete [L]
 RewriteRule (\W|^)users/check(\W|$)  index.php?area=users&request=check [L]
 RewriteRule (\W|^)users/login(\W|$)  index.php?area=users&request=login [L]
 RewriteRule (\W|^)users/delete(\W|$)  index.php?area=users&request=delete [L]
+RewriteRule (\W|^)users/settings(\W|$)  index.php?area=users&request=settings [L]
 
 #WALLETS#
 RewriteRule (\W|^)wallets/create(\W|$)  index.php?area=wallets&request=create [L]

@@ -44,7 +44,7 @@
 
 					runDBQuery(
 						"app",
-						"INSERT INTO users (uuid,refresh_token_".$currentWallet.",name,country,coinbase_id,native_currency,email,password,created,last_token_".$currentWallet.") VALUES (?,?,?,?,?,?,?,?,?,?)",
+						"INSERT INTO users (uuid,refresh_token_".$currentWallet.",name,country,coinbase_id,native_currency,email,password,created,last_token_".$currentWallet.",virtual_wallet) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
 						array(
 							$uuid,
 							$user['refresh_token'],
@@ -55,7 +55,8 @@
 							$user['user']['email'],
 							encryptPassword($password),
 							date('Y-m-d H:i:s'),
-							$user['access_token']
+							$user['access_token'],
+							'n'
 						)
 					);
 
@@ -194,6 +195,31 @@
 
 	    	return $tokens;
 	    }
-	              
+
+	    protected function settings() {
+	    	$_POST=$this->request;
+	    	$checkUUID=returnDBObject("app","SELECT * FROM users WHERE uuid=? AND password=?",array($_POST['uuid'],$_POST['password']));
+	    	if($checkUUID['uuid']!=''){
+	    		runDBQuery("app","UPDATE users SET virtual_wallet=? WHERE uuid=?",array($_POST['virtual_wallet'],$checkUUID['uuid']));
+	    		$savedUser=returnDBObject("app","SELECT * FROM users WHERE uuid=? AND password=?",array($_POST['uuid'],$_POST['password']));
+	    		return $this->data=array('response'=>$savedUser,'status'=>'200');
+	    	}else{
+	    		return $this->data=array('response'=>'NOPE','status'=>'404');
+	    	}
+	    }
+	    
+	    protected function delete() {
+	    	$check=$this->request;
+	    	$checkUUID=returnDBObject("app","SELECT * FROM users WHERE uuid=? AND password=?",array($check['uuid'],$check['password']));
+	    	if($checkUUID['uuid']!=''){
+	    		runDBQuery("app","DELETE FROM users WHERE uuid=?",array($checkUUID['uuid']));
+	    		runDBQuery("app","DELETE FROM rules WHERE uuid_user=?",array($checkUUID['uuid']));
+	    		runDBQuery("app","DELETE FROM wallets WHERE uuid_user=?",array($checkUUID['uuid']));
+	    		runDBQuery("app","DELETE FROM actions WHERE uuid_user=?",array($checkUUID['uuid']));
+	    		return $this->data=array('response'=>'SETTINGS SAVED','status'=>'200');
+	    	}else{
+	    		return $this->data=array('response'=>'NOPE','status'=>'404');
+	    	}
+	    }        
 	}
 ?>

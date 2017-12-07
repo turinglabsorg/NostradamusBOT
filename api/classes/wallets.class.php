@@ -45,7 +45,6 @@
 			}
 	    }
 
-
 	    protected function get() {
 	        $_POST=$this->request;
 			$checkUUID=returnDBObject("app","SELECT * FROM users WHERE uuid=? AND password=?",array($_POST['uuid'],$_POST['password']));
@@ -59,6 +58,25 @@
 			}else{
 				return $this->data=array('response'=>'NOPE','status'=>'404');
 			}
-	    }        
+	    }   
+
+	    protected function delete() {
+	        $_POST=$this->request;
+			$checkUUID=returnDBObject("app","SELECT * FROM users WHERE uuid=? AND password=?",array($_POST['uuid'],$_POST['password']));
+
+	    	if($checkUUID['uuid']!=''){
+	    		$wallet=returnDBObject("app","SELECT * FROM wallets WHERE uuid_user=? AND currency=?",array($_POST['uuid'],$_POST['currency']));
+	    		if($wallet['id']!=''){
+	    			runDBQuery("app","DELETE FROM wallets WHERE id=?",array($wallet['id']));
+	    			runDBQuery("app","UPDATE users SET last_token_".strtolower($_POST['currency'])."=?, refresh_token_".strtolower($_POST['currency'])."=? WHERE uuid=?",array('','',$checkUUID['uuid']));
+	    			return $this->data=array('response'=>'WALLET DELETED','status'=>'200');
+
+	    		}else{
+	    			return $this->data=array('response'=>'WALLET NOT FOUND','status'=>'200');
+	    		}
+			}else{
+				return $this->data=array('response'=>'NOPE','status'=>'404');
+			}
+	    }      
 	}
 ?>

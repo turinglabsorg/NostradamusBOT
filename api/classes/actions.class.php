@@ -45,7 +45,17 @@
 	    		}
 
     			if($proceed=='Y'){								
-					
+					if($user['virtual_wallet']=='y'){
+						$walletMode='quote';
+						$walletValue='true';
+					}else{
+						$walletMode='commit';
+						if($action['auto']=='y'){
+							$walletValue='true';
+						}else{
+							$walletValue='false';
+						}
+					}
 					if($action['included_fees']=='y'){
 						$fees='total';
 					}else{
@@ -70,7 +80,7 @@
 	    						$data=array(
 									$fees => $total,
 									'currency' => $currency,
-									'quote' => 'true'
+									$walletMode => $walletValue
 	 							);
 								$result=parent::coinbaseAPI($tokens,$urlPOST,$data);
 								echo 'BUY DONE';
@@ -93,7 +103,7 @@
 	    						$data=array(
 									$fees => $total,
 									'currency' => $currency,
-									'quote' => 'true'
+									$walletMode => $walletValue
 	 							);
 								$result=parent::coinbaseAPI($tokens,$urlPOST,$data);
 								echo 'SELL DONE';
