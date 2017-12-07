@@ -34,6 +34,12 @@ export class ApiService {
     return this.http.post('https://api.nostradamusbot.com/wallets/balance', data);
   }
 
+  removeWallet(currencyCode: string) {
+    const data = this.authService.addUserIdPasswordAPIKeyToData({});
+    data['currency'] = currencyCode;
+    return this.http.post('https://api.nostradamusbot.com/wallets/delete', data);
+  }
+
   getRules() {
     const data = this.authService.addUserIdPasswordAPIKeyToData({});
     return this.http.post('https://api.nostradamusbot.com/rules/get', data);

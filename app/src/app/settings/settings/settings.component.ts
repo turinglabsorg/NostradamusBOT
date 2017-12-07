@@ -15,6 +15,8 @@ export class SettingsComponent implements OnInit {
 
   virtualWallet;
 
+  walletCurrencyToDisconnect = '';
+
   constructor(private router: Router,
               public authService: AuthService,
               private apiService: ApiService,
@@ -56,6 +58,30 @@ export class SettingsComponent implements OnInit {
         if (this.apiService.isSuccessfull(rawResponse)) {
           this.authService.signOut();
           this.router.navigate(['signin']);
+        } else {
+          console.log('errore');
+        }
+      }
+    );
+  }
+
+  askWalletDeletingConfirm(deleteWalletModal, currencyCode) {
+    this.walletCurrencyToDisconnect = currencyCode;
+    if (this.walletCurrencyToDisconnect != null && this.walletCurrencyToDisconnect !== '') {
+      this.modalService.open(deleteWalletModal).result.then((result) => {
+        this.deleteWallet();
+      }, (reason) => {
+        console.log('modal closed negative');
+      });
+    }
+  }
+
+  deleteWallet() {
+    this.apiService.removeWallet(this.walletCurrencyToDisconnect).subscribe(
+      (rawResponse) => {
+        if (this.apiService.isSuccessfull(rawResponse)) {
+          this.authService.setCoinbaseToken('access', this.walletCurrencyToDisconnect, '');
+          this.authService.setCoinbaseToken('refresh', this.walletCurrencyToDisconnect, '');
         } else {
           console.log('errore');
         }

@@ -22,6 +22,28 @@
     </div>
 
     <div class="list-group-item mt-4">
+      <div class="row">
+        <div class="col-sm-12">
+          <h5 class="list-group-item-heading">Disconnect Coinbase Wallet</h5>
+          <p class="list-group-item-text">
+            If you want disconnect a Coinbase wallet from NostradamusBot, select the wallet and click the button:
+          </p>
+          <div class="form-group">
+            <select id="wallet" class="form-control form-control-lg" name="wallet" [ngModel]="walletCurrencyToDisconnect" #wallet>
+              <option value>Choose a Wallet</option>
+              <option *ngIf="authService.isCoinbaseWalletAuthorized('BTC')" value="BTC">BTC Wallet</option>
+              <option *ngIf="authService.isCoinbaseWalletAuthorized('ETH')" value="ETH">ETH Wallet</option>
+              <option *ngIf="authService.isCoinbaseWalletAuthorized('LTC')" value="LTC">LTC Wallet</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-12">
+          <button class="btn btn-danger pull-right" [disabled]="wallet.value.length == 0" (click)="askWalletDeletingConfirm(deleteWalletModal, wallet.value)">Disconnect the wallet</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="list-group-item mt-4">
       <div class="row align-items-center">
         <div class="col-sm-9">
           <h5 class="list-group-item-heading">Delete Account</h5>
@@ -51,6 +73,22 @@
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="d()">Close</button>
     <button type="button" class="btn btn-danger" (click)="c()">Delete</button>
+  </div>
+</ng-template>
+
+<ng-template #deleteWalletModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Disconnect Coinbase Wallet</h4>
+    <button type="button" class="close pointer" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Do you want disconnect your {{walletCurrencyToDisconnect}} wallet from NostradamusBot?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="d()">Close</button>
+    <button type="button" class="btn btn-danger" (click)="c()">Disconnect</button>
   </div>
 </ng-template>
 
