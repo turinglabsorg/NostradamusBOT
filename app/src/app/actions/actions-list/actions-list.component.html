@@ -2,7 +2,7 @@
   <div *ngIf="isLoading" class="col-sm-12">
     <h5 class="text-center"><i class="fa fa-spinner fa-spin"></i></h5>
   </div>
-  <div *ngIf="!isLoading" class="col-sm-12 mb-4">
+  <div class="col-sm-12 mb-4">
     <div class="list-group-item mt-4"
          *ngFor="let action of actionsService.getActions()">
       <div class="row">
