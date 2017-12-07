@@ -17,7 +17,7 @@
 	include('classes/wallets.class.php');
 	include('classes/actions.class.php');
 	include('classes/miners.class.php');
-	echo 'ciao';
+	
 	try {
 		if(isset($_GET['area'])){
 			$check_angular=json_decode(file_get_contents('php://input'),1);
