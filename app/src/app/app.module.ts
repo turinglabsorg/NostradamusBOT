@@ -15,14 +15,14 @@ import {DashboardComponent} from './dashboard/dashboard.component';
 import {ApiService} from './api/api.service';
 import {SettingsComponent} from './settings/settings/settings.component';
 import {RulesComponent} from './rules/rules.component';
-import {ActionsComponent} from './actions/actions/actions.component';
+import {ActionsComponent} from './actions/actions-list/actions-list.component';
 import {RulesListComponent} from './rules/rules-list/rules-list.component';
-import {RuleDetailComponent} from './rules/rule-detail/rule-detail.component';
 import {RuleEditComponent} from './rules/rule-edit/rule-edit.component';
 import {RulesService} from './rules/rules.service';
 import {WalletComponent} from './dashboard/wallet/wallet.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {CustomFormsModule} from 'ng2-validation';
+import {ActionsService} from './actions/actions.service';
 
 @NgModule({
   declarations: [
@@ -36,7 +36,6 @@ import {CustomFormsModule} from 'ng2-validation';
     RulesComponent,
     ActionsComponent,
     RulesListComponent,
-    RuleDetailComponent,
     RuleEditComponent,
     WalletComponent
   ],
@@ -49,7 +48,7 @@ import {CustomFormsModule} from 'ng2-validation';
     CustomFormsModule,
     NgbModule.forRoot()
   ],
-  providers: [AuthService, AuthGuard, ApiService, RulesService],
+  providers: [AuthService, AuthGuard, ApiService, RulesService, ActionsService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

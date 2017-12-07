@@ -1,0 +1,28 @@
+<div class="row">
+  <div *ngIf="isLoading" class="col-sm-12">
+    <h5 class="text-center"><i class="fa fa-spinner fa-spin"></i></h5>
+  </div>
+  <div *ngIf="!isLoading" class="col-sm-12 mb-4">
+    <div class="list-group-item mt-4"
+         *ngFor="let action of actionsService.getActions()">
+      <div class="row">
+        <div class="col-sm-9">
+          <h5 class="list-group-item-heading">{{action.isPurchase ? 'Purchase' : 'Sale'}}</h5>
+          <p class="list-group-item-text">
+            Total {{action.isPurchase ? 'purchased' : 'sold'}} = {{action.subtotal}} € equivalent to {{action.amount}} {{action.rule.wallet.currency}}<br>
+            Coinbase Fees = {{action.fees}} € <br>
+            --------------------- <br>
+            <b>Total = {{action.total}} € {{action.isPurchase ? 'spent' : 'received'}}</b>
+          </p>
+          <p class="list-group-item-text">
+            Rule executed #{{action.rule.id}}<br>
+          <span class="font-italic" [innerHTML]="action.rule.getRuleDescription"></span>
+          </p>
+        </div>
+        <div class="col-sm-3">
+          <span class="badge badge-info pull-right">{{action.running_date}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

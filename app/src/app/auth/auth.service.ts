@@ -97,6 +97,11 @@ export class AuthService {
     return this.http.post('https://api.nostradamusbot.com/users/login', data);
   }
 
+  deleteUser() {
+    const data = this.addUserIdPasswordAPIKeyToData({});
+    return this.http.post('https://api.nostradamusbot.com/users/delete', data);
+  }
+
   saveUserDataToLocalStorage(uuid: string, pwd: string) {
     localStorage.setItem(this.USER_UUID, uuid);
     localStorage.setItem(this.USER_PWD, pwd);

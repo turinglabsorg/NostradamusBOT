@@ -1,7 +1,7 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4" *ngIf="authService.isAuthenticated()">
+<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4" *ngIf="showNavbar">
   <img class="navbar-brand" src="assets/logo_top.png" alt="NostradamusBot" (click)="goToHome()" style="width: 170px">
   <div class="collapse navbar-collapse" id="navbarCollapse" [ngbCollapse]="isCollapsed">
-    <ul class="navbar-nav mx-auto">
+    <ul class="navbar-nav mx-auto" *ngIf="authService.isAuthenticated()">
       <li class="nav-item">
         <a class="nav-link" role="presentation"
            routerLinkActive="active"

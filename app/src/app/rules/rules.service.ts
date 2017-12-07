@@ -1,7 +1,5 @@
 import {Injectable, OnInit} from '@angular/core';
 import * as _ from 'lodash';
-import {AuthService} from '../auth/auth.service';
-import {ApiService} from '../api/api.service';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
 import {Rule} from './rule.model';
@@ -74,6 +72,16 @@ export class RulesService implements OnInit {
 
   getRule(id: string): Rule {
     return _.find(this.rules, ['id', id]);
+  }
+
+  getChildRules(parentId: string): Rule[] {
+    const childRules: Rule[] = [];
+    this.rules = _.forEach(this.rules, function (rule: Rule) {
+      if (rule.id_rule === parentId) {
+        childRules.push(rule);
+      }
+    });
+    return childRules;
   }
 
   addRule(rule: Rule) {

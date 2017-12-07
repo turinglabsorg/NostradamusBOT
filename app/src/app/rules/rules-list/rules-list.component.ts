@@ -17,6 +17,7 @@ export class RulesListComponent implements OnInit, OnDestroy {
   public _ = _;
 
   ruleToDelete: Rule;
+  childsRuleToDelete: Rule[];
   idLoadingRule: string;
 
   constructor(private router: Router,
@@ -63,6 +64,9 @@ export class RulesListComponent implements OnInit, OnDestroy {
 
   askRuleDeletingConfirm(id: string, deleteRuleModal) {
     this.ruleToDelete = this.rulesService.getRule(id);
+    this.childsRuleToDelete = [];
+    this.childsRuleToDelete = this.rulesService.getChildRules(id);
+
     this.modalService.open(deleteRuleModal).result.then((result) => {
       this.deleteRule(id);
     }, (reason) => {
