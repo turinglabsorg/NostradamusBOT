@@ -2,6 +2,10 @@
   <div *ngIf="isLoading" class="col-sm-12">
     <h5 class="text-center"><i class="fa fa-spinner fa-spin"></i></h5>
   </div>
+  <div *ngIf="showEmptyState" class="col-md-12 text-center">
+    <img class="img-responsive" src="assets/sad_face.png" alt="" height="150px">
+    <h4>No actions extecuted yet</h4>
+  </div>
   <div class="col-sm-12 mb-4">
     <div class="list-group-item mt-4"
          *ngFor="let action of actionsService.getActions()">
@@ -15,7 +19,7 @@
             <b>Total = {{action.total}} € {{action.isPurchase ? 'spent' : 'received'}}</b>
           </p>
           <p class="list-group-item-text">
-            Rule executed #{{action.rule.id}}<br>
+            Rule executed #{{action.rule.id}} {{action.rule.name}}  <span *ngIf="action.rule.isHidden" class="badge badge-warning">this rule was deleted</span><br>
           <span class="font-italic" [innerHTML]="action.rule.getRuleDescription"></span>
           </p>
         </div>

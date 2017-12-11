@@ -20,6 +20,7 @@ export class Rule extends Base {
   public loop_rule: string = '';
   public active: string = '';
   public ran: string = '';
+  public hidden: string = '';
 
   public isParent: boolean;
   public isChild: boolean;
@@ -94,6 +95,10 @@ export class Rule extends Base {
 
   get isLoopRule(): boolean {
     return this.loop_rule === 'y';
+  }
+
+  get isHidden(): boolean {
+    return this.hidden === 'y';
   }
 
   get getRuleDescription(): string {

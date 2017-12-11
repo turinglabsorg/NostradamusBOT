@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import * as _ from 'lodash';
 import {Action} from './action.model';
 import {RulesService} from '../rules/rules.service';
+import {Rule} from '../rules/rule.model';
 
 @Injectable()
 export class ActionsService {
@@ -27,9 +28,9 @@ export class ActionsService {
     return this.actions;
   }
 
-  initActionsList() {
+  initActionsList(rules: Rule[]) {
     for (let index = 0; index < this.actions.length; index++) {
-      this.actions[index].rule = this.rulesService.getRule(this.actions[index]['id_rule']);
+      this.actions[index].rule = _.find(rules, ['id', this.actions[index]['id_rule']]);
     }
   }
 

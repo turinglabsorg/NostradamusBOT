@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ApiService} from '../../api/api.service';
 import {RulesService} from '../../rules/rules.service';
 import {ActionsService} from '../actions.service';
+import {Rule} from '../../rules/rule.model';
 
 @Component({
   selector: 'app-actions',
@@ -11,6 +12,10 @@ import {ActionsService} from '../actions.service';
 export class ActionsComponent implements OnInit {
   actionsReady = false;
   rulesReady = false;
+  archivedRulesReady = false;
+  showEmptyState = false;
+
+  archivedRules: Rule[];
 
   isLoading = false;
 
@@ -51,12 +56,37 @@ export class ActionsComponent implements OnInit {
         }
       }
     );
+    this.apiService.getArchivedRules().subscribe(
+      (rawResponse) => {
+        if (this.apiService.isSuccessfull(rawResponse)) {
+          this.archivedRules = [];
+          const tempRules = this.apiService.parseAPIResponse(rawResponse);
+          for (let index = 0; index < tempRules.length; index++) {
+            const rule = new Rule();
+            rule.fillFromJSON(tempRules[index]);
+            this.archivedRules.push(rule);
+          }
+          this.archivedRulesReady = true;
+          this.showContent();
+        } else {
+          console.log('errore');
+        }
+      }
+    );
   }
 
   showContent() {
-    if (this.actionsReady && this.rulesReady) {
-      this.actionsService.initActionsList();
+    if (this.actionsReady && this.rulesReady && this.archivedRulesReady) {
+      const totalRules: Rule[] = this.rulesService.getRules().slice();
+      totalRules.push.apply(totalRules, this.archivedRules);
+      console.log(totalRules);
+      console.log(this.archivedRules);
+      this.actionsService.initActionsList(totalRules);
       this.isLoading = false;
+    }
+    this.showEmptyState = this.actionsService.getActions().length === 0;
+    if (this.showEmptyState) {
+      this.isLoading = true;
     }
   }
 

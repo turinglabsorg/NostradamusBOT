@@ -17,6 +17,7 @@ export class RulesListComponent implements OnInit, OnDestroy {
   public _ = _;
 
   isLoading = false;
+  showEmptyState = false;
 
   ruleToDelete: Rule;
   childsRuleToDelete: Rule[];
@@ -51,6 +52,7 @@ export class RulesListComponent implements OnInit, OnDestroy {
           this.rulesService.setRules(this.apiService.parseAPIResponse(rawResponse));
           this.idLoadingRule = '';
           this.isLoading = false;
+          this.showEmptyState = this.rulesService.getRules().length === 0;
         } else {
           console.log('errore');
           this.isLoading = false;
