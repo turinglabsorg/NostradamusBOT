@@ -1,15 +1,19 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
 import {AuthService} from '../auth/auth.service';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
   isCollapsed = true;
   showNavbar = false;
+  showVirtualWalletAlert = false;
+
+  authMessageSubscription: Subscription;
 
   constructor(private router: Router, public authService: AuthService) {
 
@@ -32,6 +36,17 @@ export class NavbarComponent implements OnInit {
           }
         }
       );
+
+    this.authMessageSubscription = this.authService.getMessage().subscribe(message => {
+      if (message === AuthService.MSG_USER_READY) {
+        console.log(AuthService.MSG_USER_READY);
+        this.showVirtualWalletAlert = this.authService.getCurrentUser()['virtual_wallet'] === 'y';
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.authMessageSubscription.unsubscribe();
   }
 
   goToHome() {

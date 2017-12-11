@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4" *ngIf="showNavbar">
+<nav class="navbar navbar-expand-md navbar-dark bg-dark" *ngIf="showNavbar">
   <img class="navbar-brand" src="assets/logo_top.png" alt="NostradamusBot" (click)="goToHome()" style="width: 170px">
   <div class="collapse navbar-collapse" id="navbarCollapse" [ngbCollapse]="isCollapsed">
     <ul class="navbar-nav mx-auto" *ngIf="authService.isAuthenticated()">
@@ -51,4 +51,6 @@
     <span class="navbar-toggler-icon"></span>
   </button>
 </nav>
+<div *ngIf="showVirtualWalletAlert" class="alert alert-warning fade show" role="alert"><i class="fa fa-warning"></i>You are using the virtual wallet. Your rules will not use actual money.
+  <a routerLink="/settings">Click here to change this setting.</a></div>
 
