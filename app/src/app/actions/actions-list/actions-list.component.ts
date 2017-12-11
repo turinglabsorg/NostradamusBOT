@@ -86,7 +86,7 @@ export class ActionsComponent implements OnInit {
     }
     this.showEmptyState = this.actionsService.getActions().length === 0;
     if (this.showEmptyState) {
-      this.isLoading = true;
+      this.isLoading = false;
     }
   }
 
