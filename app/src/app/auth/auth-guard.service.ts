@@ -19,8 +19,8 @@ export class AuthGuard implements CanActivate, CanActivateChild, OnInit {
     console.log('url = ' + state.url);
     if (this.authService.isAuthenticated()) {
       console.log('utente autenticato - OK');
-      if (state.url === '/rules') {
-        /* refresh user in rules page */
+      if (state.url === '/rules' || state.url === '/settings') {
+        /* refresh user in rules and settings page */
         this.authService.checkUserStoredData().subscribe(
           (rawResponse) => {
             const response = this.apiService.parseAPIResponse(rawResponse);
