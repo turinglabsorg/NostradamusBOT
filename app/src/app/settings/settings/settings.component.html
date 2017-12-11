@@ -9,14 +9,14 @@
         <div class="col-sm-12">
           <div class="form-group">
             <label for="wallet_type"><h6>Do you want use real or virtual wallet? The virtual wallet will just simulate the transactions.</h6></label>
-            <select id="wallet_type" class="form-control" name="wallet_type" [ngModel]="virtualWallet">
+            <select id="wallet_type" class="form-control" name="wallet_type" [ngModel]="virtualWallet" (change)="onVirtualWalletSettingChange($event.target.value)">
               <option value="y">Virtual Wallet</option>
               <option value="n">Real Wallet</option>
             </select>
           </div>
         </div>
         <div class="col-sm-12">
-          <button class="btn btn-success pull-right" [disabled]="settingsLoading" (click)="saveSettings()"><i *ngIf="settingsLoading" class="fa fa-spinner fa-spin pull-right"></i> Save</button>
+          <button class="btn btn-success pull-right" [disabled]="settingsLoading || !userValid" (click)="saveSettings()"><i *ngIf="settingsLoading" class="fa fa-spinner fa-spin pull-right"></i> Save</button>
         </div>
       </div>
     </div>
@@ -85,6 +85,8 @@
   </div>
   <div class="modal-body">
     <p>Do you want disconnect your {{walletCurrencyToDisconnect}} wallet from NostradamusBot?</p>
+    <p>All rules related to this wallet will be deleted.</p>
+    <p>All actions related to this wallet will be deleted.</p>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="d()">Close</button>
