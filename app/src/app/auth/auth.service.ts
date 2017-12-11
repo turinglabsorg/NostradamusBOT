@@ -1,11 +1,15 @@
 import {Headers, Http, RequestOptions} from '@angular/http';
 import {Injectable} from '@angular/core';
+import {Subject} from 'rxjs/Subject';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class AuthService {
 
   constructor(private http: Http) {
   }
+
+  public static MSG_USER_READY = 'user_ready';
 
   ALLOWED_TO_UNSIGNED = [
     '/signin',
@@ -42,6 +46,8 @@ export class AuthService {
   private loggedIn = false;
 
   private currentUser = {};
+
+  private messageCenter = new Subject<string>();
 
   /* API AUTH */
   isAuthenticated(): boolean {
@@ -116,6 +122,20 @@ export class AuthService {
 
   areUserDataPresentInLocalStorage() {
     return localStorage.getItem(this.USER_UUID) !== null && localStorage.getItem(this.USER_PWD) !== null;
+  }
+
+  /** Message AUTH **/
+
+  sendMessage(message: string) {
+    this.messageCenter.next(message);
+  }
+
+  clearMessage() {
+    this.messageCenter.next();
+  }
+
+  getMessage(): Observable<string> {
+    return this.messageCenter.asObservable();
   }
 
   /** Coinbase AUTH **/
@@ -232,6 +252,7 @@ export class AuthService {
     console.log('User received');
     console.log(user);
     console.log('---------------------');
+    this.sendMessage(AuthService.MSG_USER_READY);
   }
 
   setCoinbaseTokens(user: Object) {
