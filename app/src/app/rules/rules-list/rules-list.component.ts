@@ -6,6 +6,7 @@ import * as _ from 'lodash';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Rule} from '../rule.model';
+import {LangService} from '../../lang/lang.service';
 
 @Component({
   selector: 'app-rules-list',
@@ -23,7 +24,8 @@ export class RulesListComponent implements OnInit, OnDestroy {
   childsRuleToDelete: Rule[];
   idLoadingRule: string;
 
-  constructor(private router: Router,
+  constructor(public langService: LangService,
+              private router: Router,
               private route: ActivatedRoute,
               private apiService: ApiService,
               public rulesService: RulesService,
