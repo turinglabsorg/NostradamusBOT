@@ -8,6 +8,7 @@ import {isUndefined} from 'util';
 import {CustomValidators} from 'ng2-validation';
 import {AuthService} from '../../auth/auth.service';
 import * as _ from 'lodash';
+import {LangService} from '../../lang/lang.service';
 
 @Component({
   selector: 'app-rule-edit',
@@ -15,6 +16,7 @@ import * as _ from 'lodash';
   styleUrls: ['./rule-edit.component.css']
 })
 export class RuleEditComponent implements OnInit {
+  public _ = _;
   ruleForm: FormGroup;
   id: string;
   editMode: boolean;
@@ -23,7 +25,8 @@ export class RuleEditComponent implements OnInit {
   rulesToPick: Rule[];
   parentRule: Rule;
 
-  constructor(private router: Router,
+  constructor(public langService: LangService,
+              private router: Router,
               private route: ActivatedRoute,
               public rulesService: RulesService,
               private apiService: ApiService,
