@@ -24,6 +24,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {CustomFormsModule} from 'ng2-validation';
 import {ActionsService} from './actions/actions.service';
 import {LangService} from './lang/lang.service';
+import { FeesListComponent } from './fees/fees-list/fees-list.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import {LangService} from './lang/lang.service';
     ActionsComponent,
     RulesListComponent,
     RuleEditComponent,
-    WalletComponent
+    WalletComponent,
+    FeesListComponent
   ],
   imports: [
     BrowserModule,

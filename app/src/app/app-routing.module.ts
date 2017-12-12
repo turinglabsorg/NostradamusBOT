@@ -8,6 +8,7 @@ import {SettingsComponent} from './settings/settings/settings.component';
 import {ActionsComponent} from './actions/actions-list/actions-list.component';
 import {RuleEditComponent} from './rules/rule-edit/rule-edit.component';
 import {RulesListComponent} from './rules/rules-list/rules-list.component';
+import {FeesListComponent} from './fees/fees-list/fees-list.component';
 
 const appRoutes: Routes = [
   {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
@@ -18,7 +19,8 @@ const appRoutes: Routes = [
   {path: 'rules', component: RulesListComponent, canActivate: [AuthGuard]},
   {path: 'rules/new', component: RuleEditComponent, canActivate: [AuthGuard]},
   {path: 'rules/:id/edit', component: RuleEditComponent, canActivate: [AuthGuard]},
-  {path: 'actions', component: ActionsComponent, canActivate: [AuthGuard]}
+  {path: 'actions', component: ActionsComponent, canActivate: [AuthGuard]},
+  {path: 'fees', component: FeesListComponent, canActivate: [AuthGuard]}
 
 ];
 

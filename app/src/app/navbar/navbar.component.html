@@ -32,6 +32,15 @@
         <a class="nav-link" role="presentation"
            routerLinkActive="active"
            [routerLinkActiveOptions]="{exact: true}"
+           routerLink="/fees"
+           (click)="toggleMenu()">
+          {{langService.getString('fees')}}
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" role="presentation"
+           routerLinkActive="active"
+           [routerLinkActiveOptions]="{exact: true}"
            routerLink="/settings"
            (click)="toggleMenu()">
           {{langService.getString('settings')}}
