@@ -4,6 +4,8 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Router} from '@angular/router';
 import {ApiService} from '../../api/api.service';
 import {Subscription} from 'rxjs/Subscription';
+import * as _ from 'lodash';
+import {LangService} from '../../lang/lang.service';
 
 @Component({
   selector: 'app-settings',
@@ -11,6 +13,7 @@ import {Subscription} from 'rxjs/Subscription';
   styleUrls: ['./settings.component.css']
 })
 export class SettingsComponent implements OnInit, OnDestroy {
+  public _ = _;
   authMessageSubscription: Subscription;
 
   settingsLoading = false;
@@ -21,7 +24,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
   walletCurrencyToDisconnect = '';
 
-  constructor(private router: Router,
+  constructor(public langService: LangService,
+              private router: Router,
               public authService: AuthService,
               private apiService: ApiService,
               private modalService: NgbModal) {

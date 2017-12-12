@@ -90,6 +90,21 @@ export class Languages {
         'received': 'ricevuto',
         'rule_executed': 'Regola eseguita',
         'rule_was_deleted': 'questa regola è stata eliminata',
+        /* SETTINGS */
+        'wallet_type_label': 'Vuoi usare il portafoglio virtuale? Il portafoglio virtuale simulerà le transazioni.',
+        'virtual_wallet': 'portafoglio virtuale',
+        'real_wallet': 'portafoglio reale',
+        'disconnect_wallet': 'Disconnetti portafoglio di Coinbase',
+        'disconnect_wallet_label': 'Se vuoi disconnettere un protafoglio di Coinbase da NostradamusBot, selezionalo dalla lista e clicca il bottone:',
+        'disconnect_wallet_button': 'Disconnetti portafoglio',
+        'disconnect_wallet_modal_msg': 'Vuoi disconnettere il tuo protafoglio [0] da NostradamusBot?',
+        'disconnect_wallet_modal_msg_all_rules': 'Tutte le regole relative a questo portafoglio saranno eliminate.',
+        'disconnect_wallet_modal_msg_all_actions': 'Tutte le azioni relative a questo portafoglio saranno eliminate.',
+        'disconnect': 'disconnetti',
+        'delete_account': 'Elimina Account',
+        'delete_account_label': 'Se vuoi eliminare il tuo account da NostradamusBot, clicca il pulsante e segui le istruzioni:',
+        'delete_account_button': 'Elimina il mio Account',
+        'delete_account_modal_msg': 'Sei sicuro di voler eliminare il tuo account da NostradamusBot?',
       },
       'en': {
         /* NAVBAR */
@@ -179,6 +194,21 @@ export class Languages {
         'received': 'received',
         'rule_executed': 'Rule executed',
         'rule_was_deleted': 'this rule was deleted',
+        /* SETTINGS */
+        'wallet_type_label': 'Do you want use real or virtual wallet? The virtual wallet will just simulate the transactions.',
+        'virtual_wallet': 'Virtual Wallet',
+        'real_wallet': 'Real Wallet',
+        'disconnect_wallet': 'Disconnect Coinbase Wallet',
+        'disconnect_wallet_label': 'If you want disconnect a Coinbase wallet from NostradamusBot, select the wallet and click the button:',
+        'disconnect_wallet_button': 'Disconnect the wallet',
+        'disconnect_wallet_modal_msg': 'Do you want disconnect your [0] wallet from NostradamusBot?',
+        'disconnect_wallet_modal_msg_all_rules': 'All rules related to this wallet will be deleted.',
+        'disconnect_wallet_modal_msg_all_actions': 'All actions related to this wallet will be deleted.',
+        'disconnect': 'disconnect',
+        'delete_account': 'Delete Account',
+        'delete_account_label': 'If you want delete your account from NostradamusBot, click the button and follow the instructions:',
+        'delete_account_button': 'Delete My Account',
+        'delete_account_modal_msg': 'Do you want delete your account from NostradamusBot?',
       }
     };
   }
