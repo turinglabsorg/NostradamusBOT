@@ -80,7 +80,16 @@ export class Languages {
         'sale': 'vendita',
         'buying': 'acquisto',
         'selling': 'vendita',
-    // {{langService.getString('price_fixed')}}
+        /* ACTIONS */
+        'no_actions': 'Non è stata eseguita nessuna azione',
+        'total': 'totale',
+        'purchased': 'acquistato',
+        'sold': 'venduto',
+        'equivalent_to': 'equivalente a',
+        'spent': 'speso',
+        'received': 'ricevuto',
+        'rule_executed': 'Regola eseguita',
+        'rule_was_deleted': 'questa regola è stata eliminata',
       },
       'en': {
         /* NAVBAR */
@@ -160,6 +169,16 @@ export class Languages {
         'sale': 'Sale',
         'buying': 'buying',
         'selling': 'selling',
+        /* ACTIONS */
+        'no_actions': 'No actions extecuted yet',
+        'total': 'total',
+        'purchased': 'purchased',
+        'sold': 'sold',
+        'equivalent_to': 'equivalent to',
+        'spent': 'spent',
+        'received': 'received',
+        'rule_executed': 'Rule executed',
+        'rule_was_deleted': 'this rule was deleted',
       }
     };
   }
