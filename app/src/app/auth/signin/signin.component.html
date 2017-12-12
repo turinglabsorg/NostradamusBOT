@@ -4,17 +4,9 @@
     <img src="assets/logo_top.png" alt="NostradamusBot" style="width: 180px">
     <div class="card my-5">
       <div class="card-body text-center">
-        <a href="{{coinbaseAuthCodeRequestURL}}" class="btn btn-primary btn-block"><i class="fa fa-sign-in mr-2"></i>SignIn with Coinbase</a>
-        <!--<div class="form-group">-->
-          <!--<div class="input-group">-->
-        <!--<span class="input-group-addon">-->
-            <!--<i class="fa fa-envelope"></i>-->
-        <!--</span>-->
-            <!--<input type="text" class="form-control" placeholder="scope"  [(ngModel)]="scope">-->
-          <!--</div>-->
-        <!--</div>-->
+        <a href="{{coinbaseAuthCodeRequestURL}}" class="btn btn-primary btn-block"><i class="fa fa-sign-in mr-2"></i>{{langService.getString('signin_coinbase')}}</a>
         <br/><br/>
-        <h5>Or use your data :</h5>
+        <h5>{{langService.getString('signin_email_password')}}</h5>
         <div class="form-group">
           <div class="input-group">
         <span class="input-group-addon">
@@ -31,7 +23,7 @@
             <input type="password" class="form-control" placeholder="Password"  [(ngModel)]="user.password">
           </div>
         </div>
-        <button class="btn btn-primary btn-block" (click)="signIn()"><i class="fa fa-sign-in mr-2"></i>SignIn</button>
+        <button class="btn btn-primary btn-block" (click)="signIn()"><i class="fa fa-sign-in mr-2"></i>{{langService.getString('signin')}}</button>
       </div>
     </div>
   </div>

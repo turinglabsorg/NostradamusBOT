@@ -14,6 +14,10 @@ export class Languages {
         'virtual_wallet_alert_link': 'Clicca qui per cambiare questa impostazione',
         /* DASHBOARD */
         'connect_coinbase': 'Connetti da Coinbase',
+        /* SIGNIN */
+        'signin_coinbase': 'Accedi con Coinbase',
+        'signin_email_password': 'o accedi con i tuoi dati',
+        'signin': 'Accedi',
         /* RULES */
         'create_new_rule': 'Crea Nuova Regola',
         'no_rules': 'Nessuna regola presente, creane una!',
@@ -120,6 +124,10 @@ export class Languages {
         'virtual_wallet_alert_link': 'Click here to change this setting.',
         /* DASHBOARD */
         'connect_coinbase': 'Connect Coinbase',
+        /* SIGNIN */
+        'signin_coinbase': 'SignIn with Coinbase',
+        'signin_email_password': 'Or SignIn with your data',
+        'signin': 'SignIn',
         /* RULES */
         'create_new_rule': 'Create new Rule',
         'no_rules': 'No rule present, create one!',
