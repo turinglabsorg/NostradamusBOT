@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
 import {AuthService} from '../auth/auth.service';
 import {Subscription} from 'rxjs/Subscription';
+import {LangService} from '../lang/lang.service';
 
 @Component({
   selector: 'app-navbar',
@@ -15,7 +16,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   authMessageSubscription: Subscription;
 
-  constructor(private router: Router, public authService: AuthService) {
+  constructor(public langService: LangService, private router: Router, public authService: AuthService) {
 
   }
 
