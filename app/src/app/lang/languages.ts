@@ -3,6 +3,7 @@ export class Languages {
   public static get languages(): Object {
     return {
       'it': {
+        /* NAVBAR */
         'signout': 'Esci',
         'dashboard': 'Dashboard',
         'rules': 'Regole',
@@ -11,6 +12,7 @@ export class Languages {
         'settings': 'Impostazioni',
         'virtual_wallet_alert': 'Stai utilizzando il portafoglio virtuale. Le tue azioni saranno semplicemente simulate.',
         'virtual_wallet_alert_link': 'Clicca qui per cambiare questa impostazione',
+        /* RULES */
         'create_new_rule': 'Crea Nuova Regola',
         'no_rules': 'Nessuna regola presente, creane una!',
         'wallet_with_currency': 'Portafoglio [0]',
@@ -38,8 +40,13 @@ export class Languages {
         'more': 'più',
         'goes_up': 'aumenta',
         'goes_down': 'diminuisce',
+        'delete_rule': 'Elimina Regola',
+        'delete_rule_question': 'Sei sicuro di vole eliminare la regola seguente?',
+        'delete_rule_and_rules_connected': 'Eliminando la regola #[0], saranno eliminate anche tutte le regole ad essa connesse:',
+        'close': 'Chiudi',
       },
       'en': {
+        /* NAVBAR */
         'signout': 'SignOut',
         'dashboard': 'Dashboard',
         'rules': 'Rules',
@@ -48,6 +55,7 @@ export class Languages {
         'settings': 'Settings',
         'virtual_wallet_alert': 'You are using the virtual wallet. Your actions will be just simulated',
         'virtual_wallet_alert_link': 'Click here to change this setting.',
+        /* RULES */
         'create_new_rule': 'Create new Rule',
         'no_rules': 'No rule present, create one!',
         'wallet_with_currency': '[0] Wallet',
@@ -75,6 +83,10 @@ export class Languages {
         'more': 'more',
         'goes_up': 'up',
         'goes_down': 'down',
+        'delete_rule': 'Delete Rule',
+        'delete_rule_question': 'Do you want delete the following rule?',
+        'delete_rule_and_rules_connected': 'If you delete the rule #[0], you will delete all rules connected as well:',
+        'close': 'Close',
       }
     };
   }

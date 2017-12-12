@@ -79,24 +79,24 @@
 
 <ng-template #deleteRuleModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title">Delete Rule</h4>
+    <h4 class="modal-title">{{langService.getString('delete_rule')}}</h4>
     <button type="button" class="close pointer" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <p>Do you want delete the following rule?</p>
-    <p>#{{ruleToDelete.id}} - {{ruleToDelete.wallet.currency}} Wallet - {{ruleToDelete.name}}</p>
+    <p>{{langService.getString('delete_rule_question')}}</p>
+    <p>#{{ruleToDelete.id}} - {{langService.getString('wallet_with_currency', ruleToDelete.wallet.currency)}} - {{ruleToDelete.name}}</p>
     <div *ngIf="childsRuleToDelete.length > 0">
-      <p>If you delete the rule #{{ruleToDelete.id}}, you will delete all rules connected as well:</p>
+      <p>{{langService.getString('delete_rule_and_rules_connected', ruleToDelete.id)}}</p>
       <ul>
-        <li *ngFor="let rule of childsRuleToDelete">#{{rule.id}} - {{rule.wallet.currency}} Wallet - {{rule.name}}</li>
+        <li *ngFor="let rule of childsRuleToDelete">#{{rule.id}} - {{langService.getString('wallet_with_currency', rule.wallet.currency)}} - {{rule.name}}</li>
       </ul>
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="d()">Close</button>
-    <button type="button" class="btn btn-danger" (click)="c()">Delete</button>
+    <button type="button" class="btn btn-secondary" (click)="d()">{{langService.getString('close')}}</button>
+    <button type="button" class="btn btn-danger" (click)="c()">{{langService.getString('delete')}}</button>
   </div>
 </ng-template>
 
