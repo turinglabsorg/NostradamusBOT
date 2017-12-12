@@ -12,6 +12,8 @@ export class Languages {
         'settings': 'Impostazioni',
         'virtual_wallet_alert': 'Stai utilizzando il portafoglio virtuale. Le tue azioni saranno semplicemente simulate.',
         'virtual_wallet_alert_link': 'Clicca qui per cambiare questa impostazione',
+        /* DASHBOARD */
+        'connect_coinbase': 'Connetti da Coinbase',
         /* RULES */
         'create_new_rule': 'Crea Nuova Regola',
         'no_rules': 'Nessuna regola presente, creane una!',
@@ -116,6 +118,8 @@ export class Languages {
         'settings': 'Settings',
         'virtual_wallet_alert': 'You are using the virtual wallet. Your actions will be just simulated',
         'virtual_wallet_alert_link': 'Click here to change this setting.',
+        /* DASHBOARD */
+        'connect_coinbase': 'Connect Coinbase',
         /* RULES */
         'create_new_rule': 'Create new Rule',
         'no_rules': 'No rule present, create one!',

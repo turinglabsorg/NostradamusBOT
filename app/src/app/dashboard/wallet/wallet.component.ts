@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ApiService} from '../../api/api.service';
 import {AuthService} from '../../auth/auth.service';
+import {LangService} from '../../lang/lang.service';
 
 @Component({
   selector: 'app-wallet',
@@ -12,7 +13,9 @@ export class WalletComponent implements OnInit {
   balance;
   showBalanceOrButton = false;
 
-  constructor(private apiService: ApiService, public authService: AuthService) {
+  constructor(public langService: LangService,
+              private apiService: ApiService,
+              public authService: AuthService) {
   }
 
   ngOnInit() {
