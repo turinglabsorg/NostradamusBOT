@@ -18,6 +18,10 @@ export class Languages {
         'signin_coinbase': 'Accedi con Coinbase',
         'signin_email_password': 'o accedi con i tuoi dati',
         'signin': 'Accedi',
+        /* AUTH */
+        'auth_msg_1': 'Caricamento...',
+        'auth_msg_2': 'Stiamo ricevendo i tuoi dati da Coinbase, attendi perfavore',
+        'auth_msg_3': 'Sarai presto reindirizzato in automatico sulla Dashboard!',
         /* RULES */
         'create_new_rule': 'Crea Nuova Regola',
         'no_rules': 'Nessuna regola presente, creane una!',
@@ -128,6 +132,10 @@ export class Languages {
         'signin_coinbase': 'SignIn with Coinbase',
         'signin_email_password': 'Or SignIn with your data',
         'signin': 'SignIn',
+        /* AUTH */
+        'auth_msg_1': 'Loading...',
+        'auth_msg_2': 'We are getting your data from Coinbase, please wait',
+        'auth_msg_3': 'You will be redirected to Dashboard soon!',
         /* RULES */
         'create_new_rule': 'Create new Rule',
         'no_rules': 'No rule present, create one!',
