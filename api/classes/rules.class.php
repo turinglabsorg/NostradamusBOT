@@ -28,6 +28,29 @@
 			}
 	    }
 
+	    protected function archive() {
+	        $_POST=$this->request;
+			$checkUUID=returnDBObject("app","SELECT * FROM users WHERE uuid=? AND password=?",array($_POST['uuid'],$_POST['password']));
+
+	    	if($checkUUID['uuid']!=''){
+	    		
+	    		$rules=returnDBObject("app","SELECT * FROM rules WHERE uuid_user=? AND hidden=?",array($_POST['uuid'],'y'),1);
+	    		$r=0;
+	    		foreach($rules as $rule){
+	    			$wallet=returnDBObject("app","SELECT * FROM wallets WHERE id=?",array($rule['id_wallet']));
+	    			$actions=returnDBObject("app","SELECT * FROM actions WHERE id_rule=?",array($rule['id']),1);
+	    			$rules[$r]['wallet']=$wallet;
+	    			$rules[$r]['ran']=count($actions);
+	    			unset($rules[$r]['id_wallet']);
+	    			$r++;
+	    		}
+	    		return $this->data=array('response'=>$rules,'status'=>'200');
+
+			}else{
+				return $this->data=array('response'=>'NOPE','status'=>'404');
+			}
+	    }
+
 	    protected function create() {
 	        $_POST=$this->request;
 			$checkUUID=returnDBObject("app","SELECT * FROM users WHERE uuid=? AND password=?",array($_POST['uuid'],$_POST['password']));

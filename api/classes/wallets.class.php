@@ -68,6 +68,18 @@
 	    		$wallet=returnDBObject("app","SELECT * FROM wallets WHERE uuid_user=? AND currency=?",array($_POST['uuid'],$_POST['currency']));
 	    		if($wallet['id']!=''){
 	    			runDBQuery("app","DELETE FROM wallets WHERE id=?",array($wallet['id']));
+	    			$rules=returnDBObject("app","SELECT * FROM rules WHERE id_wallet=?",array($wallet['id']),1);
+	    			if(count($rules)>0){
+	    				foreach($rules as $rule){
+		    				$actions=returnDBObject("app","SELECT * FROM actions WHERE id_rule=?",array($rule['id']),1);
+		    				if(count($actions)>0){
+		    					foreach($actions as $action){
+	    							runDBQuery("app","DELETE FROM actions WHERE id=?",array($action['id']));
+		    					}
+		    				}
+		    			}
+	    				runDBQuery("app","DELETE FROM rules WHERE id_wallet=?",array($wallet['id']));
+	    			}
 	    			runDBQuery("app","UPDATE users SET last_token_".strtolower($_POST['currency'])."=?, refresh_token_".strtolower($_POST['currency'])."=? WHERE uuid=?",array('','',$checkUUID['uuid']));
 	    			return $this->data=array('response'=>'WALLET DELETED','status'=>'200');
 

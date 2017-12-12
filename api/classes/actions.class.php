@@ -125,6 +125,26 @@
 							)
 						);
 						runDBQuery("app","UPDATE rules SET active=? WHERE id=?",array('n',$action['id']));
+						
+						if($walletMode=='commit' && $walletValue=='true'){
+							$checkACTION=returnDBObject("app","SELECT * FROM actions WHERE uuid_user=? ORDER BY id DESC LIMIT 1",array($user['uuid']));
+							$checkFEE=returnDBObject("app","SELECT * FROM fees WHERE uuid_user=? AND fee_date=?",array($user['uuid'],date('Y-m-d')));
+							if(!isset($checkFEE['id'])){
+								runDBQuery(
+									"app",
+									"INSERT INTO fees (uuid_user,fee_date,id_action,id_rule,id_wallet,fee_paid) VALUES (?,?,?,?,?,?)",
+									array(
+										$user['uuid'],
+										date('Y-m-d'),
+										$checkACTION['id'],
+										$action['id'],
+										$wallet['id'],
+										'n'
+									)
+								);
+							}
+						}
+
 						$searchRule=returnDBObject("app","SELECT * FROM rules WHERE id_rule=?",array($action['id']));
 						if(isset($searchRule['id']) && $searchRule['id']!=''){
 							runDBQuery("app","UPDATE rules SET active=? WHERE id=?",array('y',$searchRule['id']));
