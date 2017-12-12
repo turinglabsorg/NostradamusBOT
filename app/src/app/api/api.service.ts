@@ -1,7 +1,6 @@
 import {Http, RequestOptions, Headers} from '@angular/http';
 import {Injectable} from '@angular/core';
 import {AuthService} from '../auth/auth.service';
-import {Base} from '../base.model';
 
 @Injectable()
 export class ApiService {
@@ -73,6 +72,11 @@ export class ApiService {
   getActions() {
     const data = this.authService.addUserIdPasswordAPIKeyToData({});
     return this.http.post('https://api.nostradamusbot.com/actions/get', data);
+  }
+
+  getFees() {
+    const data = this.authService.addUserIdPasswordAPIKeyToData({});
+    return this.http.post('https://api.nostradamusbot.com/fees/get', data);
   }
 
   /** COINBASE API **/
