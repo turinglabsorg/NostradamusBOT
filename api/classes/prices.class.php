@@ -31,5 +31,11 @@
 	        );
 	        return $this->data=array('response'=>$response,'status'=>'200');
 	    }
+
+	    protected function history() {
+	    	$_POST=$this->request;
+	        $prices=returnDBObject("prices","SELECT * FROM ".strtolower($_POST['currency'])."_prices WHERE price_type=? ORDER BY id ASC",array('SPOT'),1);
+	        return $this->data=array('response'=>$prices,'status'=>'200');
+	    }
 	}
 ?>

@@ -22,6 +22,7 @@ RewriteRule (\W|^)wallets/delete(\W|$)  index.php?area=wallets&request=delete [L
 RewriteRule (\W|^)wallets/get(\W|$)  index.php?area=wallets&request=get [L]
 
 #PRICES#
+RewriteRule (\W|^)prices/history(\W|$)  index.php?area=prices&request=history [L]
 RewriteRule (\W|^)prices/ETH(\W|$)  index.php?area=prices&request=ETH [L]
 RewriteRule (\W|^)prices/BTC(\W|$)  index.php?area=prices&request=BTC [L]
 RewriteRule (\W|^)prices/LTC(\W|$)  index.php?area=prices&request=LTC [L]
@@ -31,6 +32,7 @@ RewriteRule (\W|^)rules/create(\W|$)  index.php?area=rules&request=create [L]
 RewriteRule (\W|^)rules/edit(\W|$)  index.php?area=rules&request=edit [L]
 RewriteRule (\W|^)rules/delete(\W|$)  index.php?area=rules&request=delete [L]
 RewriteRule (\W|^)rules/get(\W|$)  index.php?area=rules&request=get [L]
+RewriteRule (\W|^)rules/archive(\W|$)  index.php?area=rules&request=archive [L]
 RewriteRule (\W|^)rules/toggle(\W|$)  index.php?area=rules&request=toggle [L]
 
 #ACTIONS#
