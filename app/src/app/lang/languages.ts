@@ -4,12 +4,12 @@ export class Languages {
     return {
       'it': {
         /* NAVBAR */
-        'signout': 'Esci',
-        'dashboard': 'Dashboard',
-        'rules': 'Regole',
-        'actions': 'Azioni',
-        'fees': 'Commissioni',
-        'settings': 'Impostazioni',
+        'signout': 'esci',
+        'dashboard': 'dashboard',
+        'rules': 'regole',
+        'actions': 'azioni',
+        'fees': 'commissioni',
+        'settings': 'impostazioni',
         'virtual_wallet_alert': 'Stai utilizzando il portafoglio virtuale. Le tue azioni saranno semplicemente simulate.',
         'virtual_wallet_alert_link': 'Clicca qui per cambiare questa impostazione',
         /* DASHBOARD */
@@ -111,19 +111,19 @@ export class Languages {
         'disconnect_wallet_modal_msg_all_rules': 'Tutte le regole relative a questo portafoglio saranno eliminate.',
         'disconnect_wallet_modal_msg_all_actions': 'Tutte le azioni relative a questo portafoglio saranno eliminate.',
         'disconnect': 'disconnetti',
-        'delete_account': 'Elimina Account',
+        'delete_account': 'Elimina account',
         'delete_account_label': 'Se vuoi eliminare il tuo account da NostradamusBot, clicca il pulsante e segui le istruzioni:',
-        'delete_account_button': 'Elimina il mio Account',
+        'delete_account_button': 'Elimina il mio account',
         'delete_account_modal_msg': 'Sei sicuro di voler eliminare il tuo account da NostradamusBot?',
       },
       'en': {
         /* NAVBAR */
-        'signout': 'SignOut',
-        'dashboard': 'Dashboard',
-        'rules': 'Rules',
-        'actions': 'Actions',
-        'fees': 'Fees',
-        'settings': 'Settings',
+        'signout': 'signout',
+        'dashboard': 'dashboard',
+        'rules': 'rules',
+        'actions': 'actions',
+        'fees': 'fees',
+        'settings': 'settings',
         'virtual_wallet_alert': 'You are using the virtual wallet. Your actions will be just simulated',
         'virtual_wallet_alert_link': 'Click here to change this setting.',
         /* DASHBOARD */

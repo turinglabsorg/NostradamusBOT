@@ -3,7 +3,7 @@
     <h4 class="">{{currencyInfo.coinName}}<span class="pull-right">{{currencyInfo.symbol}}</span></h4>
   </div>
   <div class="card-body text-center">
-    <h2 *ngIf="currencyDataReady">{{currencyPrice}} €</h2>
+    <h2 *ngIf="currencyDataReady">{{currencyPrice | number:'1.0-4'}} €</h2>
     <h2 *ngIf="!currencyDataReady"><i class="fa fa-spinner fa-spin"></i></h2>
   </div>
 </div>

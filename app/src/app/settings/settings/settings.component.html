@@ -10,13 +10,13 @@
           <div class="form-group">
             <label for="wallet_type"><h6>{{langService.getString('wallet_type_label')}}</h6></label>
             <select id="wallet_type" class="form-control" name="wallet_type" [ngModel]="virtualWallet" (change)="onVirtualWalletSettingChange($event.target.value)">
-              <option value="y">{{_.capitalize(langService.getString('virtual_wallet'))}}</option>
-              <option value="n">{{_.capitalize(langService.getString('real_wallet'))}}</option>
+              <option value="y">{{langService.getString('virtual_wallet') | capitalize }}</option>
+              <option value="n">{{langService.getString('real_wallet') | capitalize }}</option>
             </select>
           </div>
         </div>
         <div class="col-sm-12">
-          <button class="btn btn-success pull-right" [disabled]="settingsLoading || !userValid" (click)="saveSettings()"><i *ngIf="settingsLoading" class="fa fa-spinner fa-spin pull-right"></i> {{_.capitalize(langService.getString('save'))}}</button>
+          <button class="btn btn-success pull-right" [disabled]="settingsLoading || !userValid" (click)="saveSettings()"><i *ngIf="settingsLoading" class="fa fa-spinner fa-spin pull-right"></i> {{langService.getString('save') | capitalize}}</button>
         </div>
       </div>
     </div>
@@ -62,7 +62,7 @@
 
 <ng-template #deleteAccountModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title">Delete Account</h4>
+    <h4 class="modal-title">{{langService.getString('delete_account')}}</h4>
     <button type="button" class="close pointer" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -71,8 +71,8 @@
     <p>{{langService.getString('delete_account_modal_msg')}}</p>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="d()">{{_.capitalize(langService.getString('close'))}}</button>
-    <button type="button" class="btn btn-danger" (click)="c()">{{_.capitalize(langService.getString('delete'))}}</button>
+    <button type="button" class="btn btn-secondary" (click)="d()">{{langService.getString('close') | capitalize}}</button>
+    <button type="button" class="btn btn-danger" (click)="c()">{{langService.getString('delete') | capitalize}}</button>
   </div>
 </ng-template>
 
@@ -89,8 +89,8 @@
     <p>{{langService.getString('disconnect_wallet_modal_msg_all_actions')}}</p>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="d()">{{_.capitalize(langService.getString('close'))}}</button>
-    <button type="button" class="btn btn-danger" (click)="c()">{{_.capitalize(langService.getString('disconnect'))}}</button>
+    <button type="button" class="btn btn-secondary" (click)="d()">{{langService.getString('close') | capitalize}}</button>
+    <button type="button" class="btn btn-danger" (click)="c()">{{langService.getString('disconnect') | capitalize}}</button>
   </div>
 </ng-template>
 

@@ -8,7 +8,7 @@
            [routerLinkActiveOptions]="{exact: true}"
            routerLink="/dashboard"
            (click)="toggleMenu()">
-          {{langService.getString('dashboard')}}
+          {{langService.getString('dashboard') | capitalize}}
         </a>
       </li>
       <li class="nav-item">
@@ -16,7 +16,7 @@
            routerLinkActive="active"
            routerLink="/rules"
            (click)="toggleMenu()">
-          {{langService.getString('rules')}}
+          {{langService.getString('rules') | capitalize}}
         </a>
       </li>
       <li class="nav-item">
@@ -25,7 +25,7 @@
            [routerLinkActiveOptions]="{exact: true}"
            routerLink="/actions"
            (click)="toggleMenu()">
-          {{langService.getString('actions')}}
+          {{langService.getString('actions') | capitalize}}
         </a>
       </li>
       <li class="nav-item">
@@ -34,7 +34,7 @@
            [routerLinkActiveOptions]="{exact: true}"
            routerLink="/fees"
            (click)="toggleMenu()">
-          {{langService.getString('fees')}}
+          {{langService.getString('fees') | capitalize}}
         </a>
       </li>
       <li class="nav-item">
@@ -43,14 +43,14 @@
            [routerLinkActiveOptions]="{exact: true}"
            routerLink="/settings"
            (click)="toggleMenu()">
-          {{langService.getString('settings')}}
+          {{langService.getString('settings') | capitalize}}
         </a>
       </li>
     </ul>
     <ul class="navbar-nav" *ngIf="authService.isAuthenticated()">
 
       <li class="nav-item">
-        <a class="nav-link pointer" (click)="signOut()">{{langService.getString('signout')}}</a>
+        <a class="nav-link pointer" (click)="signOut()">{{langService.getString('signout') | capitalize}}</a>
       </li>
     </ul>
   </div>

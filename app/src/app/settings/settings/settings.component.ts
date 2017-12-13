@@ -4,7 +4,6 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Router} from '@angular/router';
 import {ApiService} from '../../api/api.service';
 import {Subscription} from 'rxjs/Subscription';
-import * as _ from 'lodash';
 import {LangService} from '../../lang/lang.service';
 
 @Component({
@@ -13,7 +12,6 @@ import {LangService} from '../../lang/lang.service';
   styleUrls: ['./settings.component.css']
 })
 export class SettingsComponent implements OnInit, OnDestroy {
-  public _ = _;
   authMessageSubscription: Subscription;
 
   settingsLoading = false;
