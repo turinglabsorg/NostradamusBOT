@@ -26,9 +26,11 @@ import {ActionsService} from './actions/actions.service';
 import {LangService} from './lang/lang.service';
 import {FeesListComponent} from './fees/fees-list/fees-list.component';
 import {FeesService} from './fees/fees.service';
+import {CapitalizePipe} from './capitalize.pipe';
 
 @NgModule({
   declarations: [
+    CapitalizePipe,
     AppComponent,
     NavbarComponent,
     CurrencyStatusComponent,
