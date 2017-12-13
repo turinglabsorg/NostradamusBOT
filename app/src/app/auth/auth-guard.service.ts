@@ -3,6 +3,7 @@ import {AuthService} from './auth.service';
 import {Observable} from 'rxjs/Observable';
 import {Injectable, OnInit} from '@angular/core';
 import {ApiService} from '../api/api.service';
+import * as _ from 'lodash';
 
 @Injectable()
 export class AuthGuard implements CanActivate, CanActivateChild, OnInit {
@@ -61,7 +62,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, OnInit {
             });
         });
       } else {
-        if (this.authService.ALLOWED_TO_UNSIGNED.includes(state.url)) {
+        if (_.includes(this.authService.ALLOWED_TO_UNSIGNED, state.url)) {
           console.log('utente NON autenticato - URL NON riservato - OK');
           return true;
         } else {
