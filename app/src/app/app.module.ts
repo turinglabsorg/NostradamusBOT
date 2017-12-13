@@ -23,9 +23,14 @@ import {WalletComponent} from './dashboard/wallet/wallet.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {CustomFormsModule} from 'ng2-validation';
 import {ActionsService} from './actions/actions.service';
+import {LangService} from './lang/lang.service';
+import {FeesListComponent} from './fees/fees-list/fees-list.component';
+import {FeesService} from './fees/fees.service';
+import {CapitalizePipe} from './capitalize.pipe';
 
 @NgModule({
   declarations: [
+    CapitalizePipe,
     AppComponent,
     NavbarComponent,
     CurrencyStatusComponent,
@@ -37,7 +42,8 @@ import {ActionsService} from './actions/actions.service';
     ActionsComponent,
     RulesListComponent,
     RuleEditComponent,
-    WalletComponent
+    WalletComponent,
+    FeesListComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +54,14 @@ import {ActionsService} from './actions/actions.service';
     CustomFormsModule,
     NgbModule.forRoot()
   ],
-  providers: [AuthService, AuthGuard, ApiService, RulesService, ActionsService],
+  providers: [
+    AuthService,
+    AuthGuard,
+    ApiService,
+    RulesService,
+    ActionsService,
+    LangService,
+    FeesService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

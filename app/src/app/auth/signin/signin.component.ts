@@ -2,6 +2,7 @@ import {Component, OnInit, OnDestroy} from '@angular/core';
 import {AuthService} from '../auth.service';
 import {ApiService} from '../../api/api.service';
 import {Router} from '@angular/router';
+import {LangService} from '../../lang/lang.service';
 
 @Component({
   selector: 'app-signin',
@@ -15,7 +16,10 @@ export class SigninComponent implements OnInit, OnDestroy {
     password: ''
   };
 
-  constructor(private authService: AuthService, private apiService: ApiService, private router: Router) {
+  constructor(public langService: LangService,
+              private authService: AuthService,
+              private apiService: ApiService,
+              private router: Router) {
   }
 
   ngOnInit() {

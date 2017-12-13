@@ -1,10 +1,10 @@
 <div class="row">
   <div class="col-md-12">
-    <button class="btn btn-info" (click)="openNewRuleEditor()">Create new Rule</button>
+    <button class="btn btn-info" (click)="openNewRuleEditor()">{{langService.getString('create_new_rule')}}</button>
   </div>
   <div *ngIf="showEmptyState" class="col-md-12 text-center">
     <img class="img-responsive" src="assets/sad_face.png" alt="" height="150px">
-    <h4>No rule present, create one!</h4>
+    <h4>{{langService.getString('no_rules')}}</h4>
   </div>
   <div *ngIf="isLoading" class="col-sm-12">
     <h5 class="text-center"><i class="fa fa-spinner fa-spin"></i></h5>
@@ -14,18 +14,18 @@
          *ngFor="let rule of rulesService.getRules()">
       <div class="row">
         <div class="col-md-9">
-          <h5 class="list-group-item-heading">#{{rule.id}} - {{rule.wallet.currency}} Wallet - {{rule.name}}</h5>
-          <p class="list-group-item-text mb-2 font-italic" [innerHTML]="rule.getRuleDescription"></p>
+          <h5 class="list-group-item-heading">#{{rule.id}} - {{langService.getString('wallet_with_currency', rule.wallet.currency)}} - {{rule.name}}</h5>
+          <p class="list-group-item-text mb-2 font-italic" [innerHTML]="langService.getRuleDescriptionString(rule)"></p>
           <ul>
-            <li>Coinbase fees {{rule.isIncludedFees ? 'included' : 'not included'}}</li>
-            <li>{{rule.isAuto ? _.capitalize(rule.action) + ' automatically' : 'just notification'}}</li>
-            <li>{{rule.isLoopRule ? 'Run this rule indefinitely' : 'Run this rule just once'}}</li>
+            <li>{{langService.getString('coinbase_fees')}} {{rule.isIncludedFees ? langService.getString('fees_included') : langService.getString('fees_not_included')}}</li>
+            <li>{{rule.isAuto ? _.capitalize(langService.getString(rule.action)) + ' ' + langService.getString('automatically') : langService.getString('just_notification')}}</li>
+            <li>{{rule.isLoopRule ? langService.getString('run_rule_indefinitely') : langService.getString('run_rule_once')}}</li>
           </ul>
         </div>
         <div class="col-md-3">
-          <span *ngIf="rule.isActive" class="badge badge-success pull-right">Active</span>
-          <span *ngIf="!rule.isActive" class="badge badge-outline-success pull-right">NO Active</span>
-          <span class="badge badge-info pull-right mr-4">{{rule.ran}} executions</span>
+          <span *ngIf="rule.isActive" class="badge badge-success pull-right">{{langService.getString('active')}}</span>
+          <span *ngIf="!rule.isActive" class="badge badge-outline-success pull-right">{{langService.getString('no_active')}}</span>
+          <span class="badge badge-info pull-right mr-4">{{langService.getString('n_executions', rule.ran)}}</span>
         </div>
       </div>
       <div class="row">
@@ -35,20 +35,20 @@
             *ngIf="showConnectRuleButton(rule)"
             [disabled]="idLoadingRule === rule.id"
             (click)="openConnectRuleEditor(rule.id)">
-            Connect Rule
+            {{langService.getString('connect_rule')}}
           </button>
           <button
             class="btn btn-danger pull-right"
             [disabled]="idLoadingRule === rule.id"
             (click)="askRuleDeletingConfirm(rule.id, deleteRuleModal)">
-            Delete
+            {{langService.getString('delete')}}
           </button>
           <button
             class="btn btn-success pull-right mr-2"
             *ngIf="!rule.isActive"
             [disabled]="idLoadingRule === rule.id"
             (click)="setRuleStatus(rule.id, 'y')">
-            Active
+            {{langService.getString('active')}}
             <i *ngIf="idLoadingRule === rule.id"
                class="fa fa-spinner fa-spin pull-right">
 
@@ -59,7 +59,7 @@
             *ngIf="rule.isActive"
             [disabled]="idLoadingRule === rule.id"
             (click)="setRuleStatus(rule.id, 'n')">
-            Deactive
+            {{langService.getString('deactive')}}
             <i *ngIf="idLoadingRule === rule.id"
                class="fa fa-spinner fa-spin pull-right">
 
@@ -69,7 +69,7 @@
             class="btn btn-info pull-right mr-2"
             [disabled]="idLoadingRule === rule.id"
             (click)="openRuleEditor(rule.id)">
-            Edit
+            {{langService.getString('edit')}}
           </button>
         </div>
       </div>
@@ -79,24 +79,24 @@
 
 <ng-template #deleteRuleModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title">Delete Rule</h4>
+    <h4 class="modal-title">{{langService.getString('delete_rule')}}</h4>
     <button type="button" class="close pointer" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <p>Do you want delete the following rule?</p>
-    <p>#{{ruleToDelete.id}} - {{ruleToDelete.wallet.currency}} Wallet - {{ruleToDelete.name}}</p>
+    <p>{{langService.getString('delete_rule_question')}}</p>
+    <p>#{{ruleToDelete.id}} - {{langService.getString('wallet_with_currency', ruleToDelete.wallet.currency)}} - {{ruleToDelete.name}}</p>
     <div *ngIf="childsRuleToDelete.length > 0">
-      <p>If you delete the rule #{{ruleToDelete.id}}, you will delete all rules connected as well:</p>
+      <p>{{langService.getString('delete_rule_and_rules_connected', ruleToDelete.id)}}</p>
       <ul>
-        <li *ngFor="let rule of childsRuleToDelete">#{{rule.id}} - {{rule.wallet.currency}} Wallet - {{rule.name}}</li>
+        <li *ngFor="let rule of childsRuleToDelete">#{{rule.id}} - {{langService.getString('wallet_with_currency', rule.wallet.currency)}} - {{rule.name}}</li>
       </ul>
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="d()">Close</button>
-    <button type="button" class="btn btn-danger" (click)="c()">Delete</button>
+    <button type="button" class="btn btn-secondary" (click)="d()">{{langService.getString('close')}}</button>
+    <button type="button" class="btn btn-danger" (click)="c()">{{langService.getString('delete')}}</button>
   </div>
 </ng-template>
 

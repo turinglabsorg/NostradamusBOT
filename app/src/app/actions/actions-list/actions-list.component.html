@@ -4,23 +4,23 @@
   </div>
   <div *ngIf="showEmptyState" class="col-md-12 text-center">
     <img class="img-responsive" src="assets/sad_face.png" alt="" height="150px">
-    <h4>No actions extecuted yet</h4>
+    <h4>{{langService.getString('no_actions')}}</h4>
   </div>
   <div class="col-sm-12 mb-4">
     <div class="list-group-item mt-4"
          *ngFor="let action of actionsService.getActions()">
       <div class="row">
         <div class="col-sm-9">
-          <h5 class="list-group-item-heading">{{action.isPurchase ? 'Purchase' : 'Sale'}}</h5>
+          <h5 class="list-group-item-heading">{{action.isPurchase ? _.capitalize(langService.getString('purchase')) : _.capitalize(langService.getString('sale'))}}</h5>
           <p class="list-group-item-text">
-            Total {{action.isPurchase ? 'purchased' : 'sold'}} = {{action.subtotal}} € equivalent to {{action.amount}} {{action.rule.wallet.currency}}<br>
-            Coinbase Fees = {{action.fees}} € <br>
+            {{_.capitalize(langService.getString('total'))}} {{action.isPurchase ? langService.getString('purchased') : langService.getString('sold')}} = {{action.subtotal}} € {{langService.getString('equivalent_to')}} {{action.amount}} {{action.rule.wallet.currency}}<br>
+            {{langService.getString('coinbase_fees')}} = {{action.fees}} € <br>
             --------------------- <br>
-            <b>Total = {{action.total}} € {{action.isPurchase ? 'spent' : 'received'}}</b>
+            <b>{{_.capitalize(langService.getString('total'))}} = {{action.total}} € {{action.isPurchase ? langService.getString('spent') : langService.getString('received')}}</b>
           </p>
           <p class="list-group-item-text">
-            Rule executed #{{action.rule.id}} {{action.rule.name}}  <span *ngIf="action.rule.isHidden" class="badge badge-warning">this rule was deleted</span><br>
-          <span class="font-italic" [innerHTML]="action.rule.getRuleDescription"></span>
+            {{langService.getString('rule_executed')}} : #{{action.rule.id}} {{action.rule.name}}  <span *ngIf="action.rule.isHidden" class="badge badge-warning">{{langService.getString('rule_was_deleted')}}</span><br>
+          <span class="font-italic" [innerHTML]="langService.getRuleDescriptionString(action.rule)"></span>
           </p>
         </div>
         <div class="col-sm-3">

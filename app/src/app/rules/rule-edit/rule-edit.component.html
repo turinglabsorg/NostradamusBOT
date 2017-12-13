@@ -5,17 +5,17 @@
 
         <div class="col-md-9">
           <div class="form-group">
-            <label for="name"><h6>Set a name, if you want (optional)</h6></label>
+            <label for="name"><h6>{{langService.getString('rule_name_label')}}</h6></label>
             <input type="text" id="name" class="form-control form-control-lg" formControlName="name" name="name">
           </div>
         </div>
 
         <div class="col-md-9 mt-2">
           <div class="form-group">
-            <label for="id_rule"><h6>Do you want connect this new rule to an existing one? (optional)</h6></label>
+            <label for="id_rule"><h6>{{langService.getString('rule_connect_rule_label')}}</h6></label>
             <select id="id_rule" class="form-control form-control-lg" name="id_rule" formControlName="id_rule"
                     (change)="connectedRuleSelected($event.target.value)">
-              <option value>Select a rule</option>
+              <option value>{{langService.getString('select_rule_label')}}</option>
               <option *ngFor="let rule of rulesToPick" value="{{rule.id}}">{{rule.name}}</option>
             </select>
           </div>
@@ -23,23 +23,23 @@
 
         <div class="col-md-9 mt-2">
           <div class="form-group">
-            <label for="wallet"><h6>Which Wallet you want to use?</h6></label>
+            <label for="wallet"><h6>{{langService.getString('rule_wallet_label')}}</h6></label>
             <select id="wallet" class="form-control form-control-lg" name="wallet" formControlName="wallet" #wallet>
-              <option value>Choose a Wallet</option>
-              <option *ngIf="authService.isCoinbaseWalletAuthorized('BTC')" value="BTC">BTC Wallet</option>
-              <option *ngIf="authService.isCoinbaseWalletAuthorized('ETH')" value="ETH">ETH Wallet</option>
-              <option *ngIf="authService.isCoinbaseWalletAuthorized('LTC')" value="LTC">LTC Wallet</option>
+              <option value>{{langService.getString('select_wallet_label')}}</option>
+              <option *ngIf="authService.isCoinbaseWalletAuthorized('BTC')" value="BTC">{{langService.getString('wallet_with_currency', 'BTC')}}</option>
+              <option *ngIf="authService.isCoinbaseWalletAuthorized('ETH')" value="ETH">{{langService.getString('wallet_with_currency', 'ETH')}}</option>
+              <option *ngIf="authService.isCoinbaseWalletAuthorized('LTC')" value="LTC">{{langService.getString('wallet_with_currency', 'LTC')}}</option>
             </select>
           </div>
         </div>
 
         <div class="col-md-9 mt-2">
           <div class="form-group">
-            <label for="type"><h6>Are you interested about fixed or variable price?</h6></label>
+            <label for="type"><h6>{{langService.getString('rule_price_type_label')}}</h6></label>
             <select id="type" class="form-control form-control-lg" name="type" formControlName="type" #type>
-              <option value>Choose a price type</option>
-              <option value="fixed">Fixed Price</option>
-              <option [disabled]="!isVariablePriceEnable()" value="variable">Variable Price</option>
+              <option value>{{langService.getString('select_price_label')}}</option>
+              <option value="fixed">{{langService.getString('price_fixed')}}</option>
+              <option [disabled]="!isVariablePriceEnable()" value="variable">{{langService.getString('price_variable')}}</option>
             </select>
           </div>
         </div>
@@ -47,7 +47,7 @@
         <div class="col-md-9 mt-2" *ngIf="showFixedPriceInput()">
           <div class="row align-items-center justify-content-center">
             <div class="col-md-3">
-              <h6>So, if price goes to</h6>
+              <h6>{{langService.getString('price_label')}}</h6>
             </div>
             <div class="col-md-3">
               <div class="input-group" style="margin-bottom: 1rem">
@@ -57,19 +57,19 @@
               </div>
             </div>
             <div class="col-md-1">
-              <h6 class="text-center">or</h6>
+              <h6 class="text-center">{{langService.getString('or')}}</h6>
             </div>
             <div class="col-md-3">
               <div class="form-group">
                 <select id="price_var" class="form-control" name="price_var" formControlName="price_var">
-                  <option value>Choose</option>
-                  <option value="less">Less</option>
-                  <option value="more">More</option>
+                  <option value>{{langService.getString('choose')}}</option>
+                  <option value="less">{{_.capitalize(langService.getString('less'))}}</option>
+                  <option value="more">{{_.capitalize(langService.getString('more'))}}</option>
                 </select>
               </div>
             </div>
             <div class="col-md-2">
-              <h6 class="text-center">per {{wallet.value}}</h6>
+              <h6 class="text-center">{{langService.getString('per')}} {{wallet.value}}</h6>
             </div>
           </div>
         </div>
@@ -77,19 +77,19 @@
         <div class="col-md-9 mt-2" *ngIf="showVariablePriceInput()">
           <div class="row align-items-center justify-content-center">
             <div class="col-md-3">
-              <h6>So, if price goes</h6>
+              <h6>{{langService.getString('price_Variable_label')}}</h6>
             </div>
             <div class="col-md-3">
               <div class="form-group">
                 <select id="var_action" class="form-control" name="var_action" formControlName="var_action">
                   <option value>Choose</option>
-                  <option value="up">Up</option>
-                  <option value="down">Down</option>
+                  <option value="up">{{langService.getString('goes_up')}}</option>
+                  <option value="down">{{langService.getString('goes_down')}}</option>
                 </select>
               </div>
             </div>
             <div class="col-md-2">
-              <h6 class="text-center">by</h6>
+              <h6 class="text-center">{{langService.getString('by')}}</h6>
             </div>
             <div class="col-md-4">
               <div class="input-group" style="margin-bottom: 1rem">
@@ -101,7 +101,7 @@
           </div>
           <div class="row align-items-center justify-content-center">
             <div class="col-md-12">
-              <h6 class="text-center">compared to the {{parentRule.action}}ing price of the connected rule
+              <h6 class="text-center">{{langService.getString('compared_to_price', langService.getString(parentRule.action === 'buy' ? 'buying' : 'selling'))}}
                 #{{parentRule.id}} - {{parentRule.name}}</h6>
             </div>
           </div>
@@ -110,14 +110,14 @@
         <div class="col-md-9 mt-2" *ngIf="showActionInput()">
           <div class="row align-items-center justify-content-center">
             <div class="col-md-7">
-              <h6>Then, what you want to do? Buy or sell?</h6>
+              <h6>{{langService.getString('rule_action_label')}}</h6>
             </div>
             <div class="col-md-5">
               <div class="form-group">
                 <select id="action" class="form-control" name="action" formControlName="action" #action>
-                  <option value>Choose</option>
-                  <option value="buy">Buy</option>
-                  <option value="sell">Sell</option>
+                  <option value>{{langService.getString('choose')}}</option>
+                  <option value="buy">{{_.capitalize(langService.getString('buy'))}}</option>
+                  <option value="sell">{{_.capitalize(langService.getString('sell'))}}</option>
                 </select>
               </div>
             </div>
@@ -127,20 +127,20 @@
         <div class="col-md-9 mt-2" *ngIf="showBuyOrSellParamsInput()">
           <div class="row align-items-center justify-content-center">
             <div class="col-md-3">
-              <h6>Which currency?</h6>
+              <h6>{{langService.getString('which_currency')}}</h6>
             </div>
             <div class="col-md-3">
               <div class="form-group">
                 <select id="currency_buy_or_sell" class="form-control" name="currency_buy_or_sell"
                         formControlName="currency_buy_or_sell">
-                  <option value>Choose</option>
+                  <option value>{{langService.getString('choose')}}</option>
                   <option value="euro">Euro</option>
                   <option value="{{wallet.value}}">{{wallet.value}}</option>
                 </select>
               </div>
             </div>
             <div class="col-md-3" *ngIf="buyOrSellEuro() || buyOrSellCrypto()">
-              <h6 class="text-center">How much?</h6>
+              <h6 class="text-center">{{langService.getString('how_much')}}</h6>
             </div>
             <div class="col-md-3" *ngIf="buyOrSellEuro()">
               <div class="input-group" style="margin-bottom: 1rem">
@@ -164,17 +164,16 @@
         <div class="col-md-9 mt-2" *ngIf="showBuyOrSellParamsInput()">
           <div class="row align-items-center justify-content-center">
             <div class="col-md-6">
-              <h6>Do you want include <a target="_blank"
-                                                             href="https://support.coinbase.com/customer/portal/articles/2109597-buy-sell-bank-transfer-fees">Coinbase
-                fees</a>?</h6>
+              <h6>{{langService.getString('rule_include_fees_label')}} <a target="_blank"
+                                                             href="https://support.coinbase.com/customer/portal/articles/2109597-buy-sell-bank-transfer-fees">{{langService.getString('coinbase_fees')}}</a>?</h6>
             </div>
             <div class="col-md-6">
               <div class="form-group">
                 <select id="included_fees" class="form-control" name="included_fees"
                         formControlName="included_fees">
-                  <option value>Choose</option>
-                  <option value="y">Yes, I set price with included fees</option>
-                  <option value="n">No, I set price without fees</option>
+                  <option value>{{langService.getString('choose')}}</option>
+                  <option value="y">{{langService.getString('rule_include_fees_yes')}}</option>
+                  <option value="n">{{langService.getString('rule_include_fees_no')}}</option>
                 </select>
               </div>
             </div>
@@ -183,25 +182,24 @@
 
         <div class="col-md-9 mt-2" *ngIf="showAutoInput()">
           <div class="form-group">
-            <label for="auto"><h6>Do you want allow Nostradamus to {{getActionSelected()}} automatically, or you prefer
-              to be just notified?</h6></label>
+            <label for="auto"><h6>{{langService.getString('rule_auto_label', langService.getString(getActionSelected()))}}</h6></label>
             <select id="auto" class="form-control" name="auto" formControlName="auto">
-              <option value>Choose</option>
-              <option value="y">Yes! {{getActionSelected()}} automatically!</option>
-              <option value="n">No! just notify me!</option>
+              <option value>{{langService.getString('choose')}}</option>
+              <option value="y">{{langService.getString('rule_auto_yes', langService.getString(getActionSelected() === 'buy' ? 'buy_you' : 'sell_you'))}}</option>
+              <option value="n">{{langService.getString('rule_auto_no')}}</option>
             </select>
           </div>
         </div>
 
         <div class="col-md-9 mt-2" *ngIf="showAutoInput()">
           <div class="form-group">
-            <label for="auto"><h6>Do you want run this rule indefinitely or just once?</h6></label>
+            <label for="auto"><h6>{{langService.getString('rule_loop_label')}}</h6></label>
             <div class="form-group">
               <select id="loop_rule" class="form-control" name="loop_rule"
                       formControlName="loop_rule">
-                <option value>Choose</option>
-                <option value="y">Yes, run this rule indefinitely</option>
-                <option value="n">No, run the rule just once</option>
+                <option value>{{langService.getString('choose')}}</option>
+                <option value="y">{{langService.getString('rule_loop_yes')}}</option>
+                <option value="n">{{langService.getString('rule_loop_no')}}</option>
               </select>
             </div>
           </div>
@@ -210,10 +208,10 @@
       </div>
       <div class="row justify-content-center mt-4 mb-4">
         <div class="col-md-10">
-          <button *ngIf="enableSubmit()" class="btn btn-success pull-right" type="submit"><span>{{editMode ? 'Save' : 'Create'}}</span>
+          <button *ngIf="enableSubmit()" class="btn btn-success pull-right" type="submit"><span>{{editMode ? langService.getString('save') : langService.getString('create')}}</span>
             <i *ngIf="isLoading" class="fa fa-spinner fa-spin pull-right"></i></button>
-          <button [disabled]="isLoading" class="btn btn-secondary" type="button" (click)="closeEditor()">Close</button>
-          <button [disabled]="isLoading" class="btn btn-info" type="reset" (click)="ruleForm.reset()">Reset</button>
+          <button [disabled]="isLoading" class="btn btn-secondary" type="button" (click)="closeEditor()">{{langService.getString('close')}}</button>
+          <button [disabled]="isLoading" class="btn btn-info" type="reset" (click)="ruleForm.reset()">{{langService.getString('reset')}}</button>
         </div>
       </div>
     </form>

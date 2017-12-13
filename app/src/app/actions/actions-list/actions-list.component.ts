@@ -3,6 +3,8 @@ import {ApiService} from '../../api/api.service';
 import {RulesService} from '../../rules/rules.service';
 import {ActionsService} from '../actions.service';
 import {Rule} from '../../rules/rule.model';
+import {LangService} from '../../lang/lang.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-actions',
@@ -10,6 +12,7 @@ import {Rule} from '../../rules/rule.model';
   styleUrls: ['./actions-list.component.css']
 })
 export class ActionsComponent implements OnInit {
+  public _ = _;
   actionsReady = false;
   rulesReady = false;
   archivedRulesReady = false;
@@ -19,7 +22,8 @@ export class ActionsComponent implements OnInit {
 
   isLoading = false;
 
-  constructor(private apiService: ApiService,
+  constructor(public langService: LangService,
+              private apiService: ApiService,
               private rulesService: RulesService,
               public actionsService: ActionsService) {
   }

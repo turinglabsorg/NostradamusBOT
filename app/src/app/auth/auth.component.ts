@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {AuthService} from './auth.service';
 import {ApiService} from '../api/api.service';
+import {LangService} from '../lang/lang.service';
 
 @Component({
   selector: 'app-auth',
@@ -10,7 +11,7 @@ import {ApiService} from '../api/api.service';
 })
 export class AuthComponent implements OnInit {
   coinbaseUser = {};
-  userWallet= {
+  userWallet = {
     id: '',
     name: '',
     currency: '',
@@ -22,7 +23,11 @@ export class AuthComponent implements OnInit {
   tempAccessToken = '';
   tempRefreshToken = '';
 
-  constructor(private route: ActivatedRoute, private authService: AuthService, private apiService: ApiService, private router: Router) {
+  constructor(public langService: LangService,
+              private route: ActivatedRoute,
+              private authService: AuthService,
+              private apiService: ApiService,
+              private router: Router) {
   }
 
   ngOnInit() {

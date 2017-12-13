@@ -8,7 +8,7 @@
            [routerLinkActiveOptions]="{exact: true}"
            routerLink="/dashboard"
            (click)="toggleMenu()">
-          Dashboard
+          {{langService.getString('dashboard') | capitalize}}
         </a>
       </li>
       <li class="nav-item">
@@ -16,7 +16,7 @@
            routerLinkActive="active"
            routerLink="/rules"
            (click)="toggleMenu()">
-          Rules
+          {{langService.getString('rules') | capitalize}}
         </a>
       </li>
       <li class="nav-item">
@@ -25,7 +25,16 @@
            [routerLinkActiveOptions]="{exact: true}"
            routerLink="/actions"
            (click)="toggleMenu()">
-          Actions
+          {{langService.getString('actions') | capitalize}}
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" role="presentation"
+           routerLinkActive="active"
+           [routerLinkActiveOptions]="{exact: true}"
+           routerLink="/fees"
+           (click)="toggleMenu()">
+          {{langService.getString('fees') | capitalize}}
         </a>
       </li>
       <li class="nav-item">
@@ -34,14 +43,14 @@
            [routerLinkActiveOptions]="{exact: true}"
            routerLink="/settings"
            (click)="toggleMenu()">
-          Settings
+          {{langService.getString('settings') | capitalize}}
         </a>
       </li>
     </ul>
     <ul class="navbar-nav" *ngIf="authService.isAuthenticated()">
 
       <li class="nav-item">
-        <a class="nav-link pointer" (click)="signOut()">SignOut</a>
+        <a class="nav-link pointer" (click)="signOut()">{{langService.getString('signout') | capitalize}}</a>
       </li>
     </ul>
   </div>
@@ -51,6 +60,6 @@
     <span class="navbar-toggler-icon"></span>
   </button>
 </nav>
-<div *ngIf="showVirtualWalletAlert" class="alert alert-warning fade show" role="alert"><i class="fa fa-warning"></i>You are using the virtual wallet. Your rules will not use actual money.
-  <a routerLink="/settings">Click here to change this setting.</a></div>
+<div *ngIf="showVirtualWalletAlert" class="alert alert-warning fade show" role="alert"><i class="fa fa-warning"></i> {{langService.getString('virtual_wallet_alert')}}
+  <a routerLink="/settings">{{langService.getString('virtual_wallet_alert_link')}}</a></div>
 

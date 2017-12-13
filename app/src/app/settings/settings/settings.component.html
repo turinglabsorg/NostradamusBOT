@@ -4,19 +4,19 @@
     <div class="list-group-item mt-4">
       <div class="row align-items-end">
         <div class="col-sm-12">
-          <h5 class="list-group-item-heading">Settings</h5>
+          <h5 class="list-group-item-heading">{{langService.getString('settings')}}</h5>
         </div>
         <div class="col-sm-12">
           <div class="form-group">
-            <label for="wallet_type"><h6>Do you want use real or virtual wallet? The virtual wallet will just simulate the transactions.</h6></label>
+            <label for="wallet_type"><h6>{{langService.getString('wallet_type_label')}}</h6></label>
             <select id="wallet_type" class="form-control" name="wallet_type" [ngModel]="virtualWallet" (change)="onVirtualWalletSettingChange($event.target.value)">
-              <option value="y">Virtual Wallet</option>
-              <option value="n">Real Wallet</option>
+              <option value="y">{{langService.getString('virtual_wallet') | capitalize }}</option>
+              <option value="n">{{langService.getString('real_wallet') | capitalize }}</option>
             </select>
           </div>
         </div>
         <div class="col-sm-12">
-          <button class="btn btn-success pull-right" [disabled]="settingsLoading || !userValid" (click)="saveSettings()"><i *ngIf="settingsLoading" class="fa fa-spinner fa-spin pull-right"></i> Save</button>
+          <button class="btn btn-success pull-right" [disabled]="settingsLoading || !userValid" (click)="saveSettings()"><i *ngIf="settingsLoading" class="fa fa-spinner fa-spin pull-right"></i> {{langService.getString('save') | capitalize}}</button>
         </div>
       </div>
     </div>
@@ -24,21 +24,21 @@
     <div class="list-group-item mt-4">
       <div class="row">
         <div class="col-sm-12">
-          <h5 class="list-group-item-heading">Disconnect Coinbase Wallet</h5>
+          <h5 class="list-group-item-heading">{{langService.getString('disconnect_wallet')}}</h5>
           <p class="list-group-item-text">
-            If you want disconnect a Coinbase wallet from NostradamusBot, select the wallet and click the button:
+            {{langService.getString('disconnect_wallet_label')}}
           </p>
           <div class="form-group">
             <select id="wallet" class="form-control form-control-lg" name="wallet" [ngModel]="walletCurrencyToDisconnect" #wallet>
-              <option value>Choose a Wallet</option>
-              <option *ngIf="authService.isCoinbaseWalletAuthorized('BTC')" value="BTC">BTC Wallet</option>
-              <option *ngIf="authService.isCoinbaseWalletAuthorized('ETH')" value="ETH">ETH Wallet</option>
-              <option *ngIf="authService.isCoinbaseWalletAuthorized('LTC')" value="LTC">LTC Wallet</option>
+              <option value>{{langService.getString('select_wallet_label')}}</option>
+              <option *ngIf="authService.isCoinbaseWalletAuthorized('BTC')" value="BTC">{{langService.getString('wallet_with_currency', 'BTC')}}</option>
+              <option *ngIf="authService.isCoinbaseWalletAuthorized('ETH')" value="ETH">{{langService.getString('wallet_with_currency', 'ETH')}}</option>
+              <option *ngIf="authService.isCoinbaseWalletAuthorized('LTC')" value="LTC">{{langService.getString('wallet_with_currency', 'LTC')}}</option>
             </select>
           </div>
         </div>
         <div class="col-sm-12">
-          <button class="btn btn-danger pull-right" [disabled]="wallet.value.length == 0 || disconnectWalletLoading" (click)="askWalletDeletingConfirm(deleteWalletModal, wallet.value)"><i *ngIf="disconnectWalletLoading" class="fa fa-spinner fa-spin pull-right"></i> Disconnect the wallet</button>
+          <button class="btn btn-danger pull-right" [disabled]="wallet.value.length == 0 || disconnectWalletLoading" (click)="askWalletDeletingConfirm(deleteWalletModal, wallet.value)"><i *ngIf="disconnectWalletLoading" class="fa fa-spinner fa-spin pull-right"></i> {{langService.getString('disconnect_wallet_button')}}</button>
         </div>
       </div>
     </div>
@@ -46,13 +46,13 @@
     <div class="list-group-item mt-4">
       <div class="row align-items-center">
         <div class="col-sm-9">
-          <h5 class="list-group-item-heading">Delete Account</h5>
+          <h5 class="list-group-item-heading">{{langService.getString('delete_account')}}</h5>
           <p class="list-group-item-text">
-            If you want delete your account from NostradamusBot, click the button and follow the instructions:
+            {{langService.getString('delete_account_label')}}
           </p>
         </div>
         <div class="col-sm-3">
-          <button class="btn btn-danger pull-right" (click)="askAccountDeletingConfirm(deleteAccountModal)">Delete My Account</button>
+          <button class="btn btn-danger pull-right" (click)="askAccountDeletingConfirm(deleteAccountModal)">{{langService.getString('delete_account_button')}}</button>
         </div>
       </div>
     </div>
@@ -62,35 +62,35 @@
 
 <ng-template #deleteAccountModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title">Delete Account</h4>
+    <h4 class="modal-title">{{langService.getString('delete_account')}}</h4>
     <button type="button" class="close pointer" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <p>Do you want delete your account from NostradamusBot?</p>
+    <p>{{langService.getString('delete_account_modal_msg')}}</p>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="d()">Close</button>
-    <button type="button" class="btn btn-danger" (click)="c()">Delete</button>
+    <button type="button" class="btn btn-secondary" (click)="d()">{{langService.getString('close') | capitalize}}</button>
+    <button type="button" class="btn btn-danger" (click)="c()">{{langService.getString('delete') | capitalize}}</button>
   </div>
 </ng-template>
 
 <ng-template #deleteWalletModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title">Disconnect Coinbase Wallet</h4>
+    <h4 class="modal-title">{{langService.getString('disconnect_wallet')}}</h4>
     <button type="button" class="close pointer" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <p>Do you want disconnect your {{walletCurrencyToDisconnect}} wallet from NostradamusBot?</p>
-    <p>All rules related to this wallet will be deleted.</p>
-    <p>All actions related to this wallet will be deleted.</p>
+    <p>{{langService.getString('disconnect_wallet_modal_msg', walletCurrencyToDisconnect)}}</p>
+    <p>{{langService.getString('disconnect_wallet_modal_msg_all_rules')}}</p>
+    <p>{{langService.getString('disconnect_wallet_modal_msg_all_actions')}}</p>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="d()">Close</button>
-    <button type="button" class="btn btn-danger" (click)="c()">Disconnect</button>
+    <button type="button" class="btn btn-secondary" (click)="d()">{{langService.getString('close') | capitalize}}</button>
+    <button type="button" class="btn btn-danger" (click)="c()">{{langService.getString('disconnect') | capitalize}}</button>
   </div>
 </ng-template>
 
