@@ -161,7 +161,7 @@
 							if($walletMode=='commit' && $walletValue=='true'){
 								$actionText='è partita';
 							}elseif($walletMode=='commit' && $walletValue=='false'){
-								$actionText='può partire'
+								$actionText='può partire';
 							}elseif($walletMode=='quote' && $walletValue=='true'){
 								$actionText='sarebbe partita';
 							}
@@ -189,7 +189,7 @@
 							if($walletMode=='commit' && $walletValue=='true'){
 								$actionText='ran';
 							}elseif($walletMode=='commit' && $walletValue=='false'){
-								$actionText='can run'
+								$actionText='can run';
 							}elseif($walletMode=='quote' && $walletValue=='true'){
 								$actionText='would run';
 							}
