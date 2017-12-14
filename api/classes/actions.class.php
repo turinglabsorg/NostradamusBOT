@@ -132,14 +132,15 @@
 							if(!isset($checkFEE['id'])){
 								runDBQuery(
 									"app",
-									"INSERT INTO fees (uuid_user,fee_date,id_action,id_rule,id_wallet,fee_paid) VALUES (?,?,?,?,?,?)",
+									"INSERT INTO fees (uuid_user,fee_date,id_action,id_rule,id_wallet,fee_paid,amount_fee) VALUES (?,?,?,?,?,?,?)",
 									array(
 										$user['uuid'],
 										date('Y-m-d'),
 										$checkACTION['id'],
 										$action['id'],
 										$wallet['id'],
-										'n'
+										'n',
+										0
 									)
 								);
 							}
@@ -157,7 +158,13 @@
 						}
 
 						if($user['country']=='IT'){							
-
+							if($walletMode=='commit' && $walletValue=='true'){
+								$actionText='è partita';
+							}elseif($walletMode=='commit' && $walletValue=='false'){
+								$actionText='può partire'
+							}elseif($walletMode=='quote' && $walletValue=='true'){
+								$actionText='sarebbe partita';
+							}
 							sendMail(
 				        		array(
 				        			"name"=>"NostradamusBOT",
@@ -167,8 +174,8 @@
 				        			"name"=>$user['name'],
 				        			"email"=>$user['email']
 				        		), 
-				        		'La tua regola #'.$action['id'].' sul portafoglio '.$wallet['currency'].' è partita!', 
-				        		'La tua regola è partita amico!<br>Questi i dettagli dell\'operazione:<br>
+				        		'La tua regola #'.$action['id'].' sul portafoglio '.$wallet['currency'].' '.$actionText.'!', 
+				        		'La tua regola '.$actionText.' amico!<br>Questi i dettagli dell\'operazione:<br>
 				        		> Prezzo: '.print_money($price['data']['amount'],$user['native_currency']).'<br>
 				        		> Commissioni: '.print_money($result['data']['fee']['amount'],$user['native_currency']).'<br>
 				        		> Subtotale: '.print_money($result['data']['subtotal']['amount'],$user['native_currency']).'<br>
@@ -179,7 +186,13 @@
 				        	);
 
 						}else{
-
+							if($walletMode=='commit' && $walletValue=='true'){
+								$actionText='ran';
+							}elseif($walletMode=='commit' && $walletValue=='false'){
+								$actionText='can run'
+							}elseif($walletMode=='quote' && $walletValue=='true'){
+								$actionText='would run';
+							}
 							sendMail(
 				        		array(
 				        			"name"=>"NostradamusBOT",
@@ -189,8 +202,8 @@
 				        			"name"=>$user['name'],
 				        			"email"=>$user['email']
 				        		), 
-				        		'You rule #'.$action['id'].' on wallet '.$wallet['currency'].' ran!', 
-				        		'Your rule ran man!<br>These are the details:<br>
+				        		'You rule #'.$action['id'].' on wallet '.$wallet['currency'].' '.$actionText.'!', 
+				        		'Your rule '.$actionText.' man!<br>These are the details:<br>
 				        		> Price: '.print_money($price['data']['amount'],$user['native_currency']).'<br>
 				        		> Fee: '.print_money($result['data']['fee']['amount'],$user['native_currency']).'<br>
 				        		> Subtotal: '.print_money($result['data']['subtotal']['amount'],$user['native_currency']).'<br>
