@@ -3,6 +3,7 @@ import {NavigationEnd, Router} from '@angular/router';
 import {AuthService} from '../auth/auth.service';
 import {Subscription} from 'rxjs/Subscription';
 import {LangService} from '../lang/lang.service';
+import {Console} from '../console';
 
 @Component({
   selector: 'app-navbar',
@@ -40,7 +41,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     this.authMessageSubscription = this.authService.getMessage().subscribe(message => {
       if (message === AuthService.MSG_USER_READY) {
-        console.log(AuthService.MSG_USER_READY);
+        Console.log(AuthService.MSG_USER_READY);
         this.showVirtualWalletAlert = this.authService.getCurrentUser()['virtual_wallet'] === 'y';
       }
     });

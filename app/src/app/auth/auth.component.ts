@@ -3,6 +3,7 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 import {AuthService} from './auth.service';
 import {ApiService} from '../api/api.service';
 import {LangService} from '../lang/lang.service';
+import {Console} from '../console';
 
 @Component({
   selector: 'app-auth',
@@ -36,12 +37,12 @@ export class AuthComponent implements OnInit {
         (queryParams: Params) => {
           this.authService.requestCoinbaseAccessToken(queryParams['code']).subscribe(
             (tokenResponse) => {
-              console.log(tokenResponse);
+              Console.log(tokenResponse);
               this.tempAccessToken = tokenResponse.json()['access_token'];
               this.tempRefreshToken = tokenResponse.json()['refresh_token'];
               this.requestCoinbaseUser();
             },
-            (error) => console.log(error)
+            (error) => Console.log(error)
           );
         }
       );
@@ -50,7 +51,7 @@ export class AuthComponent implements OnInit {
   requestCoinbaseUser() {
     this.authService.requestCoinbaseUser(this.tempAccessToken).subscribe(
       (userResponse) => {
-        console.log(userResponse.json()['data']);
+        Console.log(userResponse.json()['data']);
         this.authService.setCoinbaseUser(userResponse.json()['data']);
         this.coinbaseUser = this.authService.getCoinbaseUser();
         this.requestCoinbaseAccountsList();
@@ -60,7 +61,7 @@ export class AuthComponent implements OnInit {
   requestCoinbaseAccountsList() {
     this.apiService.getCoinbaseAccountsList(this.tempAccessToken).subscribe(
       (response) => {
-        console.log(response.json()['data']);
+        Console.log(response.json()['data']);
         const accounts: any[] = response.json()['data'];
         accounts.forEach((account) => {
           if (account['type'] === 'wallet') {

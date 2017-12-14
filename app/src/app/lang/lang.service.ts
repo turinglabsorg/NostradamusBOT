@@ -63,4 +63,14 @@ export class LangService {
     return this.getStringWithParamsArray(string_id, values);
   }
 
+  getMonthFromDate(date: string): string {
+    const objDate = new Date(date);
+    return objDate.toLocaleString(this.currentLocale, {month: 'long'});
+  }
+
+  getYearFromDate(date: string): string {
+    const objDate = new Date(date);
+    return objDate.toLocaleString(this.currentLocale, {year: 'numeric'});
+  }
+
 }

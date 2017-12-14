@@ -1,3 +1,96 @@
-<p>
-  fees-list works!
-</p>
+<div class="row">
+  <div *ngIf="showEmptyState" class="col-sm-12 text-center">
+    <img class="img-responsive" src="assets/sad_face.png" alt="" height="150px">
+    <h4>{{langService.getString('no_fees')}}</h4>
+  </div>
+  <div *ngIf="isLoading" class="col-sm-12">
+    <h5 class="text-center"><i class="fa fa-spinner fa-spin"></i></h5>
+  </div>
+  <div *ngIf="!isLoading && !showEmptyState" class="col-sm-12">
+    <div class="list-group-item mb-4">
+      <div class="row">
+        <div class="col-sm-12">
+          <span class="h6 font-italic">mese corrente</span>
+        </div>
+        <div class="col-sm-12">
+          <span class="h4">{{langService.getMonthFromDate(monthLabels[0].label) | capitalize}}
+        {{langService.getYearFromDate(monthLabels[0].label)}}</span>
+          <span class="h4 pull-right">{{langService.getString('total') | capitalize}} {{feesService.getFeesTotalPerMonth(monthLabels[0].label)  | number:'1.2-4'}} €</span>
+        </div>
+        <div class="col-sm-12">
+          <button
+            class="btn btn-info"
+            (click)="openPaymentModal(paymentModal, monthLabels[0].label)">
+            {{langService.getString('make_payment')}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-12">
+    <div class="row" *ngFor="let monthLabelObj of monthLabels">
+      <div class="col-sm-12">
+        <h5>{{langService.getMonthFromDate(monthLabelObj.label) | capitalize}}
+          {{langService.getYearFromDate(monthLabelObj.label)}}
+          <button class="btn btn-info btn-sm pull-right ml-4" (click)="monthLabelObj.isOpen = !monthLabelObj.isOpen">
+            {{monthLabelObj.isOpen ? langService.getString('hide_details') : langService.getString('show_details')}}
+          </button>
+          <span class="pull-right">{{langService.getString('total') | capitalize}} {{feesService.getFeesTotalPerMonth(monthLabelObj.label)  | number:'1.2-4'}} €</span>
+        </h5>
+      </div>
+      <div class="col-sm-12" *ngIf="monthLabelObj.isOpen">
+        <div class="list-group-item mb-4" *ngFor="let fee of feesService.getFees()[monthLabelObj.label]">
+          <div class="row">
+            <div class="col-sm-9">
+              <h5 class="list-group-item-heading">{{langService.getString('fee') | capitalize}} - {{fee.amount_fee |
+                number:'1.2-4'}} €</h5>
+              <p class="list-group-item-text">
+                {{langService.getString('action_executed')}} : #{{fee.action.id}} - {{fee.action.isPurchase ?
+                langService.getString('purchase') : langService.getString('sale') | capitalize}}<br>
+                {{langService.getString('total') | capitalize}} {{fee.action.isPurchase ?
+                langService.getString('purchased') : langService.getString('sold')}} = {{fee.action.subtotal |
+                number:'1.2-4'}} € {{langService.getString('equivalent_to')}} {{fee.action.amount | number:'1.2-4'}}
+                {{fee.rule.wallet.currency}}<br>
+                {{langService.getString('coinbase_fees')}} = {{fee.action.fees}} € <br>
+                --------------------- <br>
+                <b>{{langService.getString('total') | capitalize}} = {{fee.action.total}} € {{fee.action.isPurchase ?
+                  langService.getString('spent') : langService.getString('received')}}</b>
+              </p>
+              <p class="list-group-item-text">
+                {{langService.getString('rule_executed')}} : #{{fee.rule.id}} {{fee.rule.name}} <span
+                *ngIf="fee.rule.isHidden"
+                class="badge badge-warning">{{langService.getString('rule_was_deleted')}}</span><br>
+                <span class="font-italic" [innerHTML]="langService.getRuleDescriptionString(fee.rule)"></span>
+              </p>
+            </div>
+            <div class="col-sm-3">
+              <span *ngIf="fee.isPaid" class="badge badge-success pull-right">{{langService.getString('paid')}}</span>
+              <span *ngIf="!fee.isPaid" class="badge badge-danger pull-right">{{langService.getString('unpaid')}}</span>
+              <span class="badge badge-info pull-right mr-2">{{fee.fee_date}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr class="col-sm-12"/>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #paymentModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">{{langService.getString('make_payment')}}</h4>
+    <button type="button" class="close pointer" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p class="h4">{{langService.getString('total') | capitalize}} {{amountToPay | number:'1.2-4'}} €</p>
+    <p>{{langService.getString('select_payment_method')}}</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="d()">{{langService.getString('close')}}</button>
+    <!--<button type="button" class="btn btn-danger" (click)="c()">{{langService.getString('delete')}}</button>-->
+  </div>
+</ng-template>
+

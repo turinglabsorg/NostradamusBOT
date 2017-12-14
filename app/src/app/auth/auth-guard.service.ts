@@ -3,6 +3,8 @@ import {AuthService} from './auth.service';
 import {Observable} from 'rxjs/Observable';
 import {Injectable, OnInit} from '@angular/core';
 import {ApiService} from '../api/api.service';
+import * as _ from 'lodash';
+import {Console} from '../console';
 
 @Injectable()
 export class AuthGuard implements CanActivate, CanActivateChild, OnInit {
@@ -16,9 +18,9 @@ export class AuthGuard implements CanActivate, CanActivateChild, OnInit {
 
   canActivate(route: ActivatedRouteSnapshot,
               state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    console.log('url = ' + state.url);
+    Console.log('url = ' + state.url);
     if (this.authService.isAuthenticated()) {
-      console.log('utente autenticato - OK');
+      Console.log('utente autenticato - OK');
       if (state.url === '/rules' || state.url === '/settings') {
         /* refresh user in rules and settings page */
         this.authService.checkUserStoredData().subscribe(
@@ -38,7 +40,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, OnInit {
       return true;
     } else {
       if (this.authService.areUserDataPresentInLocalStorage()) {
-        console.log('utente con cookie - check');
+        Console.log('utente con cookie - check');
         return new Observable<boolean>(observer => {
           this.authService.checkUserStoredData().subscribe(
             (rawResponse) => {
@@ -47,25 +49,25 @@ export class AuthGuard implements CanActivate, CanActivateChild, OnInit {
                 this.authService.setCurrentUser(response);
                 this.authService.setCoinbaseTokens(response);
                 this.authService.signIn();
-                console.log('utente con cookie - check OK');
+                Console.log('utente con cookie - check OK');
                 observer.next(true);
               } else {
                 this.authService.setCurrentUser({});
                 this.authService.resetCoinbaseTokens();
                 this.authService.signOut();
                 this.router.navigate(['/signin']);
-                console.log('utente con cookie - check ERROR');
-                console.log(response);
+                Console.log('utente con cookie - check ERROR');
+                Console.log(response);
                 observer.error(false);
               }
             });
         });
       } else {
-        if (this.authService.ALLOWED_TO_UNSIGNED.includes(state.url)) {
-          console.log('utente NON autenticato - URL NON riservato - OK');
+        if (_.includes(this.authService.ALLOWED_TO_UNSIGNED, state.url)) {
+          Console.log('utente NON autenticato - URL NON riservato - OK');
           return true;
         } else {
-          console.log('utente NON autenticato - URL riservato - SIGN IN');
+          Console.log('utente NON autenticato - URL riservato - SIGN IN');
           this.router.navigate(['/signin']);
         }
       }

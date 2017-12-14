@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import {ApiService} from '../../api/api.service';
 import {Subscription} from 'rxjs/Subscription';
 import {LangService} from '../../lang/lang.service';
+import {Console} from '../../console';
 
 @Component({
   selector: 'app-settings',
@@ -34,7 +35,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     this.checkUserValidation();
     this.authMessageSubscription = this.authService.getMessage().subscribe(message => {
       if (message === AuthService.MSG_USER_READY) {
-        console.log(AuthService.MSG_USER_READY);
+        Console.log(AuthService.MSG_USER_READY);
         this.virtualWallet = this.authService.getCurrentUser()['virtual_wallet'];
         this.checkUserValidation();
       }
@@ -64,7 +65,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
             this.authService.setCoinbaseTokens(response);
             this.settingsLoading = false;
           } else {
-            console.log('errore');
+            Console.log('errore');
             this.settingsLoading = false;
           }
         });
@@ -76,7 +77,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     this.modalService.open(deleteAccountModal).result.then((result) => {
       this.deleteAccount();
     }, (reason) => {
-      console.log('modal closed negative');
+      Console.log('modal closed negative');
     });
   }
 
@@ -87,7 +88,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
           this.authService.signOut();
           this.router.navigate(['signin']);
         } else {
-          console.log('errore');
+          Console.log('errore');
         }
       }
     );
@@ -99,7 +100,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
       this.modalService.open(deleteWalletModal).result.then((result) => {
         this.deleteWallet();
       }, (reason) => {
-        console.log('modal closed negative');
+        Console.log('modal closed negative');
       });
     }
   }
@@ -113,7 +114,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
           this.authService.setCoinbaseToken('refresh', this.walletCurrencyToDisconnect, '');
           this.disconnectWalletLoading = false;
         } else {
-          console.log('errore');
+          Console.log('errore');
           this.disconnectWalletLoading = false;
         }
       }

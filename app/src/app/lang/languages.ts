@@ -115,6 +115,17 @@ export class Languages {
         'delete_account_label': 'Se vuoi eliminare il tuo account da NostradamusBot, clicca il pulsante e segui le istruzioni:',
         'delete_account_button': 'Elimina il mio account',
         'delete_account_modal_msg': 'Sei sicuro di voler eliminare il tuo account da NostradamusBot?',
+        /* FEES */
+        'paid': 'pagato',
+        'unpaid': 'non pagato',
+        'fee': 'commissione',
+        'relative_to': 'Relativa a',
+        'action_executed': 'Azione eseguita',
+        'show_details': 'Mostra dettagli',
+        'hide_details': 'Nascondi dettagli',
+        'make_payment': 'Effettua pagamento',
+        'select_payment_method': 'Seleziona un metodo di pagamento',
+        'no_fees': 'Nessuna commissione presente',
       },
       'en': {
         /* NAVBAR */
@@ -229,6 +240,17 @@ export class Languages {
         'delete_account_label': 'If you want delete your account from NostradamusBot, click the button and follow the instructions:',
         'delete_account_button': 'Delete My Account',
         'delete_account_modal_msg': 'Do you want delete your account from NostradamusBot?',
+        /* FEES */
+        'paid': 'paid',
+        'unpaid': 'unpaid',
+        'fee': 'commissione',
+        'relative_to': 'Relative to',
+        'action_executed': 'Action executed',
+        'show_details': 'Show details',
+        'hide_details': 'Hide details',
+        'make_payment': 'Make payment',
+        'select_payment_method': 'Select a payment method',
+        'no_fees': 'No fees present',
       }
     };
   }

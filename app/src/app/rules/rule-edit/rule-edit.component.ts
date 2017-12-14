@@ -9,6 +9,7 @@ import {CustomValidators} from 'ng2-validation';
 import {AuthService} from '../../auth/auth.service';
 import * as _ from 'lodash';
 import {LangService} from '../../lang/lang.service';
+import {Console} from '../../console';
 
 @Component({
   selector: 'app-rule-edit',
@@ -46,7 +47,7 @@ export class RuleEditComponent implements OnInit {
           this.editMode = params['id'] != null;
           if (this.editMode) {
             this.rule = this.rulesService.getRule(this.id);
-            console.log(this.rule);
+            Console.log(this.rule);
           }
 
           if (isUndefined(this.rule)) {
@@ -173,7 +174,7 @@ export class RuleEditComponent implements OnInit {
     this.isLoading = true;
 
     const data = this.ruleForm.value;
-    console.log(data);
+    Console.log(data);
     if (data['id_rule']) {
       data['id_rule'] = data['id_rule'].toString();
     } else {
@@ -195,8 +196,8 @@ export class RuleEditComponent implements OnInit {
 
     delete data['currency_buy_or_sell'];
 
-    console.log('rule data');
-    console.log(data);
+    Console.log('rule data');
+    Console.log(data);
 
     if (this.editMode) {
       data['id'] = this.rule.id;
@@ -211,7 +212,7 @@ export class RuleEditComponent implements OnInit {
             this.router.navigate(['rules']);
             this.isLoading = false;
           } else {
-            console.log('errore');
+            Console.log('errore');
           }
         }
       );
@@ -225,7 +226,7 @@ export class RuleEditComponent implements OnInit {
             this.router.navigate(['rules']);
             this.isLoading = false;
           } else {
-            console.log('errore');
+            Console.log('errore');
           }
         }
       );

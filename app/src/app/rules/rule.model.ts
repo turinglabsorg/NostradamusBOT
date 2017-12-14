@@ -25,62 +25,6 @@ export class Rule extends Base {
   public isParent: boolean;
   public isChild: boolean;
 
-  getId(): string {
-    return this.id;
-  }
-
-  setId(): string {
-    return this.id;
-  }
-
-  get getName(): string {
-    return this.name;
-  }
-
-  getUUIDUser(): string {
-    return this.uuid_user;
-  }
-
-  getAction(): string {
-    return this.action;
-  }
-
-  getPrice(): Number {
-    return Number(this.price);
-  }
-
-  getPriceVar(): string {
-    return this.price_var;
-  }
-
-  getVarAction(): string {
-    return this.var_action;
-  }
-
-  getVarPerc(): Number {
-    return Number(this.var_perc);
-  }
-
-  getAmountEur(): Number {
-    return Number(this.amount_eur);
-  }
-
-  getAmountCrypto(): Number {
-    return Number(this.amount_crypto);
-  }
-
-  getIdRule(): string {
-    return this.id_rule;
-  }
-
-  getType(): string {
-    return this.type;
-  }
-
-  getWallet(): Wallet {
-    return this.wallet;
-  }
-
   get isAuto(): boolean {
     return this.auto === 'y';
   }
@@ -100,24 +44,4 @@ export class Rule extends Base {
   get isHidden(): boolean {
     return this.hidden === 'y';
   }
-
-  get getRuleDescription(): string {
-    let desc = '';
-    let amoutToBuyOrSellCurrency = '€';
-    let amoutToBuyOrSell = this.amount_eur;
-    if (Number(this.amount_crypto) > 0) {
-      amoutToBuyOrSellCurrency = this.wallet.currency;
-      amoutToBuyOrSell = this.amount_crypto;
-    }
-    if (this.type === 'fixed') {
-      desc = 'If <b>' + this.wallet.currency + '</b> price goes to ' + this.price + ' € or ' + this.price_var + ' <b>' + this.action + '</b> ' +
-        amoutToBuyOrSell + ' ' + amoutToBuyOrSellCurrency;
-    }
-    if (this.type === 'variable') {
-      desc = 'If <b>' + this.wallet.currency + '</b> price goes ' + this.var_action + ' by ' + this.var_perc + ' % compared to the price of the rule #' + this.id_rule + ', then <b>' + this.action + '</b> ' +
-        amoutToBuyOrSell + ' ' + amoutToBuyOrSellCurrency;
-    }
-    return desc;
-  }
-
 }
