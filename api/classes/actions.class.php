@@ -175,7 +175,7 @@
 				        			"email"=>$user['email']
 				        		), 
 				        		'La tua regola #'.$action['id'].' sul portafoglio '.$wallet['currency'].' '.$actionText.'!', 
-				        		'La tua regola '.$actionText.' amico!<br>Questi i dettagli dell\'operazione:<br>
+				        		'La tua regola '.$actionText.'!<br>Questi i dettagli dell\'operazione:<br>
 				        		> Prezzo: '.print_money($price['data']['amount'],$user['native_currency']).'<br>
 				        		> Commissioni: '.print_money($result['data']['fee']['amount'],$user['native_currency']).'<br>
 				        		> Subtotale: '.print_money($result['data']['subtotal']['amount'],$user['native_currency']).'<br>
@@ -203,7 +203,7 @@
 				        			"email"=>$user['email']
 				        		), 
 				        		'You rule #'.$action['id'].' on wallet '.$wallet['currency'].' '.$actionText.'!', 
-				        		'Your rule '.$actionText.' man!<br>These are the details:<br>
+				        		'Your rule '.$actionText.'!<br>These are the details:<br>
 				        		> Price: '.print_money($price['data']['amount'],$user['native_currency']).'<br>
 				        		> Fee: '.print_money($result['data']['fee']['amount'],$user['native_currency']).'<br>
 				        		> Subtotal: '.print_money($result['data']['subtotal']['amount'],$user['native_currency']).'<br>
