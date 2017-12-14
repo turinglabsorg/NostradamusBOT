@@ -41,7 +41,9 @@ export class FeesListComponent implements OnInit {
             });
           }
           Console.log(this.monthLabels);
+
           this.isLoading = false;
+          this.showEmptyState = this.monthLabels.length === 0;
         } else {
           Console.log('errore');
           this.isLoading = false;

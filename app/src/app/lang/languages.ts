@@ -125,6 +125,7 @@ export class Languages {
         'hide_details': 'Nascondi dettagli',
         'make_payment': 'Effettua pagamento',
         'select_payment_method': 'Seleziona un metodo di pagamento',
+        'no_fees': 'Nessuna commissione presente',
       },
       'en': {
         /* NAVBAR */
@@ -249,6 +250,7 @@ export class Languages {
         'hide_details': 'Hide details',
         'make_payment': 'Make payment',
         'select_payment_method': 'Select a payment method',
+        'no_fees': 'No fees present',
       }
     };
   }

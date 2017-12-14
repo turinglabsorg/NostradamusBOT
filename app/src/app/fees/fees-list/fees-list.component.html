@@ -1,12 +1,12 @@
 <div class="row">
   <div *ngIf="showEmptyState" class="col-sm-12 text-center">
     <img class="img-responsive" src="assets/sad_face.png" alt="" height="150px">
-    <h4>{{langService.getString('no_rules')}}</h4>
+    <h4>{{langService.getString('no_fees')}}</h4>
   </div>
   <div *ngIf="isLoading" class="col-sm-12">
     <h5 class="text-center"><i class="fa fa-spinner fa-spin"></i></h5>
   </div>
-  <div *ngIf="!isLoading" class="col-sm-12">
+  <div *ngIf="!isLoading && !showEmptyState" class="col-sm-12">
     <div class="list-group-item mb-4">
       <div class="row">
         <div class="col-sm-12">
