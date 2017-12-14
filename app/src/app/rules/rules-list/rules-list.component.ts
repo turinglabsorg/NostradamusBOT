@@ -7,6 +7,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Rule} from '../rule.model';
 import {LangService} from '../../lang/lang.service';
+import {Console} from '../../console';
 
 @Component({
   selector: 'app-rules-list',
@@ -35,7 +36,7 @@ export class RulesListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.rulesMessageSubscription = this.rulesService.getMessage().subscribe(message => {
       if (message === RulesService.MSG_GET_RULES) {
-        console.log(RulesService.MSG_GET_RULES);
+        Console.log(RulesService.MSG_GET_RULES);
         this.getRules(false);
       }
     });
@@ -56,7 +57,7 @@ export class RulesListComponent implements OnInit, OnDestroy {
           this.isLoading = false;
           this.showEmptyState = this.rulesService.getRules().length === 0;
         } else {
-          console.log('errore');
+          Console.log('errore');
           this.isLoading = false;
         }
       }
@@ -79,7 +80,7 @@ export class RulesListComponent implements OnInit, OnDestroy {
     this.modalService.open(deleteRuleModal).result.then((result) => {
       this.deleteRule(id);
     }, (reason) => {
-      console.log('modal closed negative');
+      Console.log('modal closed negative');
     });
   }
 
@@ -93,7 +94,7 @@ export class RulesListComponent implements OnInit, OnDestroy {
           this.rulesService.removeRule(data['id']);
           this.rulesService.sendMessage(RulesService.MSG_GET_RULES);
         } else {
-          console.log('errore');
+          Console.log('errore');
         }
       }
     );
@@ -120,7 +121,7 @@ export class RulesListComponent implements OnInit, OnDestroy {
           this.rulesService.setRuleStatus(id, status);
           this.rulesService.sendMessage(RulesService.MSG_GET_RULES);
         } else {
-          console.log('errore');
+          Console.log('errore');
         }
       }
     );

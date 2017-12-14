@@ -3,6 +3,7 @@ import * as _ from 'lodash';
 import {Action} from './action.model';
 import {RulesService} from '../rules/rules.service';
 import {Rule} from '../rules/rule.model';
+import {Console} from '../console';
 
 @Injectable()
 export class ActionsService {
@@ -18,10 +19,10 @@ export class ActionsService {
       action.fillFromJSON(actions[index]);
       this.actions.push(action);
     }
-    console.log('--------------------------');
-    console.log('Set Actions on Actions Service');
-    console.log(this.actions);
-    console.log('--------------------------');
+    Console.log('--------------------------');
+    Console.log('Set Actions on Actions Service');
+    Console.log(this.actions);
+    Console.log('--------------------------');
   }
 
   getActions(): Action[] {

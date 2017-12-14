@@ -5,6 +5,7 @@ import {ActionsService} from '../actions.service';
 import {Rule} from '../../rules/rule.model';
 import {LangService} from '../../lang/lang.service';
 import * as _ from 'lodash';
+import {Console} from '../../console';
 
 @Component({
   selector: 'app-actions',
@@ -42,7 +43,7 @@ export class ActionsComponent implements OnInit {
           this.actionsReady = true;
           this.showContent();
         } else {
-          console.log('errore');
+          Console.log('errore');
         }
       }
     );
@@ -56,7 +57,7 @@ export class ActionsComponent implements OnInit {
           this.rulesReady = true;
           this.showContent();
         } else {
-          console.log('errore');
+          Console.log('errore');
         }
       }
     );
@@ -73,7 +74,7 @@ export class ActionsComponent implements OnInit {
           this.archivedRulesReady = true;
           this.showContent();
         } else {
-          console.log('errore');
+          Console.log('errore');
         }
       }
     );
@@ -83,8 +84,6 @@ export class ActionsComponent implements OnInit {
     if (this.actionsReady && this.rulesReady && this.archivedRulesReady) {
       const totalRules: Rule[] = this.rulesService.getRules().slice();
       totalRules.push.apply(totalRules, this.archivedRules);
-      console.log(totalRules);
-      console.log(this.archivedRules);
       this.actionsService.initActionsList(totalRules);
       this.isLoading = false;
     }

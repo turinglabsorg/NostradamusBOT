@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Fee} from './fee.model';
 import {Rule} from '../rules/rule.model';
 import {Action} from '../actions/action.model';
+import {Console} from '../console';
 
 
 @Injectable()
@@ -40,10 +41,10 @@ export class FeesService {
     // this.fees['2017-11'].push(fee);
     // this.fees['2017-11'].push(fee);
 
-    console.log('--------------------------');
-    console.log('Set Fees on Fees Service');
-    console.log(this.fees);
-    console.log('--------------------------');
+    Console.log('--------------------------');
+    Console.log('Set Fees on Fees Service');
+    Console.log(this.fees);
+    Console.log('--------------------------');
   }
 
   getFees(): Object {

@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ApiService} from '../api/api.service';
 import {Constants} from '../app-constants';
 import * as _ from 'lodash';
+import {Console} from '../console';
 
 @Component({
   selector: 'app-currency-status',
@@ -31,7 +32,7 @@ export class CurrencyStatusComponent implements OnInit {
             this.currencyPrice = response.price;
             this.currencyDataReady = !_.isEmpty(this.currencyInfo);
           } else {
-            console.log('errore');
+            Console.log('errore');
           }
         }
       );

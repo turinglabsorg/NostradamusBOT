@@ -2,6 +2,7 @@ import {Headers, Http, RequestOptions} from '@angular/http';
 import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
+import {Console} from '../console';
 
 @Injectable()
 export class AuthService {
@@ -51,7 +52,7 @@ export class AuthService {
 
   /* API AUTH */
   isAuthenticated(): boolean {
-    // console.log(this.loggedIn ? 'logged!!!' : 'no logged');
+    // Console.log(this.loggedIn ? 'logged!!!' : 'no logged');
     return this.loggedIn;
   }
 
@@ -84,15 +85,15 @@ export class AuthService {
     data['refresh_token'] = this.getCoinbaseToken('refresh', wallet['currency']);
     data['user'] = this.coinbaseUser;
     data['wallet'] = wallet;
-    console.log('sendCoinbaseUserDataToAPI');
-    console.log(data);
+    Console.log('sendCoinbaseUserDataToAPI');
+    Console.log(data);
     return this.http.post('https://api.nostradamusbot.com/users/register', data);
   }
 
   checkUserStoredData() {
     let data = this.getUserDataFromLocalStorage();
     data = this.addAPIKeyToData(data);
-    console.log(data);
+    Console.log(data);
     return this.http.post('https://api.nostradamusbot.com/users/check', data);
   }
 
@@ -161,7 +162,7 @@ export class AuthService {
   }
 
   getCoinbaseToken(type: string, currencyCode: string) {
-    console.log('GET ' + type + ' token ' + ' for ' + currencyCode);
+    Console.log('GET ' + type + ' token ' + ' for ' + currencyCode);
     if (type === 'refresh') {
       switch (currencyCode) {
         case 'BTC':
@@ -188,7 +189,7 @@ export class AuthService {
   }
 
   setCoinbaseToken(type: string, currencyCode: string, token: string) {
-    console.log('SET ' + type + ' token ' + ' for ' + currencyCode + ' = ' + token);
+    Console.log('SET ' + type + ' token ' + ' for ' + currencyCode + ' = ' + token);
     if (type === 'refresh') {
       switch (currencyCode) {
         case 'BTC':
@@ -248,10 +249,10 @@ export class AuthService {
 
   setCurrentUser(user: {}) {
     this.currentUser = user;
-    console.log('---------------------');
-    console.log('User received');
-    console.log(user);
-    console.log('---------------------');
+    Console.log('---------------------');
+    Console.log('User received');
+    Console.log(user);
+    Console.log('---------------------');
     this.sendMessage(AuthService.MSG_USER_READY);
   }
 

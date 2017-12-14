@@ -3,6 +3,7 @@ import {ApiService} from '../../api/api.service';
 import {FeesService} from '../fees.service';
 import {LangService} from '../../lang/lang.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {Console} from '../../console';
 
 
 @Component({
@@ -39,10 +40,10 @@ export class FeesListComponent implements OnInit {
               'isOpen': false
             });
           }
-          console.log(this.monthLabels);
+          Console.log(this.monthLabels);
           this.isLoading = false;
         } else {
-          console.log('errore');
+          Console.log('errore');
           this.isLoading = false;
         }
       }
@@ -54,7 +55,7 @@ export class FeesListComponent implements OnInit {
     this.modalService.open(paymentModal).result.then((result) => {
 
     }, (reason) => {
-      console.log('modal closed negative');
+      Console.log('modal closed negative');
     });
   }
 }

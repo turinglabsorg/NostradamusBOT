@@ -3,6 +3,7 @@ import * as _ from 'lodash';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
 import {Rule} from './rule.model';
+import {Console} from '../console';
 
 @Injectable()
 export class RulesService implements OnInit {
@@ -44,10 +45,10 @@ export class RulesService implements OnInit {
       rule.fillFromJSON(rules[index]);
       this.rules.push(rule);
     }
-    console.log('--------------------------');
-    console.log('Set Rules on Rules Service');
-    console.log(this.rules);
-    console.log('--------------------------');
+    Console.log('--------------------------');
+    Console.log('Set Rules on Rules Service');
+    Console.log(this.rules);
+    Console.log('--------------------------');
     this.initRulesList();
   }
 
@@ -91,8 +92,8 @@ export class RulesService implements OnInit {
   setRule(id: string, rule: any) {
     const index = _.findIndex(this.rules, ['id', id]);
     this.rules[index] = rule;
-    console.log('rule updated on service');
-    console.log(this.rules);
+    Console.log('rule updated on service');
+    Console.log(this.rules);
   }
 
   removeRule(id: string) {

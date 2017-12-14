@@ -3,6 +3,7 @@ import {AuthService} from '../auth.service';
 import {ApiService} from '../../api/api.service';
 import {Router} from '@angular/router';
 import {LangService} from '../../lang/lang.service';
+import {Console} from '../../console';
 
 @Component({
   selector: 'app-signin',
@@ -43,7 +44,7 @@ export class SigninComponent implements OnInit, OnDestroy {
             this.authService.saveUserDataToLocalStorage(response.uuid, response.password);
             this.router.navigate(['/dashboard']);
           } else {
-            console.log('errore');
+            Console.log('errore');
           }
         }
       );
