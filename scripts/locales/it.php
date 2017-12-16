@@ -17,7 +17,7 @@
 	$locales['test_testo']='Nostradamus non toccherà i tuoi fondi su Coinbase fin quando non glielo dirai tu: potrai usare il wallet virtuale e provare il funzionamento dell\'intera piattaforma';	
 	$locales['commissioni_titolo']='Paghi solo se lo usi';
 	$locales['commissioni_testo']='Le nostre commissioni sono piccole e ti verranno addebitate solo alla fine del mese, per le azioni eseguite realmente';
-	$locales['prezzo_fisso']='La nostra politica è semplice, paghi solo quando lo usi realmente e paghi poco, solo 0.80€ ad azione!';	
+	$locales['prezzo_fisso']='La nostra politica è semplice, paghi solo quando lo usi realmente e paghi poco, solo lo 0.4% ad azione!';	
 	$locales['pagamento_mensile']='Non temere, non dovrai fare tanti piccoli pagamenti, aspetteremo la fine del mese per fare un conteggio unico.<br>Potrai pagare in cryptovalute, con PayPal o con la tua carta di credito!';
 	$locales['contattaci']='Contattaci';
 	$locales['nome']='Nome';

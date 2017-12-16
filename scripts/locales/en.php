@@ -17,7 +17,7 @@
 	$locales['test_testo']='Nostradamus will never touch your funds on Coinbase until you\'re ready. You can use for free our Virtual Wallet so you can test everything';	
 	$locales['commissioni_titolo']='Pay per use';
 	$locales['commissioni_testo']='Our fees are small and you will pay only when a rule run with your real wallet';
-	$locales['prezzo_fisso']='Our pricing is really simple! You will pay only 0.80€ for every action!';	
+	$locales['prezzo_fisso']='Our pricing is really simple! You will pay only the 0.4% for every action!';	
 	$locales['pagamento_mensile']='Don\'t worry, You\'ll not make thousand of payments, at the end of the month we\'ll make an unique payment for you.<br>You can pay with cryptocurrencies, PayPal or your credit card!';
 	$locales['contattaci']='Contact us';
 	$locales['nome']='Name';
