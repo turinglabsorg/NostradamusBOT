@@ -11,7 +11,7 @@
 	$locales['subscribe_coinbase']='Non hai un account Coinbase?<br><a href="https://www.coinbase.com/join/591dbc4753003336ab918599" target="_blank">Iscriviti subito da qui e ottieni 10€ in Bitcoin!</a>';
 	$locales['imposta_regole_titolo']='Imposta le tue regole';
 	$locales['imposta_regole_testo']='Imposta le tue regole di acquisto o di vendita, collegale tra di loro e definisci i parametri di funzionamento con un\'interfaccia semplice';	
-	$locales['aspetta_esito_titolo']='Aspetta che partino le azioni';
+	$locales['aspetta_esito_titolo']='Aspetta che partano le azioni';
 	$locales['aspetta_esito_testo']='Ogni minuto Nostradamus controllerà per te l\'andamento delle quotazioni, se una regola può partire allora Nostradamus ti avviserà o la eseguirà per te';
 	$locales['test_titolo']='Testa in sicurezza';
 	$locales['test_testo']='Nostradamus non toccherà i tuoi fondi su Coinbase fin quando non glielo dirai tu: potrai usare il wallet virtuale e provare il funzionamento dell\'intera piattaforma';	
