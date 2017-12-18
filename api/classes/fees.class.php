@@ -18,6 +18,7 @@
 	    			$dataexp=explode('-',$fee['fee_date']);
 	    			if(!isset($fees[$dataexp[0].'-'.$dataexp[1]]['fees'])){
 	    				$fees[$dataexp[0].'-'.$dataexp[1]]['fees']=array();
+	    				$fees[$dataexp[0].'-'.$dataexp[1]]['to_pay']=0;
 	    				$fees[$dataexp[0].'-'.$dataexp[1]]['total']=0;
 	    			}
 	    			$wallet=returnDBObject("app","SELECT * FROM wallets WHERE id=?",array($fee['id_wallet']));
@@ -33,8 +34,9 @@
 
 	    			array_push($fees[$dataexp[0].'-'.$dataexp[1]]['fees'], $fee);
 	    			if($fee['fee_paid']=='n'){
-	    				$fees[$dataexp[0].'-'.$dataexp[1]]['total']++;
+	    				$fees[$dataexp[0].'-'.$dataexp[1]]['to_pay']+=$fee['amount_fee'];
 	    			}
+	    			$fees[$dataexp[0].'-'.$dataexp[1]]['total']++;
 	    			$f++;
 	    		}
 
