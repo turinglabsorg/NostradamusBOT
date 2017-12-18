@@ -28,6 +28,7 @@ import {FeesListComponent} from './fees/fees-list/fees-list.component';
 import {FeesService} from './fees/fees.service';
 import {CapitalizePipe} from './capitalize.pipe';
 import { FooterComponent } from './footer/footer.component';
+import { TermsComponent } from './static-pages/terms/terms.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { FooterComponent } from './footer/footer.component';
     RuleEditComponent,
     WalletComponent,
     FeesListComponent,
-    FooterComponent
+    FooterComponent,
+    TermsComponent
   ],
   imports: [
     BrowserModule,

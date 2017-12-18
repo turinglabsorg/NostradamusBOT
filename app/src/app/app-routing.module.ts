@@ -9,6 +9,7 @@ import {ActionsComponent} from './actions/actions-list/actions-list.component';
 import {RuleEditComponent} from './rules/rule-edit/rule-edit.component';
 import {RulesListComponent} from './rules/rules-list/rules-list.component';
 import {FeesListComponent} from './fees/fees-list/fees-list.component';
+import {TermsComponent} from './static-pages/terms/terms.component';
 
 const appRoutes: Routes = [
   {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
@@ -20,7 +21,8 @@ const appRoutes: Routes = [
   {path: 'rules/new', component: RuleEditComponent, canActivate: [AuthGuard]},
   {path: 'rules/:id/edit', component: RuleEditComponent, canActivate: [AuthGuard]},
   {path: 'actions', component: ActionsComponent, canActivate: [AuthGuard]},
-  {path: 'fees', component: FeesListComponent, canActivate: [AuthGuard]}
+  {path: 'fees', component: FeesListComponent, canActivate: [AuthGuard]},
+  {path: 'terms', component: TermsComponent, canActivate: [AuthGuard]}
 
 ];
 
