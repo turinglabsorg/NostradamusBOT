@@ -16,6 +16,7 @@ export class SigninComponent implements OnInit, OnDestroy {
     email: '',
     password: ''
   };
+  showError = false;
 
   constructor(public langService: LangService,
               private authService: AuthService,
@@ -34,6 +35,7 @@ export class SigninComponent implements OnInit, OnDestroy {
 
   signIn() {
     if (this.user.email.length > 0 && this.user.password.length > 0) {
+      this.showError = false;
       this.authService.loginUser(this.user.email, this.user.password).subscribe(
         (rawResponse) => {
           if (this.apiService.isSuccessfull(rawResponse)) {
@@ -45,9 +47,12 @@ export class SigninComponent implements OnInit, OnDestroy {
             this.router.navigate(['/dashboard']);
           } else {
             Console.log('errore');
+            this.showError = true;
           }
         }
       );
+    } else {
+      this.showError = true;
     }
   }
 }

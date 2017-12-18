@@ -18,6 +18,7 @@ export class Languages {
         'signin_coinbase': 'Accedi con Coinbase',
         'signin_email_password': 'o accedi con i tuoi dati',
         'signin': 'Accedi',
+        'signin_error': 'Inserire email e password validi',
         /* AUTH */
         'auth_msg_1': 'Caricamento...',
         'auth_msg_2': 'Stiamo ricevendo i tuoi dati da Coinbase, attendi perfavore',
@@ -143,6 +144,7 @@ export class Languages {
         'signin_coinbase': 'SignIn with Coinbase',
         'signin_email_password': 'Or SignIn with your data',
         'signin': 'SignIn',
+        'signin_error': 'Insert valid email and password',
         /* AUTH */
         'auth_msg_1': 'Loading...',
         'auth_msg_2': 'We are getting your data from Coinbase, please wait',
