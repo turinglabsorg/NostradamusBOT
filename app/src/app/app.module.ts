@@ -27,6 +27,7 @@ import {LangService} from './lang/lang.service';
 import {FeesListComponent} from './fees/fees-list/fees-list.component';
 import {FeesService} from './fees/fees.service';
 import {CapitalizePipe} from './capitalize.pipe';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import {CapitalizePipe} from './capitalize.pipe';
     RulesListComponent,
     RuleEditComponent,
     WalletComponent,
-    FeesListComponent
+    FeesListComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
