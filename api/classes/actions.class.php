@@ -128,22 +128,20 @@
 						
 						if($walletMode=='commit' && $walletValue=='true'){
 							$checkACTION=returnDBObject("app","SELECT * FROM actions WHERE uuid_user=? ORDER BY id DESC LIMIT 1",array($user['uuid']));
-							$checkFEE=returnDBObject("app","SELECT * FROM fees WHERE uuid_user=? AND fee_date=?",array($user['uuid'],date('Y-m-d')));
-							if(!isset($checkFEE['id'])){
-								runDBQuery(
-									"app",
-									"INSERT INTO fees (uuid_user,fee_date,id_action,id_rule,id_wallet,fee_paid,amount_fee) VALUES (?,?,?,?,?,?,?)",
-									array(
-										$user['uuid'],
-										date('Y-m-d'),
-										$checkACTION['id'],
-										$action['id'],
-										$wallet['id'],
-										'n',
-										0
-									)
-								);
-							}
+							$fee_price=$result['data']['total']['amount']/100*0.4;
+							runDBQuery(
+								"app",
+								"INSERT INTO fees (uuid_user,fee_date,id_action,id_rule,id_wallet,fee_paid,amount_fee) VALUES (?,?,?,?,?,?,?)",
+								array(
+									$user['uuid'],
+									date('Y-m-d'),
+									$checkACTION['id'],
+									$action['id'],
+									$wallet['id'],
+									'n',
+									$fee_price
+								)
+							);
 						}
 
 						$searchRule=returnDBObject("app","SELECT * FROM rules WHERE id_rule=?",array($action['id']));
