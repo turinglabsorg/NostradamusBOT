@@ -10,7 +10,8 @@ import {NavigationEnd, Router} from '@angular/router';
 export class FooterComponent implements OnInit {
   showFooter = false;
 
-  constructor(public langService: LangService, private router: Router) {
+  constructor(public langService: LangService,
+              private router: Router) {
   }
 
   ngOnInit() {

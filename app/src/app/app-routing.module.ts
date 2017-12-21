@@ -9,7 +9,7 @@ import {ActionsComponent} from './actions/actions-list/actions-list.component';
 import {RuleEditComponent} from './rules/rule-edit/rule-edit.component';
 import {RulesListComponent} from './rules/rules-list/rules-list.component';
 import {FeesListComponent} from './fees/fees-list/fees-list.component';
-import {TermsComponent} from './static-pages/terms/terms.component';
+import {PrivacyPolicyComponent} from './static-pages/privacy-policy/privacy-policy.component';
 
 const appRoutes: Routes = [
   {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
@@ -22,7 +22,7 @@ const appRoutes: Routes = [
   {path: 'rules/:id/edit', component: RuleEditComponent, canActivate: [AuthGuard]},
   {path: 'actions', component: ActionsComponent, canActivate: [AuthGuard]},
   {path: 'fees', component: FeesListComponent, canActivate: [AuthGuard]},
-  {path: 'terms', component: TermsComponent, canActivate: [AuthGuard]}
+  {path: 'privacy', component: PrivacyPolicyComponent, canActivate: [AuthGuard]}
 
 ];
 

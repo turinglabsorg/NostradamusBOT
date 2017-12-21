@@ -16,6 +16,10 @@ export class ApiService {
     return JSON.parse(response._body).status === '200';
   }
 
+  getIubendaContent(response) {
+    return JSON.parse(response._body).content;
+  }
+
   saveSettings(virtualWallet: string) {
     const data = this.authService.addUserIdPasswordAPIKeyToData({});
     data['virtual_wallet'] = virtualWallet;
@@ -77,6 +81,10 @@ export class ApiService {
   getFees() {
     const data = this.authService.addUserIdPasswordAPIKeyToData({});
     return this.http.post('https://api.nostradamusbot.com/fees/get', data);
+  }
+
+  getPrivacyPolicy(policyId: string) {
+    return this.http.get('https://www.iubenda.com/api/privacy-policy/' + policyId + '/no-markup');
   }
 
   /** COINBASE API **/

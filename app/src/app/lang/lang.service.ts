@@ -5,15 +5,21 @@ import {Rule} from '../rules/rule.model';
 
 @Injectable()
 export class LangService {
+  public static LOCALE_EN = 'en';
+  public static LOCALE_IT = 'it';
 
-  currentLocale = 'en';
+  currentLocale = LangService.LOCALE_EN;
 
   constructor() {
     if (navigator.language.indexOf('it') >= 0) {
-      this.currentLocale = 'it';
+      this.currentLocale = LangService.LOCALE_IT;
     }
 
     Console.log('Language detected : ' + this.currentLocale);
+  }
+
+  getCurrentLocale(): string {
+    return this.currentLocale;
   }
 
   getString(label: string, ...values: string[]) {

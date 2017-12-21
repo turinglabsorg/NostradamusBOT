@@ -128,7 +128,7 @@ export class Languages {
         'select_payment_method': 'Seleziona un metodo di pagamento',
         'no_fees': 'Nessuna commissione presente',
         /* FOOTER */
-        'terms_conditions': 'Termini & Condizioni'
+        'privacy_policy': 'Privacy Policy'
       },
       'en': {
         /* NAVBAR */
@@ -256,7 +256,7 @@ export class Languages {
         'select_payment_method': 'Select a payment method',
         'no_fees': 'No fees present',
         /* FOOTER */
-        'terms_conditions': 'Terms & Conditions'
+        'privacy_policy': 'Privacy Policy'
       }
     };
   }

@@ -28,7 +28,7 @@ import {FeesListComponent} from './fees/fees-list/fees-list.component';
 import {FeesService} from './fees/fees.service';
 import {CapitalizePipe} from './capitalize.pipe';
 import { FooterComponent } from './footer/footer.component';
-import { TermsComponent } from './static-pages/terms/terms.component';
+import {PrivacyPolicyComponent} from './static-pages/privacy-policy/privacy-policy.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +47,7 @@ import { TermsComponent } from './static-pages/terms/terms.component';
     WalletComponent,
     FeesListComponent,
     FooterComponent,
-    TermsComponent
+    PrivacyPolicyComponent
   ],
   imports: [
     BrowserModule,
