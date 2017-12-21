@@ -1,3 +1,11 @@
-footer p a{
-  color: lightgrey!important;
+footer p a {
+  color: lightgrey !important;
+}
+
+footer {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  z-index: 40;
 }
