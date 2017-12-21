@@ -2,9 +2,19 @@
   <div class="card-header">
     <h4 class="">{{currencyInfo.coinName}}<span class="pull-right">{{currencyInfo.symbol}}</span></h4>
   </div>
-  <div class="card-body text-center">
-    <h2 *ngIf="currencyDataReady">{{currencyPrice | number:'1.0-4'}} €</h2>
-    <h2 *ngIf="!currencyDataReady"><i class="fa fa-spinner fa-spin"></i></h2>
-
+  <div class="card-body">
+    <div class="row">
+      <div class="col-sm-12">
+        <p class="h2 align-middle text-center mb-0" *ngIf="currencyDataReady">{{currencyPrice | number:'1.0-4'}} €</p>
+        <p class="h2 align-middle text-center mb-0" *ngIf="!currencyDataReady"><i class="fa fa-spinner fa-spin"></i></p>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="row">
+      <small class="col-sm-12 my-auto">{{langService.getString('last_two_weeks')}}</small>
+      <small class="col-sm-6 my-auto"><i class="fa fa-arrow-up"></i> <span *ngIf="currencyDataReady">{{currencyHigherPrice | number:'1.0-4'}} €</span> <i *ngIf="!currencyDataReady" class="fa fa-spinner fa-spin"></i></small>
+      <small class="col-sm-6 my-auto"><i class="fa fa-arrow-down"></i> <span *ngIf="currencyDataReady">{{currencyLowerPrice | number:'1.0-4'}} €</span> <i *ngIf="!currencyDataReady" class="fa fa-spinner fa-spin"></i></small>
+    </div>
   </div>
 </div>

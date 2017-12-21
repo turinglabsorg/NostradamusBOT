@@ -31,6 +31,26 @@ export class ApiService {
     return this.http.post('https://api.nostradamusbot.com/prices/' + currencyCode, data);
   }
 
+  getCurrencyLowerPrice(currencyCode: string) {
+    const data = this.authService.addAPIKeyToData({});
+    data['currency'] = currencyCode;
+    return this.http.post('https://api.nostradamusbot.com/prices/lower', data);
+  }
+
+  getCurrencyHigherPrice(currencyCode: string) {
+    const data = this.authService.addAPIKeyToData({});
+    data['currency'] = currencyCode;
+    return this.http.post('https://api.nostradamusbot.com/prices/higher', data);
+  }
+
+  checkCurrencyPrice(currencyCode: string) {
+    const data = this.authService.addAPIKeyToData({});
+    data['currency'] = currencyCode;
+    // data['value'] = valore da cercare;
+    // data['type'] = up down;
+    return this.http.post('https://api.nostradamusbot.com/prices/search', data);
+  }
+
   getWalletBalance(currencyCode: string) {
     const data = this.authService.addUserIdPasswordAPIKeyToData({});
     data['wallet'] = currencyCode;

@@ -14,6 +14,7 @@ export class Languages {
         'virtual_wallet_alert_link': 'Clicca qui per cambiare questa impostazione',
         /* DASHBOARD */
         'connect_coinbase': 'Connetti da Coinbase',
+        'last_two_weeks': 'Max e Min ultime due settimane',
         /* SIGNIN */
         'signin_coinbase': 'Accedi con Coinbase',
         'signin_email_password': 'o accedi con i tuoi dati',
@@ -142,6 +143,7 @@ export class Languages {
         'virtual_wallet_alert_link': 'Click here to change this setting.',
         /* DASHBOARD */
         'connect_coinbase': 'Connect Coinbase',
+        'last_two_weeks': 'Max and Mix in last two weeks',
         /* SIGNIN */
         'signin_coinbase': 'SignIn with Coinbase',
         'signin_email_password': 'Or SignIn with your data',
