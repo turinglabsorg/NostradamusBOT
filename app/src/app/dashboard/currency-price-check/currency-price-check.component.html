@@ -2,7 +2,8 @@
   <div class="col-md-4">
     <p class="h4">Check Price</p>
     <p>{{langService.getString('check_price_text', selectedCurrencyInfo.coinName ?
-      selectedCurrencyInfo.coinName : 'selected cryptocurrency', langService.getString(selectedCurrencyType), priceToCheck ? priceToCheck + ' €' : langService.getString('selected_price'))}}</p></div>
+      selectedCurrencyInfo.coinName : 'selected cryptocurrency', langService.getString(selectedCurrencyType),
+      priceToCheck ? priceToCheck + ' €' : langService.getString('selected_price'))}}</p></div>
   <div class="col-md-8">
     <div class="row align-items-center">
       <div class="col-md-4">
@@ -17,8 +18,8 @@
         <div class="form-group">
           <select id="currency_type" class="form-control form-control-lg" [(ngModel)]="selectedCurrencyType"
                   name="currency_type">
-            <option value="greater">Maggiore</option>
-            <option value="lower">Inferiore</option>
+            <option value="greater">{{langService.getString('greater') | capitalize}}</option>
+            <option value="lower">{{langService.getString('lower') | capitalize}}</option>
           </select>
         </div>
       </div>
@@ -34,7 +35,8 @@
         <button class="btn btn-primary btn-block" (click)="checkPrice()">{{langService.getString('check')}}</button>
       </div>
       <div class="col md-9">
-        <span *ngIf="showResult && !isLoading">{{langService.getString('check_price_result', result.times, result.last_time)}}</span>
+        <span *ngIf="showResult && !showNOResult && !isLoading">{{langService.getString('check_price_result', result.times)}} {{result.last_time | amLocale:locale | amDateFormat:'llll'}}</span>
+        <span *ngIf="showResult && showNOResult && !isLoading">{{langService.getString('check_price_no_result')}}</span>
         <i *ngIf="isLoading" class="fa fa-spinner fa-spin"></i>
       </div>
 

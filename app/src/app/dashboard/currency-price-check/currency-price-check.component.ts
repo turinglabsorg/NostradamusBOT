@@ -4,6 +4,7 @@ import {LangService} from '../../lang/lang.service';
 import {ApiService} from '../../api/api.service';
 import * as _ from 'lodash';
 import {Console} from '../../console';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-currency-price-check',
@@ -16,7 +17,9 @@ export class CurrencyPriceCheckComponent implements OnInit {
   priceToCheck = '';
   selectedCurrencyType = '';
   showResult = false;
+  showNOResult = false;
   isLoading = false;
+  locale;
 
   result = {
     times: 0,
@@ -38,6 +41,7 @@ export class CurrencyPriceCheckComponent implements OnInit {
     this.currencies = _.values(Constants.CURRENCIES);
     this.selectedCurrencyInfo = this.currencies[0];
     this.selectedCurrencyType = 'greater';
+    this.locale = this.langService.getCurrentLocale();
   }
 
   checkPrice() {
@@ -52,8 +56,13 @@ export class CurrencyPriceCheckComponent implements OnInit {
           if (this.apiService.isSuccessfull(rawResponse)) {
             const response = this.apiService.parseAPIResponse(rawResponse);
             Console.log(response);
-            this.result.times = response['times'];
-            this.result.last_time = response['last_time'];
+            if (response['last_time'] === null) {
+              this.showNOResult = true;
+            } else {
+              this.showNOResult = false;
+              this.result.times = response['times'];
+              this.result.last_time = response['last_time'];
+            }
             this.showResult = true;
           } else {
             Console.log('errore');
