@@ -4,7 +4,6 @@ import {LangService} from '../../lang/lang.service';
 import {ApiService} from '../../api/api.service';
 import * as _ from 'lodash';
 import {Console} from '../../console';
-import * as moment from 'moment';
 
 @Component({
   selector: 'app-currency-price-check',
@@ -12,7 +11,6 @@ import * as moment from 'moment';
   styleUrls: ['./currency-price-check.component.css']
 })
 export class CurrencyPriceCheckComponent implements OnInit {
-  currenciesKeys;
   currencies;
   priceToCheck = '';
   selectedCurrencyType = '';
@@ -82,14 +80,6 @@ export class CurrencyPriceCheckComponent implements OnInit {
       });
     } else {
       this.resetSelectedCurrencyInfo();
-    }
-  }
-
-  currencyTypeSelected(selectedCurrencyType) {
-    if (selectedCurrencyType) {
-      this.selectedCurrencyType = selectedCurrencyType;
-    } else {
-      this.selectedCurrencyType = '';
     }
   }
 
