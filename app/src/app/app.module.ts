@@ -30,6 +30,7 @@ import {CapitalizePipe} from './capitalize.pipe';
 import { FooterComponent } from './footer/footer.component';
 import {PrivacyPolicyComponent} from './static-pages/privacy-policy/privacy-policy.component';
 import { CurrencyPriceCheckComponent } from './dashboard/currency-price-check/currency-price-check.component';
+import {MomentModule} from 'angular2-moment';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { CurrencyPriceCheckComponent } from './dashboard/currency-price-check/cu
     FormsModule,
     ReactiveFormsModule,
     CustomFormsModule,
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+    MomentModule
   ],
   providers: [
     AuthService,
