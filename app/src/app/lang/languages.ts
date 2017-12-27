@@ -22,6 +22,7 @@ export class Languages {
         'greater': 'maggiore',
         'lower': 'inferiore',
         'check': 'Cerca',
+        'price': 'Prezzo',
         /* SIGNIN */
         'signin_coinbase': 'Accedi con Coinbase',
         'signin_email_password': 'o accedi con i tuoi dati',
@@ -158,6 +159,7 @@ export class Languages {
         'greater': 'greater',
         'lower': 'lower',
         'check': 'Check',
+        'price': 'Price',
         /* SIGNIN */
         'signin_coinbase': 'SignIn with Coinbase',
         'signin_email_password': 'Or SignIn with your data',
