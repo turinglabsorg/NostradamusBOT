@@ -29,6 +29,7 @@ import {FeesService} from './fees/fees.service';
 import {CapitalizePipe} from './capitalize.pipe';
 import { FooterComponent } from './footer/footer.component';
 import {PrivacyPolicyComponent} from './static-pages/privacy-policy/privacy-policy.component';
+import { CurrencyPriceCheckComponent } from './dashboard/currency-price-check/currency-price-check.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import {PrivacyPolicyComponent} from './static-pages/privacy-policy/privacy-poli
     WalletComponent,
     FeesListComponent,
     FooterComponent,
-    PrivacyPolicyComponent
+    PrivacyPolicyComponent,
+    CurrencyPriceCheckComponent
   ],
   imports: [
     BrowserModule,

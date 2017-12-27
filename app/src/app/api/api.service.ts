@@ -43,11 +43,11 @@ export class ApiService {
     return this.http.post('https://api.nostradamusbot.com/prices/higher', data);
   }
 
-  checkCurrencyPrice(currencyCode: string) {
+  checkCurrencyPrice(currencyCode: string, value: string, type: string) {
     const data = this.authService.addAPIKeyToData({});
     data['currency'] = currencyCode;
-    // data['value'] = valore da cercare;
-    // data['type'] = up down;
+    data['value'] = value;
+    data['type'] = type;
     return this.http.post('https://api.nostradamusbot.com/prices/search', data);
   }
 

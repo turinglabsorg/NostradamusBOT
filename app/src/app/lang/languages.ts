@@ -15,6 +15,12 @@ export class Languages {
         /* DASHBOARD */
         'connect_coinbase': 'Connetti da Coinbase',
         'last_two_weeks': 'Max e Min ultime due settimane',
+        'check_price_text': 'Controlla quante volte nelle ultime due settimane, e anche la data dell\'ultima volta, in cui il prezzo di [0] è stato [1] di [2].',
+        'check_price_result': '[0] volte - ultima volta [1]',
+        'selected_price': 'un prezzo inserito',
+        'greater': 'maggiore',
+        'lower': 'inferiore',
+        'check': 'Cerca',
         /* SIGNIN */
         'signin_coinbase': 'Accedi con Coinbase',
         'signin_email_password': 'o accedi con i tuoi dati',
@@ -144,6 +150,12 @@ export class Languages {
         /* DASHBOARD */
         'connect_coinbase': 'Connect Coinbase',
         'last_two_weeks': 'Max and Mix in last two weeks',
+        'check_price_text': 'Check how many times in the last two weeks. (and the date of the last time) the price of [0] was [1] than [2].',
+        'check_price_result': '[0] times - last time [1]',
+        'selected_price': 'selected price',
+        'greater': 'greater',
+        'lower': 'lower',
+        'check': 'Check',
         /* SIGNIN */
         'signin_coinbase': 'SignIn with Coinbase',
         'signin_email_password': 'Or SignIn with your data',
