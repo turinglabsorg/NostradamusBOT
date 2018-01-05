@@ -19,7 +19,7 @@ export class FeesListComponent implements OnInit {
   amountToPay: string;
 
   constructor(public langService: LangService,
-              private apiService: ApiService,
+              public apiService: ApiService,
               public feesService: FeesService,
               private modalService: NgbModal) {
   }

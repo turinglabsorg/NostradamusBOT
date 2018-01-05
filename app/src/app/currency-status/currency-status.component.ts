@@ -24,7 +24,7 @@ export class CurrencyStatusComponent implements OnInit {
   currencyLowerReady = false;
   currencyHigherReady = false;
 
-  constructor(private apiService: ApiService,
+  constructor(public apiService: ApiService,
               public langService: LangService) {
   }
 

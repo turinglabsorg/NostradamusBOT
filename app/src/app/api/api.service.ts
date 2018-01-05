@@ -20,6 +20,19 @@ export class ApiService {
     return JSON.parse(response._body).content;
   }
 
+  getUserNativeCurrencySymbol() {
+    let symbol = '€';
+    if (this.authService.getCurrentUser()['native_currency'] === 'USD') {
+      symbol = '$';
+    }
+
+    return symbol;
+  }
+
+  getUserNativeCurrency() {
+    return this.authService.getCurrentUser()['native_currency'];
+  }
+
   saveSettings(virtualWallet: string) {
     const data = this.authService.addUserIdPasswordAPIKeyToData({});
     data['virtual_wallet'] = virtualWallet;
@@ -27,24 +40,28 @@ export class ApiService {
   }
 
   getCurrencyPrice(currencyCode: string) {
-    const data = this.authService.addAPIKeyToData({});
+    let data = this.authService.addAPIKeyToData({});
+    data = this.authService.addNativeCurrencyToData(data);
     return this.http.post('https://api.nostradamusbot.com/prices/' + currencyCode, data);
   }
 
   getCurrencyLowerPrice(currencyCode: string) {
-    const data = this.authService.addAPIKeyToData({});
+    let data = this.authService.addAPIKeyToData({});
+    data = this.authService.addNativeCurrencyToData(data);
     data['currency'] = currencyCode;
     return this.http.post('https://api.nostradamusbot.com/prices/lower', data);
   }
 
   getCurrencyHigherPrice(currencyCode: string) {
-    const data = this.authService.addAPIKeyToData({});
+    let data = this.authService.addAPIKeyToData({});
+    data = this.authService.addNativeCurrencyToData(data);
     data['currency'] = currencyCode;
     return this.http.post('https://api.nostradamusbot.com/prices/higher', data);
   }
 
   checkCurrencyPrice(currencyCode: string, value: string, type: string) {
-    const data = this.authService.addAPIKeyToData({});
+    let data = this.authService.addAPIKeyToData({});
+    data = this.authService.addNativeCurrencyToData(data);
     data['currency'] = currencyCode;
     data['value'] = value;
     data['type'] = type;

@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Languages} from './languages';
 import {Console} from '../console';
 import {Rule} from '../rules/rule.model';
+import {ApiService} from '../api/api.service';
 
 @Injectable()
 export class LangService {
@@ -10,7 +11,7 @@ export class LangService {
 
   currentLocale = LangService.LOCALE_EN;
 
-  constructor() {
+  constructor(private apiService: ApiService) {
     if (navigator.language.indexOf('it') >= 0) {
       this.currentLocale = LangService.LOCALE_IT;
     }
@@ -41,7 +42,7 @@ export class LangService {
   getRuleDescriptionString(rule: Rule) {
     let string_id: string = '';
     const values: string[] = [];
-    let amoutToBuyOrSellCurrency = '€';
+    let amoutToBuyOrSellCurrency = this.apiService.getUserNativeCurrencySymbol();
     let amoutToBuyOrSell = rule.amount_eur;
     if (Number(rule.amount_crypto) > 0) {
       amoutToBuyOrSellCurrency = rule.wallet.currency;
@@ -50,6 +51,7 @@ export class LangService {
     if (rule.type === 'fixed') {
       values.push(rule.wallet.currency);
       values.push(rule.price);
+      values.push(this.apiService.getUserNativeCurrencySymbol());
       values.push(this.getString(rule.price_var));
       values.push(rule.action === 'buy' ? this.getString('buy_you') : this.getString('sell_you'));
       values.push(amoutToBuyOrSell);

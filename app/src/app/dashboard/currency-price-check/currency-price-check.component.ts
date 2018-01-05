@@ -32,7 +32,7 @@ export class CurrencyPriceCheckComponent implements OnInit {
   };
 
   constructor(public langService: LangService,
-              private apiService: ApiService) {
+              public apiService: ApiService) {
   }
 
   ngOnInit() {

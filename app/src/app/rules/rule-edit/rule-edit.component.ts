@@ -30,7 +30,7 @@ export class RuleEditComponent implements OnInit {
               private router: Router,
               private route: ActivatedRoute,
               public rulesService: RulesService,
-              private apiService: ApiService,
+              public apiService: ApiService,
               public authService: AuthService) {
   }
 

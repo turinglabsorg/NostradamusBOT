@@ -79,6 +79,11 @@ export class AuthService {
     return data;
   }
 
+  addNativeCurrencyToData(data: {}) {
+    data['native_currency'] = this.currentUser['native_currency'];
+    return data;
+  }
+
   sendCoinbaseUserDataToAPI(wallet: object) {
     const data = this.addAPIKeyToData({});
     data['access_token'] = this.getCoinbaseToken('access', wallet['currency']);

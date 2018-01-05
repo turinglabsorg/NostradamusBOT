@@ -3,7 +3,8 @@
     <p class="h4">Check Price</p>
     <p>{{langService.getString('check_price_text', selectedCurrencyInfo.coinName ?
       selectedCurrencyInfo.coinName : 'selected cryptocurrency', langService.getString(selectedCurrencyType),
-      priceToCheck ? priceToCheck + ' €' : langService.getString('selected_price'))}}</p></div>
+      priceToCheck ? priceToCheck + ' ' + apiService.getUserNativeCurrencySymbol() :
+      langService.getString('selected_price'))}}</p></div>
   <div class="col-md-8">
     <div class="row align-items-center">
       <div class="col-md-4">
@@ -28,7 +29,7 @@
           <input type="number" min="0" step="0.0001" id="price_to_check" class="form-control" name="price_to_check"
                  placeholder="{{langService.getString('price')}}"
                  [(ngModel)]="priceToCheck">
-          <span class="input-group-addon"><i class="fa fa-eur"></i></span>
+          <span class="input-group-addon"><i class="fa fa-{{apiService.getUserNativeCurrency() | lowercase}}"></i></span>
         </div>
       </div>
       <div class="col-md-3">

@@ -25,7 +25,7 @@ export class ActionsComponent implements OnInit {
   isLoading = false;
 
   constructor(public langService: LangService,
-              private apiService: ApiService,
+              public apiService: ApiService,
               private rulesService: RulesService,
               public actionsService: ActionsService) {
   }
