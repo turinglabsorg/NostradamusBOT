@@ -24,7 +24,7 @@
           </p>
         </div>
         <div class="col-sm-3">
-          <span class="badge badge-info pull-right">{{action.running_date}}</span>
+          <span class="badge badge-info pull-right">{{action.running_date | amLocale:locale | amDateFormat:'llll'}}</span>
         </div>
       </div>
     </div>

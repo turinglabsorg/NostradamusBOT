@@ -18,6 +18,7 @@ export class ActionsComponent implements OnInit {
   rulesReady = false;
   archivedRulesReady = false;
   showEmptyState = false;
+  locale;
 
   archivedRules: Rule[];
 
@@ -33,6 +34,7 @@ export class ActionsComponent implements OnInit {
     this.isLoading = true;
     this.getActions();
     this.getRules();
+    this.locale = this.langService.getCurrentLocale();
   }
 
   getActions() {

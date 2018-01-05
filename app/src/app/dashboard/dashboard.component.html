@@ -1,16 +1,20 @@
 <div class="row">
-  <div class="col-sm-4 mt-2">
+  <div class="col-sm-12 col-md-4 mt-2">
     <app-currency-status [currencyCode]="'BTC'"></app-currency-status>
   </div>
-  <div class="col-sm-4 mt-2">
+  <div class="col-sm-12 col-md-4 mt-2">
     <app-currency-status [currencyCode]="'ETH'"></app-currency-status>
   </div>
-  <div class="col-sm-4 mt-2">
+  <div class="col-sm-12 col-md-4 mt-2">
     <app-currency-status [currencyCode]="'LTC'"></app-currency-status>
   </div>
 </div>
 <br><br>
 <div class="row">
+  <div class="col-sm-12 mb-4 list-group-item">
+    <app-currency-price-check></app-currency-price-check>
+
+  </div>
   <div class="col-sm-12">
     <app-wallet [currencyCode]="'BTC'"></app-wallet>
   </div>

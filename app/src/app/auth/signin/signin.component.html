@@ -24,6 +24,7 @@
           </div>
         </div>
         <button class="btn btn-primary btn-block" (click)="signIn()"><i class="fa fa-sign-in mr-2"></i>{{langService.getString('signin')}}</button>
+        <div *ngIf="showError" class="alert alert-danger mt-2 mb-0">{{langService.getString('signin_error')}}</div>
       </div>
     </div>
   </div>

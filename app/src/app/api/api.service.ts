@@ -16,6 +16,10 @@ export class ApiService {
     return JSON.parse(response._body).status === '200';
   }
 
+  getIubendaContent(response) {
+    return JSON.parse(response._body).content;
+  }
+
   saveSettings(virtualWallet: string) {
     const data = this.authService.addUserIdPasswordAPIKeyToData({});
     data['virtual_wallet'] = virtualWallet;
@@ -25,6 +29,26 @@ export class ApiService {
   getCurrencyPrice(currencyCode: string) {
     const data = this.authService.addAPIKeyToData({});
     return this.http.post('https://api.nostradamusbot.com/prices/' + currencyCode, data);
+  }
+
+  getCurrencyLowerPrice(currencyCode: string) {
+    const data = this.authService.addAPIKeyToData({});
+    data['currency'] = currencyCode;
+    return this.http.post('https://api.nostradamusbot.com/prices/lower', data);
+  }
+
+  getCurrencyHigherPrice(currencyCode: string) {
+    const data = this.authService.addAPIKeyToData({});
+    data['currency'] = currencyCode;
+    return this.http.post('https://api.nostradamusbot.com/prices/higher', data);
+  }
+
+  checkCurrencyPrice(currencyCode: string, value: string, type: string) {
+    const data = this.authService.addAPIKeyToData({});
+    data['currency'] = currencyCode;
+    data['value'] = value;
+    data['type'] = type;
+    return this.http.post('https://api.nostradamusbot.com/prices/search', data);
   }
 
   getWalletBalance(currencyCode: string) {
@@ -77,6 +101,10 @@ export class ApiService {
   getFees() {
     const data = this.authService.addUserIdPasswordAPIKeyToData({});
     return this.http.post('https://api.nostradamusbot.com/fees/get', data);
+  }
+
+  getPrivacyPolicy(policyId: string) {
+    return this.http.get('https://www.iubenda.com/api/privacy-policy/' + policyId + '/no-markup');
   }
 
   /** COINBASE API **/
