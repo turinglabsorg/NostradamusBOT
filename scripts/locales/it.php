@@ -1,12 +1,12 @@
 <?php
 	
-	$locales['title']='Rendi semplici gli acquisti di Bitcoin ed Ethereum in Coinbase';
+	$locales['title']='Investi in modo intelligente comprando Bitcoin ed Ethereum su Coinbase';
 	$locales['features']='Come funziona';
 	$locales['contacts']='Contatti';
 	$locales['pricing']='Prezzo';
 	$locales['webapp']='Entra subito';
-	$locales['home_title']='Rendi semplici gli acquisti di Bitcoin ed Ethereum su Coinbase';
-	$locales['home_claim']='Collega il tuo account Coinbase e prendi il controllo del mercato:<br>tu decidi le regole e Nostradamus esegue!';
+	$locales['home_title']='Investi in modo intelligente comprando Bitcoin ed Ethereum su Coinbase';
+	$locales['home_claim']='Collega il tuo account Coinbase e prendi il controllo:<br>tu decidi le regole e Nostradamus esegue!';
 	$locales['entra_subito']='Entra subito';
 	$locales['subscribe_coinbase']='Non hai un account Coinbase?<br><a href="https://www.coinbase.com/join/591dbc4753003336ab918599" target="_blank">Iscriviti subito da qui e ottieni 10€ in Bitcoin!</a>';
 	$locales['imposta_regole_titolo']='Imposta le tue regole';

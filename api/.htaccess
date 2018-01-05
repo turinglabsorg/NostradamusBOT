@@ -26,6 +26,10 @@ RewriteRule (\W|^)prices/history(\W|$)  index.php?area=prices&request=history [L
 RewriteRule (\W|^)prices/ETH(\W|$)  index.php?area=prices&request=ETH [L]
 RewriteRule (\W|^)prices/BTC(\W|$)  index.php?area=prices&request=BTC [L]
 RewriteRule (\W|^)prices/LTC(\W|$)  index.php?area=prices&request=LTC [L]
+RewriteRule (\W|^)prices/BCH(\W|$)  index.php?area=prices&request=BCH [L]
+RewriteRule (\W|^)prices/search(\W|$)  index.php?area=prices&request=search [L]
+RewriteRule (\W|^)prices/lower(\W|$)  index.php?area=prices&request=lower [L]
+RewriteRule (\W|^)prices/higher(\W|$)  index.php?area=prices&request=higher [L]
 
 #FEES#
 RewriteRule (\W|^)fees/get(\W|$)  index.php?area=fees&request=get [L]
