@@ -136,7 +136,7 @@
       <!-- / Features Section -->
 
       <!-- Testimonials Section -->
-      <div class="testimonials section py-4">
+      <div class="testimonials section py-4" id="pricing">
           <h3 class="section-title text-center m-5"><?php echo $locales['pricing']; ?></h3>
 
           <div class="container py-5">
@@ -193,9 +193,6 @@
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
           <div class="container">
             <a class="navbar-brand" href="https://futuring.co" target="_blank">NostradamusBOT <?php echo $locales['progetto_di']; ?> Futuring</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
             <div class="collapse navbar-collapse" id="navbarNav">
               <ul class="navbar-nav ml-auto">
                 <li class="nav-item">

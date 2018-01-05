@@ -42,6 +42,15 @@
 		    				}
 		    			}
 	    			}
+	    		}elseif($action['type']=='earn'){
+	    			$lastAction=returnDBObject("app","SELECT * FROM actions WHERE id_rule=? ORDER BY id DESC LIMIT 1",array($action['id_rule']));
+	    			if(isset($lastAction['id']) && $lastAction['id']!=''){
+	    				//CHECK THE PRICE
+	    				//GET THE EXPECTED EARN
+	    				//GET THE QUOTE
+	    				//VERIFY EARN
+	    				//IF EARN, BUY/SELL
+	    			}
 	    		}
 
     			if($proceed=='Y'){								
@@ -109,27 +118,36 @@
 								echo 'SELL DONE';
 							}
 						}
-						runDBQuery(
-							"app",
-							"INSERT INTO actions (running_date,uuid_user,id_rule,id_sell,price,amount,fees,total,subtotal) VALUES (?,?,?,?,?,?,?,?,?)",
-							array(
-								date('Y-m-d H:i:s'),
-								$user['uuid'],
-								$action['id'],
-								$result['data']['id'],
-								$price['data']['amount'],
-								$result['data']['amount']['amount'],
-								$result['data']['fee']['amount'],
-								$result['data']['total']['amount'],
-								$result['data']['subtotal']['amount']
-							)
-						);
-						runDBQuery("app","UPDATE rules SET active=? WHERE id=?",array('n',$action['id']));
-						
 						if($walletMode=='commit' && $walletValue=='true'){
-							$checkACTION=returnDBObject("app","SELECT * FROM actions WHERE uuid_user=? ORDER BY id DESC LIMIT 1",array($user['uuid']));
-							$checkFEE=returnDBObject("app","SELECT * FROM fees WHERE uuid_user=? AND fee_date=?",array($user['uuid'],date('Y-m-d')));
-							if(!isset($checkFEE['id'])){
+							if($result['data']['id']!=''){
+								$runReally='Y';
+							}else{
+								$runReally='N';
+							}
+						}else{
+							$runReally='Y';
+						}
+						if($runReally=='Y'){
+							runDBQuery(
+								"app",
+								"INSERT INTO actions (running_date,uuid_user,id_rule,id_sell,price,amount,fees,total,subtotal) VALUES (?,?,?,?,?,?,?,?,?)",
+								array(
+									date('Y-m-d H:i:s'),
+									$user['uuid'],
+									$action['id'],
+									$result['data']['id'],
+									$price['data']['amount'],
+									$result['data']['amount']['amount'],
+									$result['data']['fee']['amount'],
+									$result['data']['total']['amount'],
+									$result['data']['subtotal']['amount']
+								)
+							);
+							runDBQuery("app","UPDATE rules SET active=? WHERE id=?",array('n',$action['id']));
+						
+							if($walletMode=='commit' && $walletValue=='true'){
+								$checkACTION=returnDBObject("app","SELECT * FROM actions WHERE uuid_user=? ORDER BY id DESC LIMIT 1",array($user['uuid']));
+								$fee_price=$result['data']['total']['amount']/100*0.4;
 								runDBQuery(
 									"app",
 									"INSERT INTO fees (uuid_user,fee_date,id_action,id_rule,id_wallet,fee_paid,amount_fee) VALUES (?,?,?,?,?,?,?)",
@@ -140,79 +158,79 @@
 										$action['id'],
 										$wallet['id'],
 										'n',
-										0
+										$fee_price
 									)
 								);
 							}
-						}
 
-						$searchRule=returnDBObject("app","SELECT * FROM rules WHERE id_rule=?",array($action['id']));
-						if(isset($searchRule['id']) && $searchRule['id']!=''){
-							runDBQuery("app","UPDATE rules SET active=? WHERE id=?",array('y',$searchRule['id']));
-						}elseif($action['loop_rule']=='y'){
-							if($action['id_rule']!=0){
-								//runDBQuery("app","UPDATE rules SET active=? WHERE id=?",array('y',$action['id']));
+							$searchRule=returnDBObject("app","SELECT * FROM rules WHERE id_rule=?",array($action['id']));
+							if(isset($searchRule['id']) && $searchRule['id']!=''){
+								runDBQuery("app","UPDATE rules SET active=? WHERE id=?",array('y',$searchRule['id']));
+							}elseif($action['loop_rule']=='y'){
+								if($action['id_rule']!=0){
+									//runDBQuery("app","UPDATE rules SET active=? WHERE id=?",array('y',$action['id']));
+								}else{
+									runDBQuery("app","UPDATE rules SET active=? WHERE id=?",array('y',$action['id']));
+								}
+							}
+
+							if($user['country']=='IT'){							
+								if($walletMode=='commit' && $walletValue=='true'){
+									$actionText='è partita';
+								}elseif($walletMode=='commit' && $walletValue=='false'){
+									$actionText='può partire';
+								}elseif($walletMode=='quote' && $walletValue=='true'){
+									$actionText='sarebbe partita';
+								}
+								sendMail(
+					        		array(
+					        			"name"=>"NostradamusBOT",
+					        			"email"=>"noreply@nostradamusbot.com"
+					        		),
+					        		array(
+					        			"name"=>$user['name'],
+					        			"email"=>$user['email']
+					        		), 
+					        		'La tua regola #'.$action['id'].' sul portafoglio '.$wallet['currency'].' '.$actionText.'!', 
+					        		'La tua regola '.$actionText.'!<br>Questi i dettagli dell\'operazione:<br>
+					        		> Prezzo: '.print_money($price['data']['amount'],$user['native_currency']).'<br>
+					        		> Commissioni: '.print_money($result['data']['fee']['amount'],$user['native_currency']).'<br>
+					        		> Subtotale: '.print_money($result['data']['subtotal']['amount'],$user['native_currency']).'<br>
+					        		> Totale: '.print_money($result['data']['total']['amount'],$user['native_currency']).'<br><br>
+					        		Buona fortuna!<br>
+					        		Nostradamus Team
+					        		'
+					        	);
+
 							}else{
-								runDBQuery("app","UPDATE rules SET active=? WHERE id=?",array('y',$action['id']));
-							}
-						}
+								if($walletMode=='commit' && $walletValue=='true'){
+									$actionText='ran';
+								}elseif($walletMode=='commit' && $walletValue=='false'){
+									$actionText='can run';
+								}elseif($walletMode=='quote' && $walletValue=='true'){
+									$actionText='would run';
+								}
+								sendMail(
+					        		array(
+					        			"name"=>"NostradamusBOT",
+					        			"email"=>"noreply@nostradamusbot.com"
+					        		),
+					        		array(
+					        			"name"=>$user['name'],
+					        			"email"=>$user['email']
+					        		), 
+					        		'You rule #'.$action['id'].' on wallet '.$wallet['currency'].' '.$actionText.'!', 
+					        		'Your rule '.$actionText.'!<br>These are the details:<br>
+					        		> Price: '.print_money($price['data']['amount'],$user['native_currency']).'<br>
+					        		> Fee: '.print_money($result['data']['fee']['amount'],$user['native_currency']).'<br>
+					        		> Subtotal: '.print_money($result['data']['subtotal']['amount'],$user['native_currency']).'<br>
+					        		> Total: '.print_money($result['data']['total']['amount'],$user['native_currency']).'<br><br>
+					        		Good luck!<br>
+					        		Nostradamus Team
+					        		'
+					        	);
 
-						if($user['country']=='IT'){							
-							if($walletMode=='commit' && $walletValue=='true'){
-								$actionText='è partita';
-							}elseif($walletMode=='commit' && $walletValue=='false'){
-								$actionText='può partire';
-							}elseif($walletMode=='quote' && $walletValue=='true'){
-								$actionText='sarebbe partita';
 							}
-							sendMail(
-				        		array(
-				        			"name"=>"NostradamusBOT",
-				        			"email"=>"noreply@nostradamusbot.com"
-				        		),
-				        		array(
-				        			"name"=>$user['name'],
-				        			"email"=>$user['email']
-				        		), 
-				        		'La tua regola #'.$action['id'].' sul portafoglio '.$wallet['currency'].' '.$actionText.'!', 
-				        		'La tua regola '.$actionText.'!<br>Questi i dettagli dell\'operazione:<br>
-				        		> Prezzo: '.print_money($price['data']['amount'],$user['native_currency']).'<br>
-				        		> Commissioni: '.print_money($result['data']['fee']['amount'],$user['native_currency']).'<br>
-				        		> Subtotale: '.print_money($result['data']['subtotal']['amount'],$user['native_currency']).'<br>
-				        		> Totale: '.print_money($result['data']['total']['amount'],$user['native_currency']).'<br><br>
-				        		Buona fortuna!<br>
-				        		Nostradamus Team
-				        		'
-				        	);
-
-						}else{
-							if($walletMode=='commit' && $walletValue=='true'){
-								$actionText='ran';
-							}elseif($walletMode=='commit' && $walletValue=='false'){
-								$actionText='can run';
-							}elseif($walletMode=='quote' && $walletValue=='true'){
-								$actionText='would run';
-							}
-							sendMail(
-				        		array(
-				        			"name"=>"NostradamusBOT",
-				        			"email"=>"noreply@nostradamusbot.com"
-				        		),
-				        		array(
-				        			"name"=>$user['name'],
-				        			"email"=>$user['email']
-				        		), 
-				        		'You rule #'.$action['id'].' on wallet '.$wallet['currency'].' '.$actionText.'!', 
-				        		'Your rule '.$actionText.'!<br>These are the details:<br>
-				        		> Price: '.print_money($price['data']['amount'],$user['native_currency']).'<br>
-				        		> Fee: '.print_money($result['data']['fee']['amount'],$user['native_currency']).'<br>
-				        		> Subtotal: '.print_money($result['data']['subtotal']['amount'],$user['native_currency']).'<br>
-				        		> Total: '.print_money($result['data']['total']['amount'],$user['native_currency']).'<br><br>
-				        		Good luck!<br>
-				        		Nostradamus Team
-				        		'
-				        	);
-
 						}
 					}else{
 		   				echo '<br>NO VALID TOKENS FOR USER '.$user['uuid'];
