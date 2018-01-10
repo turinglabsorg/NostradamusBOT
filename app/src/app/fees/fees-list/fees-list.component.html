@@ -7,15 +7,15 @@
     <h5 class="text-center"><i class="fa fa-spinner fa-spin"></i></h5>
   </div>
   <div *ngIf="!isLoading && !showEmptyState" class="col-sm-12">
-    <div class="list-group-item mb-4">
+    <div *ngIf="feesService.areFeesToPayPresent()" class="list-group-item mb-4">
       <div class="row">
         <div class="col-sm-12">
-          <span class="h6 font-italic">mese corrente</span>
+          <span class="h6 font-italic">{{langService.getString('fees_to_pay')}}</span>
         </div>
         <div class="col-sm-12">
           <span class="h4">{{langService.getMonthFromDate(monthLabels[0].label) | capitalize}}
         {{langService.getYearFromDate(monthLabels[0].label)}}</span>
-          <span class="h4 pull-right">{{langService.getString('total') | capitalize}} {{feesService.getFeesTotalPerMonth(monthLabels[0].label)  | number:'1.2-4'}} {{apiService.getUserNativeCurrencySymbol()}}</span>
+          <span class="h4 pull-right">{{langService.getString('total') | capitalize}} {{feesService.getFeesToPayPerMonth(monthLabels[0].label)  | number:'1.2-4'}} {{apiService.getUserNativeCurrencySymbol()}}</span>
         </div>
         <div class="col-sm-12">
           <button
@@ -29,14 +29,30 @@
   </div>
   <div class="col-sm-12">
     <div class="row" *ngFor="let monthLabelObj of monthLabels">
-      <div class="col-sm-12">
+      <div class="col-sm-2">
         <h5>{{langService.getMonthFromDate(monthLabelObj.label) | capitalize}}
-          {{langService.getYearFromDate(monthLabelObj.label)}}
-          <button class="btn btn-info btn-sm pull-right ml-4" (click)="monthLabelObj.isOpen = !monthLabelObj.isOpen">
-            {{monthLabelObj.isOpen ? langService.getString('hide_details') : langService.getString('show_details')}}
-          </button>
-          <span class="pull-right">{{langService.getString('total') | capitalize}} {{feesService.getFeesTotalPerMonth(monthLabelObj.label)  | number:'1.2-4'}} {{apiService.getUserNativeCurrencySymbol()}}</span>
-        </h5>
+          {{langService.getYearFromDate(monthLabelObj.label)}}</h5>
+      </div>
+      <div class="col-sm-2">
+        <span
+          *ngIf="feesService.getFeesTotalPerMonth(monthLabelObj.label) === feesService.getFeesPayedPerMonth(monthLabelObj.label)"
+          class="badge badge-success" style="vertical-align: top">{{langService.getString('paid')}}</span>
+        <span
+          *ngIf="feesService.getFeesTotalPerMonth(monthLabelObj.label) > feesService.getFeesPayedPerMonth(monthLabelObj.label)"
+          class="badge badge-danger" style="vertical-align: top">{{langService.getString('unpaid')}}</span>
+      </div>
+      <div class="col-sm-3">
+        {{langService.getString('total') | capitalize}} {{feesService.getFeesTotalPerMonth(monthLabelObj.label) |
+        number:'1.2-4'}} {{apiService.getUserNativeCurrencySymbol()}}
+      </div>
+      <div class="col-sm-3">
+        {{langService.getString('paid') | capitalize}} {{feesService.getFeesPayedPerMonth(monthLabelObj.label) |
+        number:'1.2-4'}} {{apiService.getUserNativeCurrencySymbol()}}
+      </div>
+      <div class="col-sm-2">
+        <button class="btn btn-info btn-sm pull-right ml-4" (click)="monthLabelObj.isOpen = !monthLabelObj.isOpen">
+          {{monthLabelObj.isOpen ? langService.getString('hide_details') : langService.getString('show_details')}}
+        </button>
       </div>
       <div class="col-sm-12" *ngIf="monthLabelObj.isOpen">
         <div class="list-group-item mb-4" *ngFor="let fee of feesService.getFees()[monthLabelObj.label]">
@@ -49,11 +65,14 @@
                 langService.getString('purchase') : langService.getString('sale') | capitalize}}<br>
                 {{langService.getString('total') | capitalize}} {{fee.action.isPurchase ?
                 langService.getString('purchased') : langService.getString('sold')}} = {{fee.action.subtotal |
-                number:'1.2-4'}} {{apiService.getUserNativeCurrencySymbol()}} {{langService.getString('equivalent_to')}} {{fee.action.amount | number:'1.2-4'}}
+                number:'1.2-4'}} {{apiService.getUserNativeCurrencySymbol()}} {{langService.getString('equivalent_to')}}
+                {{fee.action.amount | number:'1.2-4'}}
                 {{fee.rule.wallet.currency}}<br>
-                {{langService.getString('coinbase_fees')}} = {{fee.action.fees}} {{apiService.getUserNativeCurrencySymbol()}} <br>
+                {{langService.getString('coinbase_fees')}} = {{fee.action.fees}}
+                {{apiService.getUserNativeCurrencySymbol()}} <br>
                 --------------------- <br>
-                <b>{{langService.getString('total') | capitalize}} = {{fee.action.total}} {{apiService.getUserNativeCurrencySymbol()}} {{fee.action.isPurchase ?
+                <b>{{langService.getString('total') | capitalize}} = {{fee.action.total}}
+                  {{apiService.getUserNativeCurrencySymbol()}} {{fee.action.isPurchase ?
                   langService.getString('spent') : langService.getString('received')}}</b>
               </p>
               <p class="list-group-item-text">
@@ -85,8 +104,24 @@
     </button>
   </div>
   <div class="modal-body">
-    <p class="h4">{{langService.getString('total') | capitalize}} {{amountToPay | number:'1.2-4'}} {{apiService.getUserNativeCurrencySymbol()}}</p>
-    <p>{{langService.getString('select_payment_method')}}</p>
+    <span class="h6 font-italic">{{langService.getMonthFromDate(monthLabels[0].label) | capitalize}}
+      {{langService.getYearFromDate(monthLabels[0].label)}}</span>
+    <p class="h4">{{langService.getString('total') | capitalize}} {{amountToPay | number:'1.2-4'}}
+      {{apiService.getUserNativeCurrencySymbol()}}</p>
+    <div *ngIf="!paypalPaymentOK && !paypalPaymentError">
+      <p>{{langService.getString('select_payment_method')}}</p>
+      <div class="row">
+        <div class="col-sm-12 col-md-6 offset-md-3">
+          <div id="paypal-button"></div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="paypalPaymentOK && !paypalPaymentError">
+      <p class="p-3 mb-2 bg-success text-white">{{langService.getString('payment_success')}}</p>
+    </div>
+    <div *ngIf="paypalPaymentError && !paypalPaymentOK">
+      <p class="p-3 mb-2 bg-danger text-white">{{langService.getString('payment_error')}}</p>
+    </div>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="d()">{{langService.getString('close')}}</button>

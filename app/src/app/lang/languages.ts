@@ -129,12 +129,16 @@ export class Languages {
         'paid': 'pagato',
         'unpaid': 'non pagato',
         'fee': 'commissione',
+        'total_to_pay': 'Totale da pagare',
+        'fees_to_pay': 'commissioni da pagare',
         'relative_to': 'Relativa a',
         'action_executed': 'Azione eseguita',
         'show_details': 'Mostra dettagli',
         'hide_details': 'Nascondi dettagli',
         'make_payment': 'Effettua pagamento',
         'select_payment_method': 'Seleziona un metodo di pagamento',
+        'payment_success': 'Pagamento completato! Grazie!',
+        'payment_error': 'Errore - Pagamento non completato! Riprova!',
         'no_fees': 'Nessuna commissione presente',
         /* FOOTER */
         'privacy_policy': 'Privacy Policy'
@@ -265,13 +269,17 @@ export class Languages {
         /* FEES */
         'paid': 'paid',
         'unpaid': 'unpaid',
-        'fee': 'commissione',
+        'fee': 'fee',
+        'total_to_pay': 'Total to pay',
+        'fees_to_pay': 'fees to pay',
         'relative_to': 'Relative to',
         'action_executed': 'Action executed',
         'show_details': 'Show details',
         'hide_details': 'Hide details',
         'make_payment': 'Make payment',
         'select_payment_method': 'Select a payment method',
+        'payment_success': 'Payment completed! Thanks!',
+        'payment_error': 'Error - Payment not completed! Try again!',
         'no_fees': 'No fees present',
         /* FOOTER */
         'privacy_policy': 'Privacy Policy'

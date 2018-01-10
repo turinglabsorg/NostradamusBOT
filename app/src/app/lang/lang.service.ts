@@ -23,6 +23,15 @@ export class LangService {
     return this.currentLocale;
   }
 
+  getCurrentLocaleExtended(): string {
+    let locale = 'en_EN';
+    if (this.currentLocale === LangService.LOCALE_IT) {
+      locale = 'it_IT';
+    }
+
+    return locale;
+  }
+
   getString(label: string, ...values: string[]) {
     let string = Languages.languages[this.currentLocale][label];
     for (let i = 0; i < values.length; i++) {

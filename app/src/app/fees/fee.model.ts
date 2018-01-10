@@ -12,6 +12,7 @@ export class Fee extends Base {
   public fee_paid: string = '';
   public rule: Rule;
   public action: Action;
+  public amount_fee: string = '';
 
   get isPaid(): boolean {
     return this.fee_paid === 'y';

@@ -120,6 +120,13 @@ export class ApiService {
     return this.http.post('https://api.nostradamusbot.com/fees/get', data);
   }
 
+  confirmPayment(paymentID: string, period: string) {
+    const data = this.authService.addUserIdPasswordAPIKeyToData({});
+    data['payment_id'] = paymentID;
+    data['period'] = period;
+    return this.http.post('https://api.nostradamusbot.com/fees/confirm', data);
+  }
+
   getPrivacyPolicy(policyId: string) {
     return this.http.get('https://www.iubenda.com/api/privacy-policy/' + policyId + '/no-markup');
   }
