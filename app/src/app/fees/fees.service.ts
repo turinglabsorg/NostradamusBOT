@@ -32,8 +32,8 @@ export class FeesService {
     for (let i = 0; i < Object.keys(rawFees).length; i++) {
       const monthLabel = Object.keys(rawFees)[i];
       this.feesPerMonth[monthLabel] = {
-        'to_pay': rawFees[monthLabel]['to_pay'],
-        'payed': rawFees[monthLabel]['total'] - rawFees[monthLabel]['to_pay'],
+        'to_pay': rawFees[monthLabel]['total_to_pay'],
+        'paid': rawFees[monthLabel]['total_paid'],
         'total': rawFees[monthLabel]['total']
       };
       this.fees[monthLabel] = [];
@@ -88,8 +88,8 @@ export class FeesService {
     return this.feesPerMonth[monthLabel]['to_pay'];
   }
 
-  getFeesPayedPerMonth(monthLabel: string) {
-    return this.feesPerMonth[monthLabel]['payed'];
+  getFeesPaidPerMonth(monthLabel: string) {
+    return this.feesPerMonth[monthLabel]['paid'];
   }
 
   getFeesTotalPerMonth(monthLabel: string) {

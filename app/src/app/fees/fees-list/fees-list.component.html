@@ -35,10 +35,10 @@
       </div>
       <div class="col-sm-2">
         <span
-          *ngIf="feesService.getFeesTotalPerMonth(monthLabelObj.label) === feesService.getFeesPayedPerMonth(monthLabelObj.label)"
+          *ngIf="feesService.getFeesTotalPerMonth(monthLabelObj.label) === feesService.getFeesPaidPerMonth(monthLabelObj.label)"
           class="badge badge-success" style="vertical-align: top">{{langService.getString('paid')}}</span>
         <span
-          *ngIf="feesService.getFeesTotalPerMonth(monthLabelObj.label) > feesService.getFeesPayedPerMonth(monthLabelObj.label)"
+          *ngIf="feesService.getFeesTotalPerMonth(monthLabelObj.label) > feesService.getFeesPaidPerMonth(monthLabelObj.label)"
           class="badge badge-danger" style="vertical-align: top">{{langService.getString('unpaid')}}</span>
       </div>
       <div class="col-sm-3">
@@ -46,7 +46,7 @@
         number:'1.2-4'}} {{apiService.getUserNativeCurrencySymbol()}}
       </div>
       <div class="col-sm-3">
-        {{langService.getString('paid') | capitalize}} {{feesService.getFeesPayedPerMonth(monthLabelObj.label) |
+        {{langService.getString('paid') | capitalize}} {{feesService.getFeesPaidPerMonth(monthLabelObj.label) |
         number:'1.2-4'}} {{apiService.getUserNativeCurrencySymbol()}}
       </div>
       <div class="col-sm-2">
