@@ -108,7 +108,8 @@ export class FeesListComponent implements OnInit {
 
   getPaypalConfigs(amountToPay, monthLabelToPay): any {
     return {
-      env: 'sandbox',
+      env: 'production',
+      // env: 'sandbox',
       locale: this.langService.getCurrentLocaleExtended(),
 
       style: {
